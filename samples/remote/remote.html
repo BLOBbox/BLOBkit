@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Remote controller");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<h1><span>Use the remote control to test</span><br /><span>Last remote event catched: </span><br /><span id='lra'>null</span></h1>
+		<script type="text/javascript">
+			var callback = function(type, args) {
+				document.getElementById('lra').innerHTML = type + "<br /><pre>" + TVB.dump(args) + "</pre>";
+				TVB.log("Type: " + type);
+				TVB.log("Args:\n" + TVB.dump(args));
+			}
+
+			try {
+				TVB.remoteInit();
+
+				//TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.ALL, callback);
+				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.VCR, callback);
+				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.NAV, callback);
+
+				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.LETTER, callback);
+				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.COLOR, callback);
+				
+				TVB.CustomEvent.subscribeEvent(TVB.remote.button['OK'], callback);
+				//TVB.remote.disableGreenRefresh();
+				TVB.CustomEvent.subscribeEvent(TVB.remote.button['RED'], TVB.system.refresh);
+
+				//TVB.remote.destroy();
+			} catch (e) {
+				TVB.log(e);
+			}
+		</script>
+	</body>
+</html>

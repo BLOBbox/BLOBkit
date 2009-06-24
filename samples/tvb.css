@@ -1,0 +1,65 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: Tiresias;
+	font-size: 20px;
+	color: #999;
+	text-decoration: none;
+	background-position-x: left;
+	background-position-y: top;
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+
+body {
+	padding: 50px;
+}
+
+ul {
+	margin-left: 30px;
+	margin-top: 40px;
+}
+
+a {
+	text-decoration: none;
+	color: #999;
+}
+
+h1 {
+	position: absolute;
+	color: #e8e8e8;
+	top: 80px;
+	left: 136px;
+	font-size: 25px;
+}
+
+table {
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 40px;
+	width: 100%;
+}
+
+	table .func {
+		color: yellow;
+		font-size: 18px;
+		text-align: right;
+		padding-right: 5px;
+		vertical-align: top;
+	}
+	
+	table .data {
+		font-size: 18px;
+		text-align: left;
+		padding-left: 5px;
+		vertical-align: top;
+	}
+
+.subItem {
+	background-color: red;
+	width: 60px;
+	height: 30px;
+	float: left;
+	color: white;
+}
+	

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-debug.js'></script>
+		<!-- don't do this test with the -min version, it doesn't have the profiler functions activated -->
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Profiler - Factorials");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<ul>
+			<li>Original number: <span id='num'>...</span></li>
+			<li>Result: <span id='res'>...</span></li>
+			<li>Calls: <span id='call'>...</span></li>
+			<li>Minimum: <span id='min'>...</span></li>
+			<li>Average: <span id='avg'>...</span></li>
+			<li>Maximum: <span id='max'>...</span></li>
+			<li>String: <span id='string'>...</span></li>
+		</ul>
+		<script type="text/javascript" src="profiler1.js"></script>
+	</body>
+</html>

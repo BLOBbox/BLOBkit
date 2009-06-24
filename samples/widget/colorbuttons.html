@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Color Buttons Bar Example");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<script type="text/javascript">
+			try {
+				TVB.widget.colorButtonsBar('button 1', 'button 2', 'button 3', 'button 4');
+
+				setTimeout(function() {
+					TVB.widget.colorButtonsBar('RED', 'green', 'YeLlOw', 'bluE');
+				}, 10000);
+
+				setTimeout(function() {
+					TVB.widget.colorButtonsBar('', 'refresh', '', '');
+				}, 20000);
+
+				TVB.widget.colorButtonsBar('button 1', 'button 2', 'button 3', 'button 4');
+				setTimeout(function() {
+					TVB.widget.colorButtonsBarRemove();
+				}, 30000);
+			} catch (e) {
+				TVB.error("colorbuttons.html: " + e.message);
+			}
+		</script>
+	</body>
+</html>

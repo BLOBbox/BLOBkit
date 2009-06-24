@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Complex Menu");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+		
+		<div id='container' style='position: absolute; top: 200px; left: 40px; width: 500px;'></div>
+		<div id='subcontainer' style='position: absolute; top: 100px; left: 200px; width: 300px; height: 50px;'></div>
+		
+		<script type="text/javascript">
+			try {
+				var funzo = function(){
+					return true;
+					
+				}
+				
+				TVB.log(typeof funzo);
+				
+				
+				var myMenuData = [];
+				
+				var menuConfig = {
+					menuName: 'mainMenu',				// mandatory
+					visibleElements: 6,					// optional (default 4)
+					numElements: 100,					// mandatory
+					updateMode: 'manipulate',			// optional: redraw | manipulate (default 'redraw')
+					disableChannelDown: false,			// optional (default false)
+					disableChannelUp: false,	 		// optional (default false)
+					disableUpDown: false,				// optional (default false)
+					disableLeftRight: true,				// optional (default false)
+					disableOk: false, 					// optional (default false)
+					menuType: 'paged', 					// optional: paged (default 'paged')
+					drawSingleLineCB: function(line) { 	// mandatory
+						var elem = document.createElement('div');
+						elem.style.backgroundColor = 'black';
+						elem.style.width = '80%';
+						elem.style.height = '30px';
+						elem.style.color = 'white';
+						elem.innerHTML = "Item #" + line;
+						return elem;
+					},
+					onSelectCB: function(line) { 		// optional
+						TVB.log("USER HAS SELECTED LINE " + line);
+					},
+					onFocusCB: function(obj, line) { 			// optional
+						obj.style.backgroundColor = 'white';
+						obj.style.color = 'black';
+					},
+					onBlurCB: function(obj, line) { 			// optional
+						obj.style.backgroundColor = 'black';
+						obj.style.color = 'white';
+					},
+					onUpdateCB: function(obj, line) { 	// mandatory if updateMode = 'manipulate'
+						obj.innerHTML = "Item #" + line + " UPDATED!!!";
+					}
+				}
+				
+				var myMenu = new TVB.menu(menuConfig);
+				document.getElementById('container').appendChild(myMenu.get());
+
+
+				var counter = 10;
+				
+				// secondary menu
+				var subConfig = {
+					menuName: 'subMenu',				// mandatory
+					visibleElements: 3,					// optional (default 4)
+					numElements: 3,						// mandatory
+					disableChannelDown: true,			// optional (default false)
+					disableChannelUp: true,		 		// optional (default false)
+					disableUpDown: true,				// optional (default false)
+					disableOk: true, 					// optional (default false)
+					drawSingleLineCB: function(line) { 	// mandatory
+						var elem = document.createElement('div');
+						elem.className = 'subItem';
+						elem.innerHTML = "opt " + counter++;
+						return elem;
+					},
+					onSelectCB: function(line) { 		// optional
+						TVB.log("USER HAS SELECTED LINE " + line);
+					},
+					onFocusCB: function(obj, line) { 			// optional
+						obj.style.backgroundColor = 'white';
+						obj.style.color = 'red';
+						
+					},
+					onBlurCB: function(obj, line) { 			// optional
+						obj.style.backgroundColor = 'red';
+						obj.style.color = 'white';
+					}
+				}
+				
+				var subMenu = new TVB.menu(subConfig);
+				document.getElementById('subcontainer').appendChild(subMenu.get());
+				
+				//myMenu.setFocus(2);
+				//setTimeout(function() {myMenu.setFocus(3); }, 2000);
+				myMenu.updateLine(0);
+				myMenu.updateLine(7);
+				subMenu.updateLine(1);
+				myMenu.changeElementNumber(90);
+				
+				setTimeout(function() {
+					myMenu.changeElementNumber(10);
+				}, 10000);
+
+				setTimeout(function() {
+					myMenu.changeElementNumber(2);
+				}, 15000);
+				
+				setTimeout(function() {
+					myMenu.changeElementNumber(30);
+				}, 20000);
+				
+				
+			} catch (e) {
+				TVB.log(e);
+			}
+		</script>
+	</body>
+</html>

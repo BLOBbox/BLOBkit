@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Video Player - Full featured");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<h1><span id='text'>Press PLAY to start then STOP to go back</span></h1>
+		<script type="text/javascript">
+			var playerConfig = {
+				top: 160,
+				left: 60,
+				switchKey: 'OK',
+				uri: "http://s3.amazonaws.com/Tvblob-test/boogie.m4v",
+				autoplay: false,
+				fullscreen: true,
+			}
+			TVB.player.init(playerConfig);
+			TVB.CustomEvent.subscribeEvent(TVB.player.events.stop, function() {
+				document.getElementById('text').innerHTML = 'Going back...';
+				history.go(-1);
+			});
+		</script>
+	</body>
+</html>

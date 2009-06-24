@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Syncronous Request");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+		
+		<div id='container' style='position: absolute; top: 200px; left: 40px; width: 500px;'></div>
+
+		<script type="text/javascript">
+			try {
+				var ret = TVB.Connection.syncRequest('GET', 'results.html');
+				document.getElementById('container').innerHTML = ret;
+			} catch (e) {
+				TVB.log(e);
+			}
+		</script>
+	</body>
+</html>

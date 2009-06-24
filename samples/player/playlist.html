@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Video Player - Playlist");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<h1><span id='text'>Playing Rataouille (1/2)</span></h1>
+		<script type="text/javascript">
+			var playerConfig = {
+				switchKey: null,
+				uri: null,
+				autoplay: false,
+				fullscreen: false,
+			}
+			TVB.player.init(playerConfig);
+			
+			// first playback
+			var counter = 0;
+			TVB.player.config.currentUri = 'http://cdn-0.tvblob.com/hdtv/ratatouille_720p.mov?bitrate=1000';
+			TVB.player.play(); 
+			
+			TVB.CustomEvent.subscribeEvent(TVB.player.events.stop, function() {
+				if (counter == 0) {
+					document.getElementById('text').innerHTML = 'Playing Boogie (2/2)';
+					TVB.player.config.currentUri = 'http://s3.amazonaws.com/Tvblob-test/boogie.m4v';
+					TVB.player.play();
+					counter++; 
+				}
+				else {
+					document.getElementById('text').innerHTML = 'Going back...';
+					history.go(-1);
+				}
+			});
+			
+			var playlister = function() {
+				if (counter == 0) {
+					document.getElementById('text').innerHTML = 'Playing Boogie (2/2)';
+					TVB.player.config.currentUri = 'http://s3.amazonaws.com/Tvblob-test/boogie.m4v';
+					TVB.player.play();
+					counter++; 
+				}
+				else {
+					document.getElementById('text').innerHTML = 'Playing Rataouille (1/2)';
+					TVB.player.config.currentUri = 'http://cdn-0.tvblob.com/hdtv/ratatouille_720p.mov?bitrate=1000';
+					TVB.player.play();
+					counter = 0; 
+				}
+			}			
+			TVB.CustomEvent.subscribeEvent(TVB.remote.button['SKIP_FORWARD'], playlister);
+			TVB.CustomEvent.subscribeEvent(TVB.remote.button['SKIP_BACKWARD'], playlister);
+		</script>
+	</body>
+</html>

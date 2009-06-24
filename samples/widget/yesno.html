@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Yes/No Widget Bar Sample");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<ul><li>Result: <span id='result'>none</span></li></ul>
+		<script type="text/javascript">
+			try {
+				var writeResult = function(res) {
+					document.getElementById('result').innerHTML = res;
+				}
+				TVB.widget.yesno("Are you sure do to something?", writeResult, true);
+			} catch (e) {
+				TVB.error("yesno.html: " + e.message);
+			}
+		</script>
+	</body>
+</html>

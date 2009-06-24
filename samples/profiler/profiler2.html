@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-debug.js'></script>
+		<!-- don't do this test with the -min version, it doesn't have the profiler functions activated -->
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Profiler - How much time does log system consumes?");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<ul>
+			<li>Test 1: 100 log &rarr; <span id='test1'>...</span></li>
+			<li>Test 2: 100 non-log &rarr; <span id='test2'>...</span></li>
+			<li>Test 3: 1000 log &rarr; <span id='test3'>...</span></li>
+			<li>Test 4: 1000 non-log &rarr; <span id='test4'>...</span></li>
+		</ul>
+		<script type="text/javascript" src="profiler2.js"></script>
+	</body>
+</html>

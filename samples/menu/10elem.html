@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Menu with 10 elements");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<div id='container' style='position: absolute; top: 120px; left: 40px; width: 500px;'></div>
+		
+		<script type="text/javascript">
+			try {
+				var myMenuData = [
+					'First element',
+					'Element two',
+					'Element 3',
+					'Element 4',
+					'Element five',
+					'Element 6 of 10',
+					'Element 7',
+					'Element 8',
+					'Element 9',
+					'Last element'
+				];
+				
+				var menuConfig = {
+					menuName: 'mainMenu',
+					visibleElements: 6,
+					numElements: myMenuData.length,
+					updateMode: 'manipulate',			// optional: redraw | manipulate (default 'redraw')
+
+					drawSingleLineCB: function(line) { 	// mandatory
+						var elem = document.createElement('div');
+						elem.style.backgroundColor = 'black';
+						//elem.style.width = '80%';
+						elem.style.height = '30px';
+						elem.style.color = 'white';
+						elem.innerHTML = myMenuData[line];
+						return elem;
+					},
+
+					onSelectCB: function(line) {
+						location.href = 'index.html';
+					},
+
+					onFocusCB: function(obj, line) {
+						obj.style.backgroundColor = 'white';
+						obj.style.color = 'black';
+					},
+
+					onBlurCB: function(obj, line) {
+						obj.style.backgroundColor = 'black';
+						obj.style.color = 'white';
+					},
+
+					onUpdateCB: function(obj, line) {
+						obj.innerHTML = "Item #" + line + " UPDATED!!!";
+					}
+				}
+				
+				var myMenu = new TVB.menu(menuConfig);
+				document.getElementById('container').appendChild(myMenu.get());
+				
+			} catch (e) {
+				TVB.error('10elem.html: ' + e.message);
+			}
+		</script>
+	</body>
+</html>
