@@ -78,6 +78,8 @@ yui-$(YUI_VERSION):
 	-rm -rf yui/index.html
 	#2.6.0 only
 	#patch -p0 yui/build/yahoo/yahoo.js < patch/yahoo.diff
+	#2.7.0b only
+	patch -p0 yui/build/event/event.js < patch/event.js.diff
 	mv yui yui-$(YUI_VERSION)
 
 yuicompressor-$(COMP_VERSION):
