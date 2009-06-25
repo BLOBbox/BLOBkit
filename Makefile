@@ -1,4 +1,4 @@
-VERSION = 1.1.3
+VERSION = 1.1.4
 YUI_VERSION = 2.7.0b
 COMP_VERSION = 2.4.2
 YUIDOC_VERSION = 1.0.0b1
@@ -78,6 +78,8 @@ yui-$(YUI_VERSION):
 	-rm -rf yui/index.html
 	#2.6.0 only
 	#patch -p0 yui/build/yahoo/yahoo.js < patch/yahoo.diff
+	#2.7.0b only
+	patch -p0 yui/build/event/event.js < patch/event.js.diff
 	mv yui yui-$(YUI_VERSION)
 
 yuicompressor-$(COMP_VERSION):
