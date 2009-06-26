@@ -5,7 +5,7 @@
               */
              startInterval: function() {
 -                if (!this._interval) {
-+                if (this._interval != null) {
++                if (this._interval == null) {
                      var self = this;
                      var callback = function() { self._tryPreloadAttach(); };
                      this._interval = setInterval(callback, this.POLL_INTERVAL);
@@ -14,7 +14,7 @@
                  if (onAvailStack.length === 0) {
                      retryCount = 0;
 -                    if (this._interval) {
-+                    if (this._interval == null) {
++                    if (this._interval != null) {
                          clearInterval(this._interval);
                          this._interval = null;
                      } 
@@ -23,7 +23,7 @@
                      this.startInterval();
                  } else {
 -                    if (this._interval) {
-+                    if (this._interval == null) {
++                    if (this._interval != null) {
                          clearInterval(this._interval);
                          this._interval = null;
                      }
