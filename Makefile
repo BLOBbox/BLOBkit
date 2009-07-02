@@ -310,6 +310,9 @@ release: all
 	rm -rf $(DESTDIR)
 	rm $(DESTDIR).tar.gz
 	
+	chmod 755 install.sh
+	chmod 755 install_production.sh
+	
 	./install.sh http://integration/storage/releases/$(DESTDIR).tar.gz
 	#./install_production.sh http://integration/storage/releases/$(DESTDIR).tar.gz
 	
