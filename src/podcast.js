@@ -17,34 +17,146 @@ TVB.podcast = {
 	mgr: null,
 	feeds: [],
 	fh: null,
+	version: null,
+	version_integer: null,
 }
 
+try {
+	TVB.podcast.version = tvblob.getFeatureVersion("PushVodFeedsManager");
+	var vrs = TVB.podcast.version.split(".");
+	if (vrs.length > 1) {
+		TVB.podcast.version_integer = parseInt(parseInt(vrs[0] * 100) + parseInt(vrs[1]));
+	} else if (vrs.length == 1) {
+		TVB.podcast.version_integer = parseInt(vrs[0] * 100);
+	} else {
+		TVB.podcast.version_integer = 100;
+	}
+	TVB.log("Podcast: system API version " + TVB.podcast.version + " (" + TVB.podcast.version_integer + ")");
+} catch (e) {
+	TVB.podcast.version = '1.0';
+	TVB.podcast.version_integer = 100;
+}
+
+
 /**
- * Initialize the podcast system
+ * Initialize the podcast system; this function is required before using any other method of this API.
  * @method init
+ * @deprecated it is no more necessary to init the podcast system
  * @return {Boolean} Result of the operation
  */
 TVB.podcast.init = function() {
 	try {
 		TVB.log("Podcast: init");
+		
 		if (TVB.podcast.mgr != null) {
 			return false;
-			//throw {message: "Already inited"};		
 		}
 		TVB.podcast.mgr = new PushVodFeedsManager();
 		return true;
 	} catch (e) {
-		TVB.error("podcast.init: " + e.message);
+		TVB.error("Podcast: init: " + e.message);
+		throw e;
+	}
+}
+
+// FEEDS
+
+/**
+ * Alias to getFeeds
+ * @method getAllFeeds
+ * @return {Object} feeds[]
+ */
+TVB.podcast.getAllFeeds = function() {
+	try {
+		TVB.log("Podcast: getAllFeeds()");
+		return TVB.podcast.getFeeds();
+	} catch (e) {
 		throw e;
 	}
 }
 
 /**
+ * Returns all feeds meta informations in a structured array
+ * @method getFeeds
+ * @return {Object} feeds[]
+ */
+TVB.podcast.getFeeds = function() {
+	try {
+		TVB.log("Podcast: getFeeds()");
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		var fe = [];
+		var fh = TVB.podcast.mgr.getAllFeeds();
+		for (var i in fh) {
+			var fho = fh[i];
+			var fhd = {
+				ID: fho.getID(),
+				title: fho.getTitle(),
+				isHidden: fho.isHidden(),
+				hasContents: fho.hasContents(),
+				lastBuildDate: fho.getLastBuildDate(),
+				pubDate: fho.getPubDate(),
+				timeToLive: fho.getTimeToLive(),
+				isTimeToLiveInfinite: fho.isTimeToLiveInfinite()
+			}
+			fe[fho.getID()] = fhd;
+		}
+		return fe;
+	} catch (e) {
+		TVB.error("Podcast: getFeeds: " + e.message);
+		throw e;
+	}
+}
+
+/**
+ * Alias to getAllFeedsID
+ * @method getAllFeedsID
+ * @return {Object} Array of feed id
+ */
+TVB.podcast.getAllFeedsID = function() {
+	try {
+		TVB.log("Podcast: getAllFeedsID()");
+		return TVB.podcast.getFeedsID();
+	} catch (e) {
+		throw e;
+	}
+}
+
+/**
+ * Returns an array of IDs of all subscribed feeds
+ * @method getFeedsID
+ * @return {Array} The list of feeds IDs
+ */
+TVB.podcast.getFeedsID = function() {
+	try {
+		TVB.log("Podcast: getFeedsID()");
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		
+		var ids = [];
+		var fh = TVB.podcast.mgr.getAllFeeds();
+		for (var i in fh) {
+			var fho = fh[i];
+			ids.push(fho.getID());
+		}
+		return ids;
+	} catch (e) {
+		TVB.error("Podcast: getFeedsID: " + e.message);
+		throw e;
+	}
+}
+
+// STILL TO BE REFACTORED
+
+/*
  * Refreshes the content of the feeds in memory
  * @method refresh
  * @private
  * @return {Boolean}
  */
+/*
 TVB.podcast.refresh = function() {
 	try {
 		TVB.log("Podcast: refresh");
@@ -72,6 +184,7 @@ TVB.podcast.refresh = function() {
 		throw e;
 	}
 }
+*/
 
 /**
  * Returns description for a particular feed
@@ -120,25 +233,6 @@ TVB.podcast.getFeedTitle = function(feedID) {
 }
 
 /**
- * Returns all feeds meta informations
- * @method getFeeds
- * @return {Object} Feeds
- */
-TVB.podcast.getFeeds = function() {
-	try {
-		TVB.log("Podcast: get feeds");
-		if (TVB.podcast.mgr == null) {
-			throw {message: "Not inited"};
-		}
-		TVB.podcast.refresh();
-		return TVB.podcast.feeds;
-	} catch (e) {
-		TVB.error("podcast.getFeeds: " + e.message);
-		throw e;
-	}
-}
-
-/**
  * Returns all visible feeds meta informations
  * @method getVisibleFeeds
  * @return {Object} Feeds
@@ -159,30 +253,6 @@ TVB.podcast.getVisibleFeeds = function() {
 		return data;
 	} catch (e) {
 		TVB.error("podcast.getFeeds: " + e.message);
-		throw e;
-	}
-}
-
-/**
- * Returns an array of IDs of all subscribed feeds
- * @method getFeedsID
- * @return {Array} The list of feeds' IDs
- */
-TVB.podcast.getFeedsID = function() {
-	try {
-		TVB.log("Podcast: get feeds ID");
-		if (TVB.podcast.mgr == null) {
-			throw {message: "Not inited"};
-		}
-		TVB.podcast.refresh();
-		var ids = [];
-		for (var i in TVB.podcast.feeds) {
-			ids.push(TVB.podcast.feeds[i].ID);
-		}
-		TVB.log(TVB.dump(ids));
-		return TVB.podcast.feeds;
-	} catch (e) {
-		TVB.error("podcast.getFeedsID: " + e.message);
 		throw e;
 	}
 }
