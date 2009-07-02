@@ -392,7 +392,7 @@ TVB.player.playpause = function() {
 
 /**
  * Rewind of current playback
- * @method rewing
+ * @method rewind
  * @return {Boolean}
  */
 TVB.player.rewind = function() {
