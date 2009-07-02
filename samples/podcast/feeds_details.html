@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Podcast Manager - Show feed details");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+		
+		<div id='content'>
+			<p>Please select a feed to display its meta information:</p>
+			<ul id='feed_list'></ul>
+		</div>
+
+		<script type="text/javascript">
+			
+			/*
+			 * showInfo(id) displays the information associated to current feed ID
+			 */
+			var showInfo = function(id) {
+				try {
+					var con = document.getElementById('content');
+					
+					// Fetch data for given feedID
+					var data = TVB.podcast.getFeedByID(id);
+					if (data == null) {
+						// ID not found
+						con.innerHTML = "<p>Error: feed not found.</p>";
+					} else {
+						// Print on screen the metadata 
+						var html = "<p>" + data.title;
+
+						html += "<p>Feed ID: " + data.ID;
+
+						html += "<p>Has content? ";
+						if (data.hasContent == true) html += "Yes, " + data.contentCounter;
+						else html += "No, " + data.contentCounter;
+						
+						if (data.isTimeToLiveInfinite == true) html += "<p>Time to live: infinite";
+						else html += "<p>Time to live: " + data.timeToLive;
+						
+						html += "<p>Is hidden? ";
+						if (data.isHidden == true) html += "Yes";
+						else html += "No";
+						
+						html += "<p>Last build date: " + data.lastBuildDate;
+						html += "<p>Pubblication date: " + data.pubDate;
+						html += "<p>Description: " + data.description;
+						
+						con.innerHTML = html;
+					}
+/*
+pubDate ...
+timeToLive: -1
+lastBuildDate ...
+hasContents: false
+	*/				
+				} catch (e) {
+					TVB.error(e.message);
+				}
+			}
+			
+			try {
+				// Request ID's list of user's subscribed feeds 
+				var id_list = TVB.podcast.getVisibleFeedsID();
+				
+				// Draw on screen a table containing all feeds ID
+				
+				if (id_list.length > 0) {
+				
+					for (var i in id_list) {
+						var el = document.createElement('li');
+						el.innerHTML = "<a href='#' onclick=\"showInfo('" + id_list[i] + "'); return falsE;\">" + id_list[i] + "</a>";
+						document.getElementById('feed_list').appendChild(el);
+					}
+					
+				} else {
+					var el = document.createElement('li');
+					el.innerHTML = "Please subscribe at least to one feed with Podcast";
+					document.getElementById('feed_list').appendChild(el);
+				}
+
+			} catch (e) {
+				TVB.error(e.message);
+			}
+		</script>
+	</body>
+</html>

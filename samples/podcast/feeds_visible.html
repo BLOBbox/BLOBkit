@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<script type="text/javascript">
-			TVB.widget.titleBar.setTitle("Podcast Manager - getAllFeeds()");
+			TVB.widget.titleBar.setTitle("Podcast Manager - getVisibleFeeds()");
 			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
 			TVB.widget.titleBar.render();
 		</script>
@@ -23,8 +23,8 @@
 		
 		<script type="text/javascript">
 			try {
-				// Request the list of user's subscribed feeds 
-				var feed_list = TVB.podcast.getAllFeeds();
+				// Request the list of user's subscribed feeds - only the visible ones
+				var feed_list = TVB.podcast.getVisibleFeeds();
 				
 				// Draw on screen a table containing all feeds ID, visibility status and title
 				
