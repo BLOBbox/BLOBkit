@@ -39,7 +39,7 @@ try {
 
 
 /**
- * Initialize the podcast system; this function is required before using any other method of this API.
+ * Initialize the podcast system; this function is no more required before using any other method of this API
  * @method init
  * @deprecated it is no more necessary to init the podcast system
  * @return {Boolean} Result of the operation
@@ -64,7 +64,7 @@ TVB.podcast.init = function() {
 /**
  * Alias to getFeeds
  * @method getAllFeeds
- * @return {Object} feeds[]
+ * @return {Object} feed[]
  */
 TVB.podcast.getAllFeeds = function() {
 	try {
@@ -76,9 +76,9 @@ TVB.podcast.getAllFeeds = function() {
 }
 
 /**
- * Returns all feeds meta informations in a structured array
+ * Returns all feeds meta information in a structured array
  * @method getFeeds
- * @return {Object} feeds[]
+ * @return {Object} feed[]
  */
 TVB.podcast.getFeeds = function() {
 	try {
@@ -90,17 +90,7 @@ TVB.podcast.getFeeds = function() {
 		var fh = TVB.podcast.mgr.getAllFeeds();
 		for (var i in fh) {
 			var fho = fh[i];
-			var fhd = {
-				ID: fho.getID(),
-				title: fho.getTitle(),
-				isHidden: fho.isHidden(),
-				hasContents: fho.hasContents(),
-				lastBuildDate: fho.getLastBuildDate(),
-				pubDate: fho.getPubDate(),
-				timeToLive: fho.getTimeToLive(),
-				isTimeToLiveInfinite: fho.isTimeToLiveInfinite()
-			}
-			fe[fho.getID()] = fhd;
+			fe[fho.getID()] = TVB.podcast.formatFeedObject(fho);
 		}
 		return fe;
 	} catch (e) {
@@ -112,7 +102,7 @@ TVB.podcast.getFeeds = function() {
 /**
  * Alias to getAllFeedsID
  * @method getAllFeedsID
- * @return {Object} Array of feed id
+ * @return {Object} feedID[] Array of feed id
  */
 TVB.podcast.getAllFeedsID = function() {
 	try {
@@ -126,7 +116,7 @@ TVB.podcast.getAllFeedsID = function() {
 /**
  * Returns an array of IDs of all subscribed feeds
  * @method getFeedsID
- * @return {Array} The list of feeds IDs
+ * @return {Array} feedID[] The list of feeds IDs
  */
 TVB.podcast.getFeedsID = function() {
 	try {
@@ -144,6 +134,119 @@ TVB.podcast.getFeedsID = function() {
 		return ids;
 	} catch (e) {
 		TVB.error("Podcast: getFeedsID: " + e.message);
+		throw e;
+	}
+}
+
+/**
+ * Returns given feed meta information in a structured object 
+ * @method getFeedByID
+ * @param {String} feedID The ID of the feed you want to get information about 
+ * @return {Object} feed, null if not found
+ */
+TVB.podcast.getFeedByID = function(feedID) {
+	try {
+		TVB.log("Podcast: getFeedByID(" + feedID + ")");
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		var fe = [];
+		var fho = TVB.podcast.mgr.getFeedByID(feedID);
+		
+		if (fho == null) {
+			return null;
+		} else {
+			return TVB.podcast.formatFeedObject(fho);
+		}
+	} catch (e) {
+		TVB.error("Podcast: getFeeds: " + e.message);
+		throw e;
+	}
+}
+
+/**
+ * Returns all visible feeds meta informations
+ * @method getVisibleFeeds
+ * @return {Object} Feeds
+ */
+TVB.podcast.getVisibleFeeds = function() {
+	try {
+		TVB.log("Podcast: getVisibleFeeds()");
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		var fe = [];
+		var fh = TVB.podcast.mgr.getAllFeeds();
+		for (var i in fh) {
+			var fho = fh[i];
+			if (fho.isHidden() == false) {
+				fe[fho.getID()] = TVB.podcast.formatFeedObject(fho);
+			}
+		}
+		return fe;
+	} catch (e) {
+		TVB.error("podcast.getFeeds: " + e.message);
+		throw e;
+	}
+}
+
+/**
+ * Returns an array of IDs of all subscribed feeds that are not hidden
+ * @method getVisibleFeedsID
+ * @return {Array} The list of feeds IDs
+ */
+TVB.podcast.getVisibleFeedsID = function() {
+	try {
+		TVB.log("Podcast: getVisibleFeedsID()");
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		
+		var ids = [];
+		var fh = TVB.podcast.mgr.getAllFeeds();
+		for (var i in fh) {
+			var fho = fh[i];
+			if (fho.isHidden() == false) {
+				ids.push(fho.getID());
+			}
+		}
+		return ids;
+	} catch (e) {
+		TVB.error("Podcast: getVisibleFeedsID: " + e.message);
+		throw e;
+	}
+}
+
+/**
+ * @method formatFeedObject
+ * @param {Object} feedHandler
+ * @return feedObject
+ * @private
+ */
+TVB.podcast.formatFeedObject = function(feedHandler) {
+	try {
+		TVB.log("Podcast: formatFeedObject()");
+		
+		var fhd = {
+			ID: feedHandler.getID(),
+			title: feedHandler.getTitle(),
+			description: feedHandler.getDescription(),
+			isHidden: feedHandler.isHidden(),
+			lastBuildDate: feedHandler.getLastBuildDate(),
+			pubDate: feedHandler.getPubDate(),
+			timeToLive: feedHandler.getTimeToLive(),
+			isTimeToLiveInfinite: feedHandler.isTimeToLiveInfinite(),
+			contentIdentifiers: feedHandler.getAllContentIdentifiers(),
+			hasContent: false,
+			contentCounter: -1
+		}
+		
+		if (fhd.contentIdentifiers.length > 0) fhd.hasContent = true;
+		fhd.contentCounter = fhd.contentIdentifiers.length;
+		
+		return fhd;
+	} catch (e) {
+		TVB.error("Podcast: formatFeedObject: " + e.message);
 		throw e;
 	}
 }
@@ -229,31 +332,6 @@ TVB.podcast.getFeedTitle = function(feedID) {
 	} catch (e) {
 		TVB.error("podcast.getFeedTitle: " + e.message);
 		return false;
-	}
-}
-
-/**
- * Returns all visible feeds meta informations
- * @method getVisibleFeeds
- * @return {Object} Feeds
- */
-TVB.podcast.getVisibleFeeds = function() {
-	try {
-		TVB.log("Podcast: get feeds");
-		if (TVB.podcast.mgr == null) {
-			throw {message: "Not inited"};
-		}
-		TVB.podcast.refresh();
-		var data = [];
-		for (var i in TVB.podcast.feeds) {
-			if (TVB.podcast.feeds[i].isHidden == false) {
-				data.push(TVB.podcast.feeds[i]);
-			}
-		}
-		return data;
-	} catch (e) {
-		TVB.error("podcast.getFeeds: " + e.message);
-		throw e;
 	}
 }
 
