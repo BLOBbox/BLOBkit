@@ -87,7 +87,8 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 			
 			TVB.widget.colorButtonsBarHandler = document.createElement('div');
 			TVB.widget.colorButtonsBarHandler.style.position = 'fixed';
-			TVB.widget.colorButtonsBarHandler.style.top = parseInt(window.innerHeight - 21);
+			TVB.widget.colorButtonsBarHandler.style.overflow = 'hidden';
+			TVB.widget.colorButtonsBarHandler.style.top = parseInt(window.innerHeight - 21) + "px";
 			TVB.widget.colorButtonsBarHandler.style.left = '0px';
 			TVB.widget.colorButtonsBarHandler.style.width = window.innerWidth;
 			TVB.widget.colorButtonsBarHandler.style.height = '21px';
