@@ -497,7 +497,7 @@ TVB.podcast.getFeedContentByID = function(feedID) {
  * @method getUriByID
  * @param {String} feedID The ID of a feed
  * @param {String} contentID The ID of a content
- * @return {String} an URI, null if not found
+ * @return {String} an URI, null if not found
  */
 TVB.podcast.getUriByID = function(feedID, contentID) {
 	try {
