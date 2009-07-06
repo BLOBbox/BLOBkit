@@ -253,13 +253,12 @@ TVB.podcast.formatFeedObject = function(feedHandler) {
 /**
  * Returns description for a given feedID
  * @method getFeedDescription
- * @deprecated
  * @param {String} feedID The ID of the feed
  * @return {String} The description of the feed
  */
 TVB.podcast.getFeedDescription = function(feedID) {
 	try {
-		TVB.log("Podcast: get feed description " + feedID);
+		TVB.log("Podcast: getFeedDescription(" + feedID + ")");
 		if (TVB.podcast.mgr == null) {
 			TVB.podcast.init();
 		}
@@ -284,7 +283,7 @@ TVB.podcast.getFeedDescription = function(feedID) {
  */
 TVB.podcast.getFeedTitle = function(feedID) {
 	try {
-		TVB.log("Podcast: get feed title " + feedID);
+		TVB.log("Podcast: getFeedTitle(" + feedID + ")");
 		if (TVB.podcast.mgr == null) {
 			TVB.podcast.init();
 		}
@@ -300,6 +299,50 @@ TVB.podcast.getFeedTitle = function(feedID) {
 		return false;
 	}
 }
+
+/**
+ * Returns the information for a given feed
+ * @method feedExist
+ * @deprecated prefere using feedExists instead
+ * @param {String} feedID The ID of a feed
+ * @return {Boolean} True if the feed exists, false otherwise
+ */
+TVB.podcast.feedExist = function(feedID) {
+	try {
+		TVB.log("Podcast: feedExist(" + feedID + ")");
+		TVB.error("Podcast: feedExist: this function is deprecated, please use feedExists.");
+		return TVB.podcast.feedExists(feedID);
+	} catch (e) {
+		TVB.error("Podcast: feedExist: " + e.message);
+		throw e;
+	}
+}
+
+/**
+ * Returns the information for a given feed
+ * @method feedExists
+ * @param {String} feedID The ID of a feed
+ * @return {Boolean} True if the feed exists, false otherwise
+ */
+TVB.podcast.feedExists = function(feedID) {
+	try {
+		TVB.log("Podcast: feedExists(" + feedID + ")");
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		var fho = TVB.podcast.mgr.getFeedByID(feedID);
+		
+		if (fho == null) {
+			return false;
+		} else {
+			return true;
+		}
+	} catch (e) {
+		TVB.error("Podcast: feedExists: " + e.message);
+		throw e;
+	}
+}
+
 
 // STILL TO BE REFACTORED
 
@@ -338,31 +381,6 @@ TVB.podcast.refresh = function() {
 	}
 }
 */
-
-/**
- * Returns the information for a given feed
- * @method feedExist
- * @param {String} feed_id The id of a feed
- * @return {Object} Informations about the feed
- */
-TVB.podcast.feedExist = function(feed_id) {
-	try {
-		TVB.log("Podcast: feed exist " + feed_id);
-		if (TVB.podcast.mgr == null) {
-			throw {message: "Not inited"};
-		}
-		TVB.podcast.refresh();
-		for (var i in TVB.podcast.feeds) {
-			if (TVB.podcast.feeds[i].ID == feed_id) {
-				return true;
-			}
-		}
-		return false;
-	} catch (e) {
-		TVB.error("podcast.: " + e.message);
-		throw e;
-	}
-}
 
 /**
  * Returns the content (items) of a given feed
