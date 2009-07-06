@@ -45,7 +45,7 @@
 						for (var i in data) {
 							html += "<tr>";
 							html += "<td>" + data[i].ID + "</td>";
-							html += "<td>" + data[i].title + "</td>";
+							html += "<td>" + data[i].title + "<br />URI: " + TVB.podcast.getUriByID(id, data[i].ID) + "</td>";
 							html += "<td>" + data[i].downloadStatus + "</td>";
 							html += "<td>" + parseInt(data[i].downloadPercentage) + " %</td>";
 							html += "</tr>";
