@@ -150,7 +150,6 @@ TVB.podcast.getFeedByID = function(feedID) {
 		if (TVB.podcast.mgr == null) {
 			TVB.podcast.init();
 		}
-		var fe = [];
 		var fho = TVB.podcast.mgr.getFeedByID(feedID);
 		
 		if (fho == null) {
@@ -251,6 +250,33 @@ TVB.podcast.formatFeedObject = function(feedHandler) {
 	}
 }
 
+/**
+ * Returns description for a given feedID
+ * @method getFeedDescription
+ * @deprecated
+ * @param {String} feedID The ID of the feed
+ * @return {String} The description of the feed
+ */
+TVB.podcast.getFeedDescription = function(feedID) {
+	try {
+		TVB.log("Podcast: get feed description " + feedID);
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		var fho = TVB.podcast.mgr.getFeedByID(feedID);
+		
+		if (fho == null) {
+			return null;
+		} else {
+			return fho.getDescription();
+		}
+	} catch (e) {
+		TVB.error("podcast.getFeedDescription: " + e.message);
+		return false;
+	}
+}
+
+
 // STILL TO BE REFACTORED
 
 /*
@@ -288,29 +314,6 @@ TVB.podcast.refresh = function() {
 	}
 }
 */
-
-/**
- * Returns description for a particular feed
- * @method getFeedDescription
- * @param {String} feedID The ID of the feed
- * @return {String} The description of the feed
- */
-TVB.podcast.getFeedDescription = function(feedID) {
-	try {
-		TVB.log("Podcast: get feed description " + feedID);
-		TVB.podcast.fh = TVB.podcast.mgr.getAllFeeds();
-		for (var i in TVB.podcast.fh) {
-			var fho = TVB.podcast.fh[i];
-			if (fho.getID() == feedID) {
-				return fho.getDescription();
-			}
-		}
-		return false;
-	} catch (e) {
-		TVB.error("podcast.getFeedDescription: " + e.message);
-		return false;
-	}
-}
 
 /**
  * Returns title for a particular feed
