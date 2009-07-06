@@ -276,6 +276,30 @@ TVB.podcast.getFeedDescription = function(feedID) {
 	}
 }
 
+/**
+ * Returns title for a given feedID
+ * @method getFeedTitle
+ * @param {String} feedID The ID of the feed
+ * @return {String} The title of the feed
+ */
+TVB.podcast.getFeedTitle = function(feedID) {
+	try {
+		TVB.log("Podcast: get feed title " + feedID);
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		var fho = TVB.podcast.mgr.getFeedByID(feedID);
+		
+		if (fho == null) {
+			return null;
+		} else {
+			return fho.getTitle();
+		}
+	} catch (e) {
+		TVB.error("podcast.getFeedTitle: " + e.message);
+		return false;
+	}
+}
 
 // STILL TO BE REFACTORED
 
@@ -314,29 +338,6 @@ TVB.podcast.refresh = function() {
 	}
 }
 */
-
-/**
- * Returns title for a particular feed
- * @method getFeedTitle
- * @param {String} feedID The ID of the feed
- * @return {String} The title of the feed
- */
-TVB.podcast.getFeedTitle = function(feedID) {
-	try {
-		TVB.log("Podcast: get feed title " + feedID);
-		TVB.podcast.fh = TVB.podcast.mgr.getAllFeeds();
-		for (var i in TVB.podcast.fh) {
-			var fho = TVB.podcast.fh[i];
-			if (fho.getID() == feedID) {
-				return fho.getTitle();
-			}
-		}
-		return false;
-	} catch (e) {
-		TVB.error("podcast.getFeedTitle: " + e.message);
-		return false;
-	}
-}
 
 /**
  * Returns the information for a given feed
