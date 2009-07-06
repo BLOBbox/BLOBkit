@@ -141,7 +141,7 @@ TVB.podcast.getFeedsID = function() {
 /**
  * Returns given feed meta information in a structured object 
  * @method getFeedByID
- * @param {String} feedID The ID of the feed you want to get information about 
+ * @param {String} feedID The ID of the feed you want to get information about
  * @return {Object} feed, null if not found
  */
 TVB.podcast.getFeedByID = function(feedID) {
