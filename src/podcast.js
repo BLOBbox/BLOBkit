@@ -404,6 +404,96 @@ TVB.podcast.countFeedContentByID = function(feedID) {
 	}
 }
 
+// CONTENTS
+
+/**
+ * @method formatContentObject
+ * @param {Object} contentHandler
+ * @return contentObject
+ * @private
+ */
+TVB.podcast.formatContentObject = function(contentHandler) {
+	try {
+		TVB.log("Podcast: formatContentObject()");
+		
+		var chd = {
+			ID: contentHandler.getID(),
+			name: contentHandler.getName(),
+			title: contentHandler.getName(),
+			description: contentHandler.getDescription(),
+			publicationDate: contentHandler.getPublicationDate(),
+			uri: contentHandler.getURI(),
+			retrieveURI: contentHandler.getRetrieveURI(), 
+			expectedSize: contentHandler.getExpectedSize(),
+			downloadPercentage: null,
+			downloadStatus: null,
+			downloadStatusCode: null,
+			downloadedBytes: null,
+			downloadRate: null,
+			remainingDownloadTimeSeconds: null,
+			remainingDownloadTime: null,
+			isPlayable: false,
+			isDownloading: false
+		}
+
+		if (chd.uri != null) {
+			chd.isPlayable = true;
+			chd.downloadStatus = 'COMPLETED';
+			chd.downloadStatusCode = 6;
+			chd.downloadPercentage = 100;
+		} else {
+			chd.isPlayable = false;
+			chd.downloadStatus = 'ERROR';
+			chd.downloadStatusCode = 5;
+		}
+		
+		var di = contentHandler.getDownloadInfo();
+		if (di == null) {
+			isDownloading = false;
+		} else {
+			isDownloading = true;
+			downloadPercentage = di.getDownloadPercentage();
+			downloadStatus = di.getDownloadStatus();
+			downloadStatusCode = di.getDownloadStatusCode();
+			downloadedBytes = di.getDownloadedBytes();
+			downloadRate = di.getDownloadRate();
+			remainingDownloadTimeSeconds = di.getRemainingDownloadTimeSeconds();
+			remainingDownloadTime = di.getRemainingDownloadTime();
+		}
+		return chd;
+	} catch (e) {
+		TVB.error("Podcast: formatContentObject: " + e.message);
+		throw e;
+	}
+}
+
+/**
+ * Returns the content (items) of a given feedID
+ * @method getFeedContentByID
+ * @param {String} feedID The id of a feed
+ * @return {Object} An array of objects filled with informations about all of the items included in the given feed
+ */
+TVB.podcast.getFeedContentByID = function(feedID) {
+	try {
+		TVB.log("Podcast: getFeedContentByID(" + feed_id + ")");
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		var fho = TVB.podcast.mgr.getFeedByID(feedID);
+		var cho = fho.getAllContents();
+		var cl = [];
+		for (var i in cho) {
+			cl[cho[i].getID()] = TVB.podcast.formatContentObject(cho[i]);
+		}
+		return cl;
+	} catch (e) {
+		TVB.error("Podcast: getFeedContentByID: " + e.message);
+		throw e;
+	}
+}
+
+
+
 
 // STILL TO BE REFACTORED
 
@@ -442,56 +532,6 @@ TVB.podcast.refresh = function() {
 	}
 }
 */
-
-/**
- * Returns the content (items) of a given feed
- * @method getFeedContentByID
- * @param {String} feed_id The id of a feed
- * @return {Object} An array of objects filled with informations about all of the items included in the given feed
- */
-TVB.podcast.getFeedContentByID = function(feed_id) {
-	try {
-		TVB.log("Podcast: get feed content by id " + feed_id);
-		if (TVB.podcast.mgr == null) {
-			throw {message: "Not inited"};
-		}
-		TVB.podcast.fh = TVB.podcast.mgr.getAllFeeds();
-		var content = [];
-		for (var i in TVB.podcast.fh) {
-			if (TVB.podcast.fh[i].getID() == feed_id) {
-				var ch = TVB.podcast.fh[i].getAllContent();
-				for (var j in ch) {
-					var co = {};
-					co.ID = ch[j].getID();
-					co.name = ch[j].getName();
-					co.downloadStatus = ch[j].getDownloadStatus();
-					co.publicationDate = ch[j].getPublicationDate();
-					co.retrieveURI = ch[j].getRetrieveURI();
-					co.expectedSize = ch[j].getExpectedSize();
-					co.downloadedBytes = ch[j].getDownloadedBytes();
-					co.downloadRate = ch[j].getDownloadRate();
-					co.downloadStatusCode = ch[j].getDownloadStatusCode();
-					co.remainingDownloadTimeSeconds = ch[j].getRemainingDownloadTimeSeconds();
-					co.remainingDownloadTime = ch[j].getRemainingDownloadTime();
-					if (co.downloadStatus == 'COMPLETED') {
-						co.uri = ch[j].getURI();
-						co.downloadPercentage = 100;
-					} else {
-						co.uri = ch[j].getURI();
-						co.downloadPercentage = ch[j].getDownloadPercentage();
-					}
-					content.push(co);
-				}
-				return content;
-			}
-		}
-		return null;
-	} catch (e) {
-		TVB.error("podcast.getFeedContentById: " + e.message);
-		throw e;
-	}
-}
-
 
 /**
  * Returns an URI from an ID
