@@ -343,6 +343,67 @@ TVB.podcast.feedExists = function(feedID) {
 	}
 }
 
+/**
+ * Returns the number of items of a given feedID.
+ * The returned object contains the following fields:
+ *    count: the total number of elements in the feed
+ *    complete: the number of completed elements
+ *    downloading: the number of elements in download
+ *    error: the number of elements that have errors
+ *    playable: the number of playable elements (can be different from complete in firmwares that supports progressive download)
+ * @method countFeedContentByID
+ * @param {String} feedID The ID of a feed
+ * @return {Object} Some integer numbers: complete, count (the total number) and downloading; null if feedID doesn't exist
+ */
+TVB.podcast.countFeedContentByID = function(feedID) {
+	try {
+		TVB.log("Podcast: countFeedContentByID(" + feedID + ")");
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		var fho = TVB.podcast.mgr.getFeedByID(feedID);
+
+		var content = {
+			count: 0,
+			complete: 0,
+			downloading: 0,
+			error: 0,
+			playable: 0,
+		};
+
+		if (fho == null) {
+			return null;
+		} else {
+			// cl = content list
+			cl = fho.getAllContents();
+			content.count = cl.length;
+			for (var i in cl) {
+				if (cl[i].getURI() != null) {
+					content.complete++;
+					content.playable++; // complete and playable will differ when progressive download will be implemented
+				} else if (cl[i].getDownloadInfo() != null) {
+					var di = cl[i].getDownloadInfo();
+					switch (di.getDownloadStatus()) {
+						case 'ERROR_CODE':
+						case 'MOVE_ERROR':
+						case 'INVALID':
+							content.error++;
+							break;
+						default:
+							content.downloading++;
+					}
+				} else {
+					content.error++;
+				}
+			}
+			return content;
+		}
+	} catch (e) {
+		TVB.error("podcast.countFeedContentByID: " + e.message);
+		throw e;
+	}
+}
+
 
 // STILL TO BE REFACTORED
 
@@ -431,44 +492,6 @@ TVB.podcast.getFeedContentByID = function(feed_id) {
 	}
 }
 
-/**
- * Returns the number of items of a given feed
- * @method countFeedContentByID
- * @param {String} feed_id The id of a feed
- * @return {Object} Some integer numbers: complete, count and downloading
- */
-TVB.podcast.countFeedContentByID = function(feed_id) {
-	try {
-		TVB.log("Podcast: count feed content by id " + feed_id);
-		if (TVB.podcast.mgr == null) {
-			throw {message: "Not inited"};
-		}
-		TVB.podcast.fh = TVB.podcast.mgr.getAllFeeds();
-		var content = {};
-		content.complete = 0;
-		content.count = 0;
-		content.downloading = 0;
-		
-		for (var i in TVB.podcast.fh) {
-			if (TVB.podcast.fh[i].getID() == feed_id) {
-				var ch = TVB.podcast.fh[i].getAllContent();
-				for (var j in ch) {
-					content.count++;
-					if (ch[j].getDownloadStatus() == 'COMPLETED') {
-						content.complete++;
-					} else if (ch[j].getDownloadStatus() == 'DOWNLOADING') {
-						content.downloading++;
-					}
-				}
-				return content;
-			}
-		}
-		return null;
-	} catch (e) {
-		TVB.error("podcast.countFeedContentById: " + e.message);
-		throw e;
-	}
-}
 
 /**
  * Returns an URI from an ID
