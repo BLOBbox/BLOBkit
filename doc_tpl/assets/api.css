@@ -287,3 +287,25 @@ body.show_protected .protected {
 	height: 85px;
 	background: url(tvs.png) top left no-repeat;
 }
+
+.description h1 {
+	font-size: 120%;
+	font-weight: bold;
+}
+
+.description h2 {
+	margin-top: 20px;
+	font-weight: bold;
+}
+
+.description dl {
+	padding-left: 10px;
+}
+
+.description dl dt {
+	margin-top: 5px;
+}
+
+.description dl dd {
+	font-style: italic;
+}
