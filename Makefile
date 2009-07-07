@@ -3,9 +3,6 @@ YUI_VERSION = 2.7.0b
 COMP_VERSION = 2.4.2
 YUIDOC_VERSION = 1.0.0b1
 
-FTP_ACCESS = devcom:blobrulez
-FTP_BASE = ftp://www.blobforge.com/media/lib/
-
 INTEGRATION_PACKAGE_NAME = Web-BLOBkit
 
 YUI_URL = "http://yui.yahooapis.com/combo?$(YUI_VERSION)/build/yahoo-dom-event/yahoo-dom-event.js&$(YUI_VERSION)/build/connection/connection-min.js&$(YUI_VERSION)/build/json/json-min.js"
@@ -165,14 +162,6 @@ clean:
 	-rm -rf yuidoc-*
 	-rm -rf samples/$(LIB_BASENAME)-min.js
 	-rm -rf samples/$(LIB_BASENAME)-debug.js
-
-installfix:
-	# Installing to server
-	curl --silent --upload-file $(OUTDIR)/$(LIB_DEB) --user $(FTP_ACCESS) $(FTP_BASE)$(LIB_DEB)
-	curl --silent --upload-file $(OUTDIR)/$(LIB_DEB) --user $(FTP_ACCESS) $(FTP_BASE)$(LIB_BASENAME)-debug.js
-	curl --silent --upload-file $(OUTDIR)/$(LIB_MIN) --user $(FTP_ACCESS) $(FTP_BASE)$(LIB_MIN)
-	curl --silent --upload-file $(OUTDIR)/$(LIB_MIN) --user $(FTP_ACCESS) $(FTP_BASE)$(LIB_BASENAME)-min.js
-	# Installation done!
 
 aptana: $(APTANA_COMPONENT).jar
 
