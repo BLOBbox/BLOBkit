@@ -392,7 +392,7 @@ TVB.player.playpause = function() {
 
 /**
  * Rewind of current playback
- * @method rewing
+ * @method rewind
  * @return {Boolean}
  */
 TVB.player.rewind = function() {
@@ -450,6 +450,9 @@ TVB.player.stop = function() {
 			TVB.player.config.littleHole.style.visibility = 'hidden';
 			TVB.player.config.littleHole.style.display = 'none';
 			TVB.player.p.stop();
+			try {
+				TVB.player.p.setContent('');
+			} catch (e) {}
 			if (TVB.player.config.isFullScreen == true) {
 				TVB.player.config.wasFullScreen = true;
 				if (TVB.player.exitFullScreen() == false) {
@@ -930,28 +933,26 @@ TVB.player.isFullScreenModeEnabled = function() {
 TVB.player.showBufferingMessage = function() {
 	try {
 		if(!document.getElementById('bufferingmessage')) {
-			TVB.log("Player: showBufferingMessage() - NEW");
+			TVB.log("Player: showBufferingMessage()");
 			var div = document.createElement('div');
 			div.id = 'bufferingmessage';
-			div.style.background = '#000 url("") no-repeat';
-			div.style.zIndex = '32010';
-			div.style.border = '0';
-			div.style.bottom = '10px';
-			div.style.left = '40px';
-			div.style.position = 'absolute';
-			div.style.display = 'block';
-			div.style.margin = '0';
-			div.style.padding = '0';
-			div.style.paddingLeft = '10px';
-			div.style.paddingRight = '10px';
-	
-			div.innerHTML = '&nbsp;';
-	
+			div.style.width = '48px';
+			div.style.height = '32px';
+			div.style.position = 'fixed';
+			div.style.top = parseInt(window.innerHeight - 55) + "px";
+			div.style.left = '30px';
+			div.style.padding = 0;
+			div.style.margin = 0;
+			div.style.zIndex = '2000';			
 			document.body.appendChild(div);
 		}
-		
-		document.getElementById('bufferingmessage').innerHTML = tvblob.getI18NString("hint.buffering", "Adapting to network conditions...", "messagesMediaPlayer");
-
+		if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
+			var ico = 'http://storage.tvblob.com/lib/resources/playback_buffering.png';
+		} else {
+			var ico = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/player/icons/dashboard/playback_buffering.png';
+		}
+		div.style.background = "#000001 url('" + ico + "') top left no-repeat";
+		//document.getElementById('bufferingmessage').innerHTML = tvblob.getI18NString("hint.buffering", "Adapting to network conditions...", "messagesMediaPlayer");
 	} catch (e) {
 		TVB.error("Player: showBufferingMessage: " + e.message);
 		throw e;
@@ -962,27 +963,25 @@ TVB.player.showStartingPlaybackMessage = function() {
 	try {
 		TVB.log("Player: showStartingPlaybackMessage()");
 		if(!document.getElementById('bufferingmessage')) {
+			TVB.log("Player: showBufferingMessage()");
 			var div = document.createElement('div');
 			div.id = 'bufferingmessage';
-			div.style.background = '#000 url("") no-repeat';
-			div.style.zIndex = '32010';
-			div.style.border = '0';
-			div.style.bottom = '10px';
-			div.style.left = '40px';
-			div.style.position = 'absolute';
-			div.style.display = 'block';
-			div.style.margin = '0';
-			div.style.padding = '0';
-			div.style.paddingLeft = '10px';
-			div.style.paddingRight = '10px';
-
-			div.innerHTML = '';
-	
+			div.style.width = '48px';
+			div.style.height = '32px';
+			div.style.position = 'fixed';
+			div.style.top = parseInt(window.innerHeight - 55) + "px";
+			div.style.left = '30px';
+			div.style.padding = 0;
+			div.style.margin = 0;
+			div.style.zIndex = '2000';			
 			document.body.appendChild(div);
 		}
-
-		document.getElementById('bufferingmessage').innerHTML = tvblob.getI18NString("hint.preparingToPlay", "Opening...", "messagesMediaPlayer");
-
+		if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
+			var ico = 'http://storage.tvblob.com/lib/resources/playback_working.png';
+		} else {
+			var ico = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/player/icons/dashboard/playback_working.png';
+		}
+		div.style.background = "#000001 url('" + ico + "') top left no-repeat";
 	} catch (e) {
 		TVB.error("Player: showStartingPlaybackMessage: " + e.message);
 		throw e;
@@ -999,7 +998,7 @@ TVB.player.showUnableToPlayMessage = function() {
 			div.style.color = 'red';
 			div.style.zIndex = '32010';
 			div.style.border = '0';
-			div.style.bottom = '10px';
+			div.style.bottom = '40px';
 			div.style.left = '40px';
 			div.style.position = 'absolute';
 			div.style.display = 'block';
@@ -1024,14 +1023,12 @@ TVB.player.showUnableToPlayMessage = function() {
 
 TVB.player.removeBufferingMessage = function() {
 	try {
-		//if (TVB.player.config.isBuffering == true) {
 		TVB.log("Player: removeBufferingMessage()");
 		setTimeout(function() {
-			if(document.getElementById('bufferingmessage'))
-				document.getElementById('bufferingmessage').innerHTML = '';
-				//document.body.removeChild(document.getElementById('bufferingmessage'));
+			if(document.getElementById('bufferingmessage')) {
+				TVB.system.deleteElementById('bufferingmessage');
+			}
 		}, 1000);
-		//}
 	} catch (e) {
 		TVB.error("Player: removeBufferingMessage: " + e.message);
 	}

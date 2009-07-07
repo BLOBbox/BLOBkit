@@ -4,7 +4,7 @@
  * @namespace TVB
  * @title Connection Manager
  * @requires tvblob, system, event, widgets
- * @author	Edoardo Esposito edoardo.esposito@tvblob.com
+ * @author Edoardo Esposito edoardo.esposito@tvblob.com
  */
 
 /**

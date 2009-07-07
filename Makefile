@@ -1,4 +1,4 @@
-VERSION = 1.1.4
+VERSION = 1.2.0
 YUI_VERSION = 2.7.0b
 COMP_VERSION = 2.4.2
 YUIDOC_VERSION = 1.0.0b1
@@ -15,7 +15,7 @@ COMP_DOWNLOAD = "http://www.julienlecomte.net/yuicompressor/yuicompressor-$(COMP
 YUIDOC_DOWNLOAD = "http://yuilibrary.com/downloads/yuidoc/yuidoc_$(YUIDOC_VERSION).zip"
 
 YUI_SOURCES = yui-$(YUI_VERSION)/build/yahoo/yahoo.js yui-$(YUI_VERSION)/build/dom/dom.js yui-$(YUI_VERSION)/build/event/event.js yui-$(YUI_VERSION)/build/connection/connection.js yui-$(YUI_VERSION)/build/json/json.js
-TVB_SOURCES = src/extensions.js src/system.js src/json.js src/event.js src/connection.js src/remote.js src/player.js src/ad.js src/podcast.js src/widgets.js src/menu.js src/i18n.js 
+TVB_SOURCES = src/extensions.js src/system.js src/json.js src/event.js src/connection.js src/remote.js src/player.js src/ad.js src/podcast.js src/podcast100.js src/widgets.js src/menu.js src/i18n.js 
 DEB_YUI = yui-$(YUI_VERSION)/build/profiler/profiler.js 
 DEB_TVB = src/profiler.js
 NON_DEB = 
@@ -309,6 +309,9 @@ release: all
 	
 	rm -rf $(DESTDIR)
 	rm $(DESTDIR).tar.gz
+	
+	chmod 755 install.sh
+	chmod 755 install_production.sh
 	
 	./install.sh http://integration/storage/releases/$(DESTDIR).tar.gz
 	#./install_production.sh http://integration/storage/releases/$(DESTDIR).tar.gz

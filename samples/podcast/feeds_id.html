@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Podcast Manager - getAllFeedsID()");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<table id='feed_list'>
+			<tr>
+				<td><strong>ID (can be numeric or literal)</strong></td>
+			</tr>
+		</table>
+		
+		<script type="text/javascript">
+			try {
+				// Request ID's list of user's subscribed feeds 
+				var id_list = TVB.podcast.getAllFeedsID();
+				
+				// Draw on screen a table containing all feeds ID
+				
+				if (id_list.length > 0) {
+				
+					for (var i in id_list) {
+						var row = document.createElement('tr');
+						var col = document.createElement('td');
+						col.innerHTML = id_list[i];
+						row.appendChild(col);
+						document.getElementById('feed_list').appendChild(row);
+					}
+					
+				} else {
+					var row = document.createElement('tr');
+					var col = document.createElement('td');
+					col.innerHTML = "User has not subscribed to any feed";
+					row.appendChild(col);
+					document.getElementById('feed_list').appendChild(row);
+				}
+
+			} catch (e) {
+				TVB.error(e.message);
+			}
+		</script>
+	</body>
+</html>
