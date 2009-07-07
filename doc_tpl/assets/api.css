@@ -309,3 +309,18 @@ body.show_protected .protected {
 .description dl dd {
 	font-style: italic;
 }
+
+.description table {
+	border: 0px solid;
+	margin-left: 10px;
+	margin-top: 5px;
+}
+
+.description table thead {
+	font-weight: bold;
+}
+
+.description table td {
+	padding-left: 4px;
+	padding-right: 4px;
+}
