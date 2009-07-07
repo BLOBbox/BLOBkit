@@ -1,5 +1,67 @@
 /**
- * Podcast Manager
+ * <h1>Podcast Manager</h1>
+ * 
+ * <h2>feedObject</h2>
+ * <dl>
+ * 		<dt>ID:</dt><dd>String, unique identifier that represents the feed</dd>
+ * 		<dt>title:</dt><dd>String, taken from the RSS feed, it is the name of this feed</dd>
+ * 		<dt>description:</dt><dd>String, taken from the RSS feed, is a brief description of this feed</dd>
+ * 		<dt>isHidden:</dt><dd>Boolean, true is the feed is hidden in standard podcast application, false if it is visible</dd>
+ * 		<dt>lastBuildDate:</dt><dd>String containing a standard RSS date, represents the feed last build date</dd>
+ * 		<dt>pubDate:</dt><dd>String containing a standard RSS date, represents the feed publication date</dd>
+ * 		<dt>timeToLive:</dt><dd>Integer, number of minutes before refreshing the feed</dd>
+ * 		<dt>isTimeToLiveInfinite:</dt><dd>Boolean, true if the feed has no expiring date</dd>
+ * 		<dt>hasContent:</dt><dd>Boolean, true if the feed contains at least one element</dd>
+ * 		<dt>contentCounter:</dt><dd>Integer, number of elements in the feed</dd>
+ * 		<dt>contentIdentifiers:</dt><dd>Array of strings, contains the IDs of all feed's contents</dd>
+ * </dl>
+ * 
+ * <h2>contentObject</h2>
+ * <dl>
+ * 		<dt>ID:</dt><dd>String, unique identifier that represents the content</dd>
+ * 		<dt>title:</dt><dd>String, taken from the RSS feed, it is the name of this content</dd>
+ * 		<dt>name:</dt><dd>String, alias for title</dd>
+ * 		<dt>description:</dt><dd>String, taken from the RSS feed, is a brief description of this content</dd>
+ * 		<dt>publicationDate:</dt><dd>String containing a standard RSS date, represents the content publication date</dd>
+ * 		<dt>uri:</dt><dd>String, URI for content playback or null if not playable</dd>
+ * 		<dt>retrieveURI:</dt><dd>String, the original download URI</dd>
+ * 		<dt>expectedSize:</dt><dd>Long, the size in bytes of the file as stated in the RSS feed, or given by remote server; can be wrong if RSS feed or server return a wrong information</dd>
+ * 		<dt>downloadPercentage:</dt><dd>Integer, [0..100], < 0 if not available</dd>
+ * 		<dt>downloadStatus:</dt><dd>String, see downloadStatus table for the complete list of statuses</dd>
+ * 		<dt>downloadStatusCode:</dt><dd>Integer, see downloadStatus table for the complete list of statuses</dd>
+ * 		<dt>downloadedBytes:</dt><dd>Integer, number of downloaded bytes for this download (available only when the file is downloading)</dd>
+ * 		<dt>downloadRate:</dt><dd>Integer, return current download speed in bytes per second at this moment or < 0 if information is not available (available only when the file is downloading)</dd>
+ * 		<dt>remainingDownloadTimeSeconds:</dt><dd>Integer, estimate remaining download time in seconds. Returns 0 if completed, < 0 if estimate not possible (stalled, info unavailable, error)</dd>
+ * 		<dt>remainingDownloadTime:</dt><dd>Array, return an estimate of the remaining download time as an array of longs {days, hours, minutes, seconds}. If estimate is not available, null is returned. If download is complete, an array {0, 0, 0, 0} is returned. (available only when the file is downloading)</dd>
+ * 		<dt>isPlayable:</dt><dd>Boolean, true if the media is playable</dd>
+ * 		<dt>isDownloading:</dt><dd>Boolean, true if the file is currently being downloaded</dd>
+ * </dl>
+ * 
+ * <h2>downloadStatus</h2>
+ * 
+ * <table>
+ * <thead><td>Code</td><td>Status name</td></thead>
+ * <tr><td>0</td><td>UNKNOWN</td></tr>
+ * <tr><td>1</td><td>STARTING</td></tr>
+ * <tr><td>2</td><td>INVALID</td></tr>
+ * <tr><td>3</td><td>DOWNLOADING</td></tr>
+ * <tr><td>4</td><td>PAUSED</td></tr>
+ * <tr><td>5</td><td>ERROR</td></tr>
+ * <tr><td>6</td><td>COMPLETED</td></tr>
+ * <tr><td>7</td><td>MOVING</td></tr>
+ * <tr><td>8</td><td>MOVED</td></tr>
+ * <tr><td>9</td><td>MOVE_ERROR</td></tr>
+ * </table>
+ * 
+ * <h2>counterObject</h2>
+ * <dl>
+ *    <dt>count:</dt><dd>the total number of elements in the feed</dd>
+ *    <dt>complete:</dt><dd>the number of completed elements</dd>
+ *    <dt>downloading:</dt><dd>the number of elements in download</dd>
+ *    <dt>error:</dt><dd>the number of elements that have errors</dd>
+ *    <dt>playable:</dt><dd>the number of playable elements (can be different from complete in firmwares that supports progressive download)</dd>
+ * </dl>
+ * 
  * @module podcast
  * @namespace TVB
  * @title Podcast Manager
@@ -64,7 +126,7 @@ TVB.podcast.init = function() {
 /**
  * Alias to getFeeds
  * @method getAllFeeds
- * @return {Object} feed[]
+ * @return {Object} feedObject[]
  */
 TVB.podcast.getAllFeeds = function() {
 	try {
@@ -78,7 +140,7 @@ TVB.podcast.getAllFeeds = function() {
 /**
  * Returns all feeds meta information in a structured array
  * @method getFeeds
- * @return {Object} feed[]
+ * @return {Object} feedObject[]
  */
 TVB.podcast.getFeeds = function() {
 	try {
@@ -142,7 +204,7 @@ TVB.podcast.getFeedsID = function() {
  * Returns given feed meta information in a structured object 
  * @method getFeedByID
  * @param {String} feedID The ID of the feed you want to get information about
- * @return {Object} feed, null if not found
+ * @return {Object} feedObject, null if not found
  */
 TVB.podcast.getFeedByID = function(feedID) {
 	try {
@@ -166,7 +228,7 @@ TVB.podcast.getFeedByID = function(feedID) {
 /**
  * Returns all visible feeds meta informations
  * @method getVisibleFeeds
- * @return {Object} Feeds
+ * @return {Object} feedObject
  */
 TVB.podcast.getVisibleFeeds = function() {
 	try {
@@ -192,7 +254,7 @@ TVB.podcast.getVisibleFeeds = function() {
 /**
  * Returns an array of IDs of all subscribed feeds that are not hidden
  * @method getVisibleFeedsID
- * @return {Array} The list of feeds IDs
+ * @return {Array} feedID[]
  */
 TVB.podcast.getVisibleFeedsID = function() {
 	try {
@@ -345,15 +407,9 @@ TVB.podcast.feedExists = function(feedID) {
 
 /**
  * Returns the number of items of a given feedID.
- * The returned object contains the following fields:
- *    count: the total number of elements in the feed
- *    complete: the number of completed elements
- *    downloading: the number of elements in download
- *    error: the number of elements that have errors
- *    playable: the number of playable elements (can be different from complete in firmwares that supports progressive download)
  * @method countFeedContentByID
  * @param {String} feedID The ID of a feed
- * @return {Object} Some integer numbers: complete, count (the total number) and downloading; null if feedID doesn't exist
+ * @return {Object} counterObject, null if feedID doesn't exist
  */
 TVB.podcast.countFeedContentByID = function(feedID) {
 	try {
@@ -470,8 +526,8 @@ TVB.podcast.formatContentObject = function(contentHandler) {
 /**
  * Returns the content (items) of a given feedID
  * @method getFeedContentByID
- * @param {String} feedID The id of a feed
- * @return {Object} An array of objects filled with informations about all of the items included in the given feed
+ * @param {String} feedID The ID of a feed
+ * @return {Object} contentObject[]
  */
 TVB.podcast.getFeedContentByID = function(feedID) {
 	try {
@@ -486,6 +542,32 @@ TVB.podcast.getFeedContentByID = function(feedID) {
 			cl[cho[i].getID()] = TVB.podcast.formatContentObject(cho[i]);
 		}
 		return cl;
+	} catch (e) {
+		TVB.error("Podcast: getFeedContentByID: " + e.message);
+		throw e;
+	}
+}
+
+/**
+ * Returns the content (items) of a given feedID and contentID
+ * @method getFeedContentByContentID
+ * @param {String} feedID The ID of a feed
+ * @param {String] contentID The ID of a content in the feed
+ * @return {Object} contentObject
+ */
+TVB.podcast.getFeedContentByContentID = function(feedID, contentID) {
+	try {
+		TVB.log("Podcast: getFeedContentByContentID(" + feedID + ", " + contentID + ")");
+		if (TVB.podcast.mgr == null) {
+			TVB.podcast.init();
+		}
+		var fho = TVB.podcast.mgr.getFeedByID(feedID);
+		var cho = fho.getContentByID(contentID);
+		if (cho == null) {
+			return null;
+		} else {
+			return TVB.podcast.formatContentObject(cho);
+		}
 	} catch (e) {
 		TVB.error("Podcast: getFeedContentByID: " + e.message);
 		throw e;
