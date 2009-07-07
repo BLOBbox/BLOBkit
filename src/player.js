@@ -450,6 +450,9 @@ TVB.player.stop = function() {
 			TVB.player.config.littleHole.style.visibility = 'hidden';
 			TVB.player.config.littleHole.style.display = 'none';
 			TVB.player.p.stop();
+			try {
+				TVB.player.p.setContent('');
+			} catch (e) {}
 			if (TVB.player.config.isFullScreen == true) {
 				TVB.player.config.wasFullScreen = true;
 				if (TVB.player.exitFullScreen() == false) {
