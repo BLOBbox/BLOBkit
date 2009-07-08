@@ -784,19 +784,20 @@ TVB.player.events = function(event) {
 			case 'PLAYING':
 				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
+				TVB.player.removePausedMessage();
 				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.play, params);
 				break;
 			case 'STOPPED':
 				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
+				TVB.player.removePausedMessage();
 				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.stop, params);
 				break;
 			case 'PAUSED':
-				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
-				//}
+				TVB.player.showPausedMessage();
 				TVB.CustomEvent.fireEvent(TVB.player.events.pause, params);
 				break;
 			case 'BUFFERING':
@@ -815,12 +816,14 @@ TVB.player.events = function(event) {
 			case 'REWINDING':
 				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
+				TVB.player.removePausedMessage();
 				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.rewinding, params);
 				break;
 			case 'FAST_FORWARDING':
 				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
+				TVB.player.removePausedMessage();
 				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.fast_forwarding, params);
 				break;
@@ -828,6 +831,7 @@ TVB.player.events = function(event) {
 			case 'END_OF_STREAM':
 				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
+				TVB.player.removePausedMessage();
 				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.end_of_streaming, params);
 				break;
@@ -938,6 +942,49 @@ TVB.player.isFullScreenModeEnabled = function() {
 	} catch (e) {
 		TVB.error("Player: isFullScreenModeEnabled:" + e.message);
 		return false;
+	}
+}
+
+TVB.player.showPausedMessage = function() {
+	try {
+		if(!document.getElementById('TVB.player.pausedmessage')) {
+			TVB.log("Player: showBufferingMessage()");
+			var div = document.createElement('div');
+			div.id = 'TVB.player.pausedmessage';
+			div.style.width = '48px';
+			div.style.height = '32px';
+			div.style.position = 'fixed';
+			div.style.top = parseInt(window.innerHeight - 55) + "px";
+			div.style.left = '30px';
+			div.style.padding = 0;
+			div.style.margin = 0;
+			div.style.zIndex = '1900';			
+			document.body.appendChild(div);
+		}
+		if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
+			var ico = 'http://storage.tvblob.com/lib/resources/playback_paused.png';
+		} else {
+			var ico = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/player/icons/dashboard/playback_paused.png';
+		}
+		try {
+			document.getElementById('TVB.player.pausedmessage').style.background = "#000001 url('" + ico + "') top left no-repeat";
+		} catch (e) {
+			TVB.log("Player: warning in showBufferingMessage: " + e.message);
+		}
+	} catch (e) {
+		TVB.error("Player: showPausedMessage: " + e.message);
+		throw e;
+	}
+}
+
+TVB.player.removePausedMessage = function() {
+	try {
+		TVB.log("Player: removePausedMessage()");
+		if(document.getElementById('TVB.player.pausedmessage')) {
+			TVB.system.deleteElementById('TVB.player.pausedmessage');
+		}
+	} catch (e) {
+		TVB.error("Player: removePausedMessage: " + e.message);
 	}
 }
 
