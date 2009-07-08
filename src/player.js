@@ -213,6 +213,7 @@ TVB.player.handleRemote = function(type, args) {
 					TVB.player.pause();
 					break;
 				case 'PLAY_PAUSE':
+					TVB.log("Player: PLAY_PAUSE button catched");
 					TVB.player.playpause();
 					break;
 				case 'REWIND':
