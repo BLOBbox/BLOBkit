@@ -365,8 +365,10 @@ TVB.player.playpause = function() {
 			TVB.log("Player: still not inited");
 			return false;
 		}
+		TVB.log("Player: isPlaying is " + TVB.player.config.isPlaying);
 		if (TVB.player.config.isPlaying == true) {
 			try {
+				TVB.log("Player: calling SMOJ playPause()...");
 				TVB.player.p.playPause();
 			} catch (e) {
 				TVB.log(TVB.player.getStatus());
