@@ -322,7 +322,7 @@ TVB.player.play = function() {
 				TVB.error("Player: play: " + e.message);
 				throw e;
 			}
-		}, 350);
+		}, 500);
 		return true;
 	} catch (e) {
 		TVB.player.config.isPlaying = false;
@@ -584,16 +584,20 @@ TVB.player.enterFullScreen = function() {
 		TVB.player.config.isFullScreen = true;
 		
 		try {
-			if (document.getElementById('TVB.widget.titleHandler') != null) {
-				document.getElementById('TVB.widget.titleHandler').style.visibility = 'hidden';
+			if (document.getElementById('TVB.widget.colorButtonsBarHandler') != null) {
+				document.getElementById('TVB.widget.colorButtonsBarHandler').style.display = 'none';
 			}
-		} catch (e) {}
+		} catch (e) {
+			TVB.log("Player: warning 591: " + e.message);
+		}
 		
 		try {
-			if (document.getElementById('TVB.widget.colorButtonsBarHandler') != null) {
-				document.getElementById('TVB.widget.colorButtonsBarHandler').style.visibility = 'hidden';
+			if (document.getElementById('TVB.widget.titleHandler') != null) {
+				document.getElementById('TVB.widget.titleHandler').style.display = 'none';
 			}
-		} catch (e) {}
+		} catch (e) {
+			TVB.log("Player: warning 599: " + e.message);
+		}
 		
 		return true;
 	} catch (e) {
@@ -709,15 +713,19 @@ TVB.player.exitFullScreen = function() {
 		
 		try {
 			if (document.getElementById('TVB.widget.titleHandler') != null) {
-				document.getElementById('TVB.widget.titleHandler').style.visibility = 'visible';
+				document.getElementById('TVB.widget.titleHandler').style.display = 'block';
 			}
-		} catch (e) {}
+		} catch (e) {
+			TVB.log("Player: warning 719: " + e.message);
+		}
 		
 		try {
 			if (document.getElementById('TVB.widget.colorButtonsBarHandler') != null) {
-				document.getElementById('TVB.widget.colorButtonsBarHandler').style.visibility = 'visible';
+				document.getElementById('TVB.widget.colorButtonsBarHandler').style.display = 'block';
 			}
-		} catch (e) {}
+		} catch (e) {
+			TVB.log("Player: warning 727: " + e.message);
+		}
 		
 		return true;
 	} catch (e) {
