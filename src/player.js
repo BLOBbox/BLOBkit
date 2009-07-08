@@ -953,7 +953,11 @@ TVB.player.showBufferingMessage = function() {
 		} else {
 			var ico = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/player/icons/dashboard/playback_buffering.png';
 		}
-		document.getElementById('bufferingmessage').style.background = "#000001 url('" + ico + "') top left no-repeat";
+		try {
+			document.getElementById('bufferingmessage').style.background = "#000001 url('" + ico + "') top left no-repeat";
+		} catch (e) {
+			TVB.log("Player: warning in showBufferingMessage: " + e.message);
+		}
 		//document.getElementById('bufferingmessage').innerHTML = tvblob.getI18NString("hint.buffering", "Adapting to network conditions...", "messagesMediaPlayer");
 	} catch (e) {
 		TVB.error("Player: showBufferingMessage: " + e.message);
@@ -983,7 +987,11 @@ TVB.player.showStartingPlaybackMessage = function() {
 		} else {
 			var ico = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/player/icons/dashboard/playback_working.png';
 		}
-		div.style.background = "#000001 url('" + ico + "') top left no-repeat";
+		try {
+			document.getElementById('bufferingmessage').style.background = "#000001 url('" + ico + "') top left no-repeat";
+		} catch (e) {
+			TVB.log("Player: warning in showStartingPlaybackMessage: " + e.message);
+		}
 	} catch (e) {
 		TVB.error("Player: showStartingPlaybackMessage: " + e.message);
 		throw e;
@@ -1028,8 +1036,8 @@ TVB.player.removeBufferingMessage = function() {
 		TVB.log("Player: removeBufferingMessage()");
 		setTimeout(function() {
 			if(document.getElementById('bufferingmessage')) {
-				document.getElementById('bufferingmessage').style.background = "#000001 url() top left no-repeat";
-				//TVB.system.deleteElementById('bufferingmessage');
+				//document.getElementById('bufferingmessage').style.background = "#0000ff url() top left no-repeat";
+				TVB.system.deleteElementById('bufferingmessage');
 			}
 		}, 1000);
 	} catch (e) {
