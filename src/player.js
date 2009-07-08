@@ -1026,7 +1026,8 @@ TVB.player.removeBufferingMessage = function() {
 		TVB.log("Player: removeBufferingMessage()");
 		setTimeout(function() {
 			if(document.getElementById('bufferingmessage')) {
-				TVB.system.deleteElementById('bufferingmessage');
+				div.style.background = "#000001 url() top left no-repeat";
+				//TVB.system.deleteElementById('bufferingmessage');
 			}
 		}, 1000);
 	} catch (e) {
@@ -1038,8 +1039,9 @@ TVB.player.removeErrorMessage = function() {
 	try {
 		TVB.log("Player: removeErrorMessage()");
 		setTimeout(function() {
-			if(document.getElementById('tvbplayererrormessage'))
+			if (document.getElementById('tvbplayererrormessage')) {
 				document.getElementById('tvbplayererrormessage').innerHTML = '';
+			}
 		}, 1000);
 	} catch (e) {
 		TVB.error("Player: removeErrorMessage: " + e.message);
