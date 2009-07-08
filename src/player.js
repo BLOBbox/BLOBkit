@@ -951,7 +951,7 @@ TVB.player.showBufferingMessage = function() {
 		} else {
 			var ico = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/player/icons/dashboard/playback_buffering.png';
 		}
-		div.style.background = "#000001 url('" + ico + "') top left no-repeat";
+		document.getElementById('bufferingmessage').style.background = "#000001 url('" + ico + "') top left no-repeat";
 		//document.getElementById('bufferingmessage').innerHTML = tvblob.getI18NString("hint.buffering", "Adapting to network conditions...", "messagesMediaPlayer");
 	} catch (e) {
 		TVB.error("Player: showBufferingMessage: " + e.message);
@@ -1026,7 +1026,7 @@ TVB.player.removeBufferingMessage = function() {
 		TVB.log("Player: removeBufferingMessage()");
 		setTimeout(function() {
 			if(document.getElementById('bufferingmessage')) {
-				div.style.background = "#000001 url() top left no-repeat";
+				document.getElementById('bufferingmessage').style.background = "#000001 url() top left no-repeat";
 				//TVB.system.deleteElementById('bufferingmessage');
 			}
 		}, 1000);
