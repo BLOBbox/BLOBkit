@@ -532,10 +532,6 @@ TVB.widget.titleBar = new function() {
 		this.handler.appendChild(this.icon);
 		this.handler.appendChild(this.title);
 		
-		YAHOO.util.Event.onDOMReady(function(){
-			document.body.style.paddingTop = "72px";
-		});
-		
 		/**
 		 * Renders the title bar on the TV screen
 		 * @method titleBar.render
@@ -550,6 +546,9 @@ TVB.widget.titleBar = new function() {
 						document.body.insertBefore(this.handler, document.body.firstChild);
 					}
 				}
+				YAHOO.util.Event.onDOMReady(function(){
+					document.body.style.paddingTop = "72px";
+				});
 			} catch (e) {
 				TVB.error("Widget: titleBar: render: " + e.message);
 				throw e;
