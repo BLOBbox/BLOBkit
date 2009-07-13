@@ -293,6 +293,9 @@ release: all
 	cd $(DESTDIR) && find . -name .svn | xargs rm -rf 
 	cd $(DESTDIR) && tar zcvf ../$(DESTDIR).tar.gz *
 
+	cp $(DESTDIR)/eclipse/plugins/*.jar .
+	cp $(DESTDIR)/BLOBkit_$(VERSION).zip .
+	
 	tvblob_release -a release $(INTEGRATION_PACKAGE_NAME) $(VERSION)b$(BUILD)
 	tvblob_release -a upload $(INTEGRATION_PACKAGE_NAME) $(VERSION)b$(BUILD) -f $(DESTDIR).tar.gz ANY
 	
