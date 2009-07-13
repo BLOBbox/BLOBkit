@@ -245,7 +245,7 @@ TVB.player.handleRemote = function(type, args) {
  */
 TVB.player.play = function() {
 	try {
-		TVB.log("Player: play() --");
+		TVB.log("Player: play()");
 		if (TVB.player.config.isInit == false) {
 			TVB.log("Player: still not inited");
 			return false;
@@ -256,6 +256,7 @@ TVB.player.play = function() {
 		}
 		
 		try {
+			TVB.player.config.isPlaying = true;
 			if (TVB.player.p.getContent() != TVB.player.config.currentUri) {
 				TVB.log("Player: setContent start");
 				TVB.player.showStartingPlaybackMessage();
@@ -277,6 +278,7 @@ TVB.player.play = function() {
 				uri: TVB.player.config.currentUri
 			}
 			TVB.CustomEvent.fireEvent(TVB.player.events.stop, params);
+			TVB.player.config.isPlaying = false;
 			return false;
 		}
 		
@@ -321,6 +323,7 @@ TVB.player.play = function() {
 				TVB.player.config.isPlaying = true;
 			} catch (e) {
 				TVB.error("Player: play: " + e.message);
+				TVB.player.config.isPlaying = false;
 				throw e;
 			}
 		}, 500);
