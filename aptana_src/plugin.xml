@@ -71,10 +71,10 @@
 		</view>
 	</extension>
     -->  
-	<!--	You can provide automatic code assist for your library by creating a scriptdoc library in XML and importing it
+	<!--	You can provide automatic code assist for your library by creating a scriptdoc library in XML and importing it -->
 	<extension
     	point="com.aptana.ide.editor.js.scriptdoc">
 		<js-file path="support/tvb-doc.js" icon="icons/tvblob.png" user-agent="BLOBkit %%VERSION%%" />
 	</extension>  
-	-->
+	
 </plugin>
