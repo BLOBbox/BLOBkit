@@ -1,5 +1,43 @@
 /**
- * Media Player for BLOBbox
+ * <h1>Media Player for BLOBbox</h1>
+ * 
+ * <h2>configurationObject</h2>
+ * <dl>
+ * 		<dt>uri:</dt><dd>String, the uri to playback inside the player</dd>
+ * 		<dt>top:</dt><dd>Integer, the top grid reference in which position the player when not in full screen mode</dd>
+ * 		<dt>left:</dt><dd>Integer, the left grid reference in which position the player when not in full screen mode</dd>
+ * 		<dt>fullscreen:</dt><dd>Boolean, if true the player automatically starts in fullscreen (default: false)</dd>
+ * 		<dt>switchKey:</dt><dd>String, the name of the button (according with the remote control model) that automatically enter and exit the full screen mode; it works only if disableRemote is false, or if switchKey is not null (default: 'OK')</dd>
+ * 		<dt>autoplay:</dt><dd>Boolean, if true the player automatically starts the playback as soon as it has been initialized (default: true)</dd>
+ * 		<dt>noLittleHole:</dt><dd>Boolean, if true disable the player from automatically add the mask hole in front of the video; a blue screen mask with #0000ff color must be manually added in order to see the movie in the background (default: false)</dd>
+ * 		<dt>disableRemote:</dt><dd>Boolean, if true prevent the player from listening to the remote control buttons and does not initialize the remote control with the event model (default: false)</dd>
+ * 		<dt>width:</dt><dd>Integer, the width in pixels of the video player when not in full screen</dd>
+ * 		<dt>height:</dt><dd>Integer, the height in pixels of the video player when not in full screen</dd>
+ * </dl>
+ * 
+ * <h2>List of events</h2>
+ * <dl>
+ * 		<dt>TVB.player.events.player:</dt><dd></dd>
+ * 		<dt>TVB.player.events.play:</dt><dd></dd>
+ * 		<dt>TVB.player.events.stop:</dt><dd></dd>
+ * 		<dt>TVB.player.events.pause:</dt><dd></dd>
+ * 		<dt>TVB.player.events.buffering:</dt><dd></dd>
+ * 		<dt>TVB.player.events.rewinding:</dt><dd></dd>
+ * 		<dt>TVB.player.events.fast_forwarding:</dt><dd></dd>
+ * 		<dt>TVB.player.events.end_of_streaming:</dt><dd></dd>
+ * 		<dt>TVB.player.events.starting_playback:</dt><dd></dd>
+ * </dl>
+ *
+ * <h2>Available uri schema</h2>
+ * <p>Every schema supported by the BLOBbox is supported by the video player.</p>
+ * <p>The following have been tested:</p>
+ * <ul>
+ *     <li>http://</li>
+ *     <li>file:///mnt/storage/sm-core/media/RELATIVE_PATH (for content in the media archive)</li>
+ *     <li>dvb://ONID.TSID.SID</li>
+ *     <li>rtsp:// (only on hardware that supports rtsp)</li>
+ * </ul>
+ * 
  * @module player
  * @namespace TVB
  * @title Media Player
@@ -56,7 +94,7 @@ TVB.player.p = {};
 /**
  * Initialize the video player
  * @method init
- * @param {Object} config configuration array
+ * @param {Object} config configurationObject
  * @return {Boolean}
  */
 TVB.player.init = function(config){
