@@ -540,48 +540,16 @@ TVB.player.getContent = function() {
  * is set to true, starts the playback
  * @method setContent
  * @param {String} uri Uri of the content
- * @return {Boolean}
  */
 TVB.player.setContent = function(uri) {
 	try {
 		TVB.log("Player: setContent(" + uri + ")");
-		if (TVB.player.config.isInit == false) {
-			TVB.log("Player: still not inited");
-			return false;
-		}
-		if (uri == 'undefined') {
-			TVB.log("Player: uri undefined");
-			return false;
-		}
-		var wasPlaying = false;
-		if (TVB.player.config.isPlaying == true) {
-			wasPlaying = true;
-			TVB.player.stop();
-		}
-		TVB.player.p.setContent(uri);
 		TVB.player.config.currentUri = uri;
-		TVB.player.config.isStartPlay = true;
-
-		// configure fullscreen
-		
-		//////////// DEVO RIVEDERE QUESTO PASSAGGIO......
-		
-		if (TVB.player.config.inited == true) {
-			if (TVB.player.config.isFullScreen == true) {
-				TVB.player.enterFullScreen();
-			}
-			else {
-				TVB.player.exitFullScreen();
-			}
-		}
-
-		if (wasPlaying == true || TVB.player.config.autoplay == true) {
+		if (TVB.player.config.autoplay == true) {
 			TVB.player.play();
 		}
-		return true;
 	} catch (e) {
 		TVB.error("Player: setContent: " + e.message);
-		TVB.player.config.isInit = false;
 		throw e;
 	}
 }
