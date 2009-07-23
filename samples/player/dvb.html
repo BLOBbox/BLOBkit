@@ -14,7 +14,7 @@
 
 		<script type="text/javascript">
 			// count the number of DVB channels available
-			var num = TVB.player.countDvbChannels();
+			var num = TVB.tuner.countDvbChannels();
 			TVB.widget.colorButtonsBar('', '', '', num + " channels");
 			
 			if (num > 0) {
