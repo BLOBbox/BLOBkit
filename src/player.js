@@ -11,8 +11,8 @@
  * 		<dt>autoplay:</dt><dd>Boolean, if true the player automatically starts the playback as soon as it has been initialized (default: true)</dd>
  * 		<dt>noLittleHole:</dt><dd>Boolean, if true disable the player from automatically add the mask hole in front of the video; a blue screen mask with #0000ff color must be manually added in order to see the movie in the background (default: false)</dd>
  * 		<dt>disableRemote:</dt><dd>Boolean, if true prevent the player from listening to the remote control buttons and does not initialize the remote control with the event model (default: false)</dd>
- * 		<dt>width:</dt><dd>Integer, the width in pixels of the video player when not in full screen</dd>
- * 		<dt>height:</dt><dd>Integer, the height in pixels of the video player when not in full screen</dd>
+ * 		<dt>width:</dt><dd>Integer, the width in pixels of the video player when not in full screen (default: half the width of the screen)</dd>
+ * 		<dt>height:</dt><dd>Integer, the height in pixels of the video player when not in full screen (default: half the height of the screen)</dd>
  * </dl>
  * 
  * <h2>List of events</h2>
@@ -81,6 +81,9 @@ TVB.player.config = {
 	isBuffering: false,
 	autoFullScreen: false,
 	noLittleHole: false,
+	width: 0,
+	height: 0,
+	useSIF: true,
 };
 
 /**
@@ -187,6 +190,22 @@ TVB.player.init = function(config){
 				TVB.player.config.leftCord = parseInt((window.innerWidth / 2) - (window.innerWidth / 4));
 			}
 			TVB.log("Player: init: new player in coords(" + TVB.player.config.leftCord + ", " + TVB.player.config.topCord + ")");
+			
+			// configure size
+			TVB.player.config.useSIF = true;
+			if (typeof config.width != 'undefined') {
+				TVB.player.config.width = parseInt(config.width);
+				TVB.player.config.useSIF = false;
+			} else {
+				TVB.player.config.width = parseInt(window.innerWidth / 2);
+			}
+			if (typeof config.height != 'undefined') {
+				TVB.player.config.height = parseInt(config.height);
+				TVB.player.config.useSIF = false;
+			} else {
+				TVB.player.config.height = parseInt(window.innerHeight / 2) + 18;
+			}
+			TVB.log("Player: init: new player with size (" + TVB.player.config.width + ", " + TVB.player.config.height + ")");
 			
 			// configure fullscreen
 			if (typeof config.fullscreen != 'undefined' && config.fullscreen == true) {
@@ -569,7 +588,7 @@ TVB.player.enterFullScreen = function() {
 		// create a hole
 		if (TVB.player.config.littleHole == null) {
 			TVB.log("Player: enterFullScreen: before adding a hole");
-			if (TVB.player.config.noLittleHole == false) TVB.player.addHole(744, 596);
+			if (TVB.player.config.noLittleHole == false) TVB.player.addHole(parseInt(window.innerWidth), parseInt(window.innerHeight)); //TVB.player.addHole(744, 596);
 			TVB.log("Player: enterFullScreen: after adding a hole");
 		}
 		TVB.player.config.littleHole.style.top = '0px';
@@ -688,10 +707,10 @@ TVB.player.exitFullScreen = function() {
 		}
 		// create a hole
 		if (TVB.player.config.littleHole == null) {
-			if (TVB.player.config.noLittleHole == false) TVB.player.addHole(348, 238);
+			if (TVB.player.config.noLittleHole == false) TVB.player.addHole(TVB.player.config.width, TVB.player.config.height); // TVB.player.addHole(348, 238);
 		}
-		TVB.player.config.littleHole.style.width = parseInt(window.innerWidth / 2); /*'348px';*/
-		TVB.player.config.littleHole.style.height = parseInt(window.innerHeight / 2) + 18; /*'238px';*/
+		TVB.player.config.littleHole.style.width = TVB.player.config.width + "px"; //parseInt(window.innerWidth / 2); /*'348px';*/
+		TVB.player.config.littleHole.style.height = TVB.player.config.height + "px"; //parseInt(window.innerHeight / 2) + 18; /*'238px';*/
 		
 		var newX = parseInt(TVB.player.config.leftCord) + parseInt(TVB.player.config.deltaX);
 		var newY = parseInt(TVB.player.config.topCord) + parseInt(TVB.player.config.deltaY);
@@ -714,8 +733,13 @@ TVB.player.exitFullScreen = function() {
 		if (TVB.player.config.currentUri != null) {
 			TVB.log("Player: set position " + newX + ", " + newY);
 			TVB.player.p.setPosition(newX, newY);
-			TVB.log("Player: set scale SIF");
-			TVB.player.p.setScale("SIF");
+			if (TVB.player.config.useSIF == true) {
+				TVB.log("Player: set scale SIF");
+				TVB.player.p.setScale("SIF");
+			} else {
+				TVB.log("Player: set size (" + TVB.player.config.width + ", " + TVB.player.config.height + ")");
+				TVB.player.p.setSize(TVB.player.config.width, TVB.player.config.height);
+			}
 			TVB.log("Player: set full screen mode enabled false");
 			TVB.player.p.setFullScreenModeEnabled(false);
 		}
