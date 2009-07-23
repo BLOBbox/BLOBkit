@@ -25,7 +25,12 @@
  * @static
  */
 TVB.vfs = {};
-	
+
+/**
+ * Get space status code (w.r.t. the minimum space threshold set for this storage).
+ * @method getStorageSpaceStatusCode
+ * @return {Number} spaceStatus Code
+ */
 TVB.vfs.getStorageSpaceStatusCode = function() {
 	try {
 		TVB.log("Vfs: getStorageSpaceStatusCode()");
@@ -37,6 +42,11 @@ TVB.vfs.getStorageSpaceStatusCode = function() {
 	}
 }
 
+/**
+ * Get storage space status string (w.r.t. the minimum space threshold set for this storage).
+ * @method getStorageSpaceStatusName
+ * @return {String} spaceStatus Name
+ */
 TVB.vfs.getStorageSpaceStatusName = function() {
 	try {
 		TVB.log("Vfs: getStorageSpaceStatusName()");
@@ -48,6 +58,11 @@ TVB.vfs.getStorageSpaceStatusName = function() {
 	}
 }
 
+/**
+ * Get the local storage free space as string.
+ * @method getFreeSpaceAsString
+ * @return {String} a string that can be converted to long and represents free space, null if the information is not available
+ */
 TVB.vfs.getFreeSpaceAsString = function() {
 	try {
 		TVB.log("Vfs: getFreeSpaceAsString()");
@@ -59,6 +74,11 @@ TVB.vfs.getFreeSpaceAsString = function() {
 	}
 }
 
+/**
+ * Get the local storage free space as string.
+ * @method getFreeSpaceAsString
+ * @return {Number} a float converted from the string that represents free space, null if the information is not available
+ */
 TVB.vfs.getFreeSpaceAsFloat = function() {
 	try {
 		TVB.log("Vfs: getFreeSpaceAsFloat()");
@@ -70,6 +90,11 @@ TVB.vfs.getFreeSpaceAsFloat = function() {
 	}
 }
 
+/**
+ * Get a formatted string that represents the local storage free space.
+ * @method getFreeSpaceAsFormattedString
+ * @return {String} a formatted string to show free space, null if the information is not available
+ */
 TVB.vfs.getFreeSpaceAsFormattedString = function() {
 	try {
 		TVB.log("Vfs: getFreeSpaceAsFormattedString()");
