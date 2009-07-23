@@ -3,9 +3,9 @@
  * 
  * <h2>channelObject</h2>
  * <dl>
- * 		<dt>uri:</dt><dd></dd>
- * 		<dt>uri:</dt><dd></dd>
- * 		<dt>uri:</dt><dd></dd>
+ * 		<dt>ID:</dt><dd>String, unique identifier of the channel</dd>
+ * 		<dt>name:</dt><dd>String, human readable channel name</dd>
+ * 		<dt>uri:</dt><dd>String, URI of the channel, ready to the player</dd>
  * </dl>
  * 
  *
@@ -49,6 +49,16 @@ TVB.tuner.getDvbChannelsList = function() {
 	try {
 		TVB.log("Tuner: getDvbChannelsList()");
 		var tuner = BlobTunerManager();
+		var list = tuner.getAllTunerChannels();
+		var data = [];
+		for (var i in list) {
+			var co = {};
+			co.ID = list[i].getID();
+			co.name = list[i].getName();
+			co.uri = list[i].getURI();
+			data.push(co);
+		}
+		return data;
 	} catch (e) {
 		TVB.error("Tuner: getDvbChannelsList:" + e.message);
 		return null;
