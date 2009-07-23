@@ -18,11 +18,14 @@
 			TVB.widget.colorButtonsBar('', '', '', num + " channels");
 			
 			if (num > 0) {
+				var channels = TVB.tuner.getDvbChannelsList();
+
 				// Start playback of the first channel in your channel list
-				TVB.player.init({ uri: "dvb://318.1.3401", width:200, height: 150 });
+				TVB.player.init({ uri: channels[0].uri, width:200, height: 150 });
 				TVB.player.config.littleHole.style.border = '1px solid red';
 
-				TVB.widget.titleBar.setTitle("Video Player - ");
+				// Put the name of current channel in the title bar
+				TVB.widget.titleBar.setTitle("Video Player - " + channels[0].name);
 			} else {
 				TVB.widget.titleBar.setTitle("Video Player - No DVB channels found!");
 			}
