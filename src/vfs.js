@@ -83,7 +83,12 @@ TVB.vfs.getFreeSpaceAsFloat = function() {
 	try {
 		TVB.log("Vfs: getFreeSpaceAsFloat()");
 		var s = new LocalStorage();
-		return parseInt(s.getFreeSpaceAsString());
+		var c = s.getFreeSpaceAsString();
+		if (c == null) {
+			return null;
+		} else {
+			return parseInt(c);
+		}
 	} catch (e) {
 		TVB.error("Vfs: getFreeSpaceAsFloat: " + e.message);
 		throw e;
