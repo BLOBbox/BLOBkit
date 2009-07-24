@@ -74,6 +74,11 @@
 				<td class='data' id='getTvblobNumber'>&nbsp;</td>
 			</tr>
 			
+			<tr>
+				<td class='func'>TVB.system.getUserID()</td>
+				<td class='data' id='getUserID'>&nbsp;</td>
+			</tr>
+			
 		</table>
 			
 		<script type="text/javascript">
@@ -88,6 +93,7 @@
 			document.getElementById('getSMOSVersion').innerHTML = TVB.system.getSMOSVersion();
 			document.getElementById('getVideoSystem').innerHTML = TVB.system.getVideoSystem();
 			document.getElementById('getBLOBkitVersion').innerHTML = TVB.system.getBLOBkitVersion();
+			document.getElementById('getUserID').innerHTML = TVB.system.getUserID();
 
 			tvbn = TVB.system.getTvblobNumber(); 
 			if (tvbn != null) {

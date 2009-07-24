@@ -147,7 +147,8 @@ TVB.system.getLanguageCode = function() {
 
 
 /**
- * Returns user's TVBLOB Number if the user is logged in
+ * Returns user's TVBLOB Number if the user is logged in. 
+ * This function works only on trusted applications.
  * @method getTvblobNumber
  * @return {String} User's TVBLOB Number, or none
  */
@@ -160,6 +161,22 @@ TVB.system.getTvblobNumber = function() {
 			return null;
 		}
 	} catch (e) {
+		return null;
+	}
+}
+
+/**
+ * Returns a unique identification for the User, based on his TVBLOB Number 
+ * and current application domain.
+ * @method getUserID
+ * @return {String} A unique identification string; if a user is not logged in TVBLOB's backends, returns null
+ */
+TVB.system.getUserID = function() {
+	try {
+		TVB.log("System: getUserID()");
+		return tvblob.getDomainTackingID();
+	} catch (e) {
+		TVB.error("System: getUserID: " + e.message);
 		return null;
 	}
 }
