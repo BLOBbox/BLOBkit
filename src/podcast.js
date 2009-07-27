@@ -62,6 +62,11 @@
  *    <dt>playable:</dt><dd>the number of playable elements (can be different from complete in firmwares that supports progressive download)</dd>
  * </dl>
  * 
+ * <h2>Security warning</h2>
+ * 
+ * <p>To prevent unauthorized use of private information, the first time the Podcast API is used in an application, a popup window is displayed
+ * to the user to ask his permission.</p>
+ * 
  * @module podcast
  * @namespace TVB
  * @title Podcast Manager

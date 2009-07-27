@@ -167,7 +167,8 @@ TVB.system.getTvblobNumber = function() {
 
 /**
  * Returns a unique identification for the User, based on his TVBLOB Number 
- * and current application domain.
+ * and current application domain.<br />
+ * This functions requires that the user authorize the use in current application (a popup screen is displayed).
  * @method getUserID
  * @return {String} A unique identification string; if a user is not logged in TVBLOB's backends, returns null
  */

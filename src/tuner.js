@@ -25,7 +25,8 @@
 TVB.tuner = {}
 
 /**
- * Count the number of DVB channels available to user.
+ * Count the number of DVB channels available to user.<br />
+ * This function requires that the user authorize the use in current application (a popup screen is displayed)
  * @method countDvbChannels
  * @return {Integer} the number of channels available, null if the requested information is not available
  */
@@ -41,7 +42,8 @@ TVB.tuner.countDvbChannels = function() {
 }
 
 /**
- * Get all "scanned" DVB channels available to the user.
+ * Get all "scanned" DVB channels available to the user.<br />
+ * This function requires that the user authorize the use in current application (a popup screen is displayed)
  * @method getDvbChannelsList
  * @return {Object} channelObject[]
  */
