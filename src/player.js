@@ -1178,3 +1178,30 @@ TVB.player.enableRemote = function() {
 		return false;
 	}
 }
+
+/**
+ * Change the size of the player
+ * @param {Integer} width
+ * @param {Integer} height
+ */
+TVB.player.setSize = function(width, height) {
+	try {
+		TVB.log("Player: setSize(" + width + ", " + height + ")");
+		if (width < 0 || height < 0) {
+			throw RangeError;
+		}
+		if (typeof width != 'number' || typeof height != 'number') {
+			throw TypeError;
+		}
+		TVB.player.p.setSize(width, height);
+		if (TVB.player.config.noLittleHole == false) {
+			TVB.player.config.littleHole.style.width = width + 'px';
+			TVB.player.config.littleHole.style.height = height + 'px';
+		}
+		TVB.player.config.width = width;
+		TVB.player.config.height = height;
+	} catch (e) {
+		TVB.error("Player: setSize: " + e.message);
+		throw e;
+	}
+}
