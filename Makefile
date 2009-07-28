@@ -162,6 +162,8 @@ clean:
 	-rm -rf yuidoc-*
 	-rm -rf samples/$(LIB_BASENAME)-min.js
 	-rm -rf samples/$(LIB_BASENAME)-debug.js
+	-rm -rf $(INTEGRATION_PACKAGE_NAME)*
+	-rm -rf com.developers.*
 
 aptana: $(APTANA_COMPONENT).jar
 
