@@ -163,8 +163,8 @@ clean:
 	-rm samples/$(LIB_BASENAME)-min.js
 	-rm samples/$(LIB_BASENAME)-debug.js
 	-rm -r $(INTEGRATION_PACKAGE_NAME)*
-	-rm com.developers.*
-	-rm BLOBkit*
+	-rm com.tvblob.blobkit_*.jar
+	-rm BLOBkit_*.zip
 
 aptana: $(APTANA_COMPONENT).jar
 
