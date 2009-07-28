@@ -156,7 +156,7 @@ $(LIB_ZIP):
 	
 clean:
 	# Cleaning folders...
-	-rm -r build
+	-rm -rf build
 	-rm -r yui-*
 	-rm -r yuicompressor-*
 	-rm -r yuidoc-*
