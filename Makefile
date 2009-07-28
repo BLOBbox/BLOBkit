@@ -156,14 +156,15 @@ $(LIB_ZIP):
 	
 clean:
 	# Cleaning folders...
-	-rm -rf build
-	-rm -rf yui-*
-	-rm -rf yuicompressor-*
-	-rm -rf yuidoc-*
-	-rm -rf samples/$(LIB_BASENAME)-min.js
-	-rm -rf samples/$(LIB_BASENAME)-debug.js
-	-rm -rf $(INTEGRATION_PACKAGE_NAME)*
-	-rm -rf com.developers.*
+	-rm -r build
+	-rm -r yui-*
+	-rm -r yuicompressor-*
+	-rm -r yuidoc-*
+	-rm samples/$(LIB_BASENAME)-min.js
+	-rm samples/$(LIB_BASENAME)-debug.js
+	-rm -r $(INTEGRATION_PACKAGE_NAME)*
+	-rm com.developers.*
+	-rm BLOBkit*
 
 aptana: $(APTANA_COMPONENT).jar
 
