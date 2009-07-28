@@ -6,6 +6,7 @@
  * 		<dt>ID:</dt><dd>String, unique identifier of the channel</dd>
  * 		<dt>name:</dt><dd>String, human readable channel name</dd>
  * 		<dt>uri:</dt><dd>String, URI of the channel, ready to the player</dd>
+ *      <dt>number:</dt><dd>Integer, the number of the channel following LCN and user's ordering</dd>
  * </dl>
  * 
  *
@@ -58,6 +59,7 @@ TVB.tuner.getDvbChannelsList = function() {
 			co.ID = list[i].getID();
 			co.name = list[i].getName();
 			co.uri = list[i].getURI();
+			co.number = i; // will be replaced with the LCN
 			data.push(co);
 		}
 		return data;
