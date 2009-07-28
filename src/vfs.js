@@ -29,7 +29,7 @@ TVB.vfs = {};
 /**
  * Get space status code (w.r.t. the minimum space threshold set for this storage).
  * @method getStorageSpaceStatusCode
- * @return {Number} spaceStatus Code
+ * @return {Number} spaceStatus Code
  */
 TVB.vfs.getStorageSpaceStatusCode = function() {
 	try {
@@ -45,7 +45,7 @@ TVB.vfs.getStorageSpaceStatusCode = function() {
 /**
  * Get storage space status string (w.r.t. the minimum space threshold set for this storage).
  * @method getStorageSpaceStatusName
- * @return {String} spaceStatus Name
+ * @return {String} spaceStatus Name
  */
 TVB.vfs.getStorageSpaceStatusName = function() {
 	try {
@@ -61,7 +61,7 @@ TVB.vfs.getStorageSpaceStatusName = function() {
 /**
  * Get the local storage free space as string.
  * @method getFreeSpaceAsString
- * @return {String} a string that can be converted to long and represents free space, null if the information is not available
+ * @return {String} a string that can be converted to long and represents free space, null if the information is not available
  */
 TVB.vfs.getFreeSpaceAsString = function() {
 	try {
@@ -77,7 +77,7 @@ TVB.vfs.getFreeSpaceAsString = function() {
 /**
  * Get the local storage free space as string.
  * @method getFreeSpaceAsString
- * @return {Number} a float converted from the string that represents free space, null if the information is not available
+ * @return {Number} a float converted from the string that represents free space, null if the information is not available
  */
 TVB.vfs.getFreeSpaceAsFloat = function() {
 	try {
@@ -98,7 +98,7 @@ TVB.vfs.getFreeSpaceAsFloat = function() {
 /**
  * Get a formatted string that represents the local storage free space.
  * @method getFreeSpaceAsFormattedString
- * @return {String} a formatted string to show free space, null if the information is not available
+ * @return {String} a formatted string to show free space, null if the information is not available
  */
 TVB.vfs.getFreeSpaceAsFormattedString = function() {
 	try {
@@ -110,4 +110,3 @@ TVB.vfs.getFreeSpaceAsFormattedString = function() {
 		throw e;
 	}
 }
-
