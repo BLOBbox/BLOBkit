@@ -139,7 +139,7 @@ TVB.player.init = function(config){
 				TVB.player.config.disableRemote = false;
 				TVB.remoteInit();
 				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.VCR, TVB.player.handleRemote);
-				TVB.CustomEvent.subscribeEvent(TVB.remote.button['BACK'], TVB.player.handleRemote);
+				TVB.CustomEvent.subscribeEvent(TVB.remote.button.BACK, TVB.player.handleRemote);
 			}
 			
 			// configure auto switch full screen
@@ -257,11 +257,11 @@ TVB.player.handleRemote = function(type, args) {
 			switch (args[0].keyName) {
 				case 'BACK':
 					TVB.player.stop();
-					TVB.CustomEvent.stopEvent(TVB.remote.button['BACK']);
+					TVB.CustomEvent.stopEvent(TVB.remote.button.BACK);
 					break;
 				case 'STOP':
 					TVB.player.stop();
-					TVB.CustomEvent.stopEvent(TVB.remote.button['STOP']);
+					TVB.CustomEvent.stopEvent(TVB.remote.button.STOP);
 					break;
 				case 'PLAY':
 					TVB.player.play();
@@ -793,7 +793,7 @@ TVB.player.destroy = function() {
 		TVB.player.p.dispose();
 		try {	
 			TVB.CustomEvent.unsubscribeEvent(TVB.remote.buttons.VCR);
-			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button['BACK']);
+			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.BACK);
 		} catch (e) {}
 		TVB.player.config.isInit = false;
 		return true;
@@ -821,17 +821,13 @@ TVB.player.events = function(event) {
 		TVB.CustomEvent.fireEvent(TVB.player.events.player, params);
 		switch (event.newState) {
 			case 'PLAYING':
-				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
 				TVB.player.removePausedMessage();
-				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.play, params);
 				break;
 			case 'STOPPED':
-				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
 				TVB.player.removePausedMessage();
-				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.stop, params);
 				break;
 			case 'PAUSED':
@@ -840,38 +836,24 @@ TVB.player.events = function(event) {
 				TVB.CustomEvent.fireEvent(TVB.player.events.pause, params);
 				break;
 			case 'BUFFERING':
-				//if (TVB.player.config.isBuffering == false) {
-					TVB.player.config.isBuffering = true;
-					//TVB.player.pause();
-					TVB.player.showBufferingMessage();	
-					/*setTimeout( function() {
-						TVB.player.play();
-						TVB.player.removeBufferingMessage();
-						TVB.player.config.isBuffering = false;
-					}, 3000);*/
-				//}
+				TVB.player.config.isBuffering = true;
+				TVB.player.showBufferingMessage();	
 				TVB.CustomEvent.fireEvent(TVB.player.events.buffering, params);
 				break;
 			case 'REWINDING':
-				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
 				TVB.player.removePausedMessage();
-				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.rewinding, params);
 				break;
 			case 'FAST_FORWARDING':
-				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
 				TVB.player.removePausedMessage();
-				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.fast_forwarding, params);
 				break;
 			case 'END_OF_STREAMING':
 			case 'END_OF_STREAM':
-				//if (TVB.player.config.isBuffering == false) {
 				TVB.player.removeBufferingMessage();
 				TVB.player.removePausedMessage();
-				//}
 				TVB.CustomEvent.fireEvent(TVB.player.events.end_of_streaming, params);
 				break;
 			default:
