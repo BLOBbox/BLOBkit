@@ -17,7 +17,7 @@
 TVB.remote = function() {
 	try {
 		TVB.log("Remote: __constructor__()");
-		if (typeof BlobRemoteControl == undefined) {
+		if (typeof BlobRemoteControl === undefined) {
 			throw {message: "BlobRemoteControl is not available on this browser"};
 		} else {
 			TVB.remote.rc = new BlobRemoteControl();
@@ -43,8 +43,8 @@ TVB.remote.prototype = {
 	rh: null,
 	eh: null,
 	oSelf: this,
-	lastButton: null,
-}
+	lastButton: null
+};
 
 /**
  * TVBLOB's remote buttons class
@@ -128,15 +128,17 @@ TVB.remote.handler = function(o) {
 		
 		TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 		
+		var i = 0;
+		
 		// if it is a VCR button, send the remote_vcr event
-		for (var i = 0; i < TVB.remote.btns_vcr.length; i++) {
+		for (i = 0; i < TVB.remote.btns_vcr.length; i++) {
 			if (o.keyName == TVB.remote.btns_vcr[i]) {
 				TVB.CustomEvent.fireEvent(TVB.remote.buttons.VCR, params);
 			}
 		}
 		
 		// if it is a NAV button, send the remote_nav event
-		for (var i = 0; i < TVB.remote.btns_nav.length; i++) 
+		for (i = 0; i < TVB.remote.btns_nav.length; i++) 
 		{
 			if (o.keyName == TVB.remote.btns_nav[i]) 
 			{
@@ -145,14 +147,14 @@ TVB.remote.handler = function(o) {
 		}
 		
 		// if it is a LETTER button, send the remote_letter event
-		for (var i = 0; i < TVB.remote.btns_letters.length; i++) {
+		for (i = 0; i < TVB.remote.btns_letters.length; i++) {
 			if (o.keyName == TVB.remote.btns_letters[i]) {
 				TVB.CustomEvent.fireEvent(TVB.remote.buttons.LETTER, params);
 			}
 		}
 		
 		// if it is a COLOR button, send the remote_color event
-		for (var i = 0; i < TVB.remote.btns_color.length; i++) {
+		for (i = 0; i < TVB.remote.btns_color.length; i++) {
 			if (o.keyName == TVB.remote.btns_color[i]) {
 				TVB.CustomEvent.fireEvent(TVB.remote.buttons.COLOR, params);
 			}
@@ -160,15 +162,15 @@ TVB.remote.handler = function(o) {
 		
 		TVB.CustomEvent.fireEvent(TVB.remote.button[o.keyName], params);
 		
-		if (TVB.remote.getGreenRefreshStatus() == true && o.keyName == 'GREEN') {
+		if (TVB.remote.getGreenRefreshStatus() === true && o.keyName == 'GREEN') {
 			TVB.system.refresh();
-		} else if (TVB.remote.getBackStatus() == true && o.keyName == 'BACK') {
+		} else if (TVB.remote.getBackStatus() === true && o.keyName == 'BACK') {
 			tvblob.goBackOrExitBrowser();
 		} 
 	} catch (e) {
 		TVB.error("Remote: handler: " + e.message);
 	}
-}
+};
 
 /**
  * Returns the name of the last button
@@ -184,7 +186,7 @@ TVB.remote.getLastButtonPressed = function() {
 		TVB.error("Remote: getLastButtonPressed: " + e.message);
 		return null;
 	}
-}
+};
 
 /**
  * Remote control configuration variables
@@ -233,8 +235,8 @@ TVB.remote.config = {
 	 * @type Boolean
 	 * @default false
 	 */
-	disableOk : false,
-}
+	disableOk : false
+};
 
 /**
  * Enables the use of the green button to refresh
@@ -248,7 +250,7 @@ TVB.remote.enableGreenRefresh = function() {
 	} catch (e) {
 		TVB.error("Remote: enableGreenRefresh: " + e.message);
 	}
-}
+};
 
 /**
  * Disable the use of the green button to refresh
@@ -262,7 +264,7 @@ TVB.remote.disableGreenRefresh = function() {
 	} catch (e) {
 		TVB.error("Remote: disableGreenRefresh: " + e.message);
 	}
-}
+};
 
 /**
  * Enable the use of the OK buttons in the 
@@ -273,8 +275,9 @@ TVB.remote.enableOk = function()
 {
 	try {
 		TVB.log("Remote: enableOk()");
-		if (TVB.remoteHandler == undefined)
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
+		}
 
 		TVB.remote.config.disableOk= true;
 				
@@ -283,7 +286,7 @@ TVB.remote.enableOk = function()
 	} catch (e) {
 		TVB.error("Remote: disableOk: " + e.message);
 	}
-}
+};
 
 /**
  * Disable the use of the Ok buttons in the 
@@ -293,8 +296,9 @@ TVB.remote.enableOk = function()
 TVB.remote.disableOk = function() {
 	try {
 		TVB.log("Remote: disableOk()");
-		if (TVB.remoteHandler == undefined)
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
+		}
 
 		TVB.remote.config.disableOk= true;
 
@@ -303,7 +307,7 @@ TVB.remote.disableOk = function() {
 	} catch (e) {
 		TVB.error("Remote: disableOk: " + e.message);
 	}
-}
+};
 
 /**
  * Enable the use of the nav buttons in the 
@@ -314,7 +318,7 @@ TVB.remote.enableNav = function()
 {
 	try {
 		TVB.log("Remote: enableNav()");
-		if (TVB.remoteHandler == undefined) {
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
 		}
 		TVB.remote.config.disableLeftRight = true;
@@ -328,7 +332,7 @@ TVB.remote.enableNav = function()
 	} catch (e) {
 		TVB.error("Remote: enableNav: " + e.message);
 	}
-}
+};
 
 /**
  * Disable the use of the nav buttons in the 
@@ -338,7 +342,7 @@ TVB.remote.enableNav = function()
 TVB.remote.disableNav = function() {
 	try {
 		TVB.log("Remote: disableNav()");
-		if (TVB.remoteHandler == undefined) {
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
 		}
 		TVB.remote.config.disableLeftRight = true;
@@ -352,7 +356,7 @@ TVB.remote.disableNav = function() {
 	} catch (e) {
 		TVB.error("Remote: disableNav: " + e.message);
 	}
-}
+};
 
 
 /**
@@ -364,7 +368,7 @@ TVB.remote.enableUpDown = function()
 {
 	try {
 		TVB.log("Remote: disableUpDown()");
-		if (TVB.remoteHandler == undefined) {
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
 		}
 		TVB.remote.config.disableUpDown = true;
@@ -375,7 +379,7 @@ TVB.remote.enableUpDown = function()
 	} catch (e) {
 		TVB.error("Remote: disableUpDown: " + e.message);
 	}
-}
+};
 
 /**
  * Disable the use of the up / down buttons in the 
@@ -386,7 +390,7 @@ TVB.remote.disableUpDown = function()
 {
 	try {
 		TVB.log("Remote: disableUpDown()");
-		if (TVB.remoteHandler == undefined) {
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
 		}
 		TVB.remote.config.disableUpDown = true;
@@ -397,7 +401,7 @@ TVB.remote.disableUpDown = function()
 	} catch (e) {
 		TVB.error("Remote: disableUpDown: " + e.message);
 	}
-}
+};
 
 /**
  * Enable the use of the left / right buttons in the 
@@ -408,7 +412,7 @@ TVB.remote.enableLeftRight = function()
 {
 	try {
 		TVB.log("Remote: disableLeftRight()");
-		if (TVB.remoteHandler == undefined) {
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
 		}
 		TVB.remote.config.disableLeftRight = true;
@@ -419,7 +423,7 @@ TVB.remote.enableLeftRight = function()
 	} catch (e) {
 		TVB.error("Remote: disableLeftRight: " + e.message);
 	}
-}
+};
 
 /**
  * Disable the use of the left / right buttons in the 
@@ -430,7 +434,7 @@ TVB.remote.disableLeftRight = function()
 {
 	try {
 		TVB.log("Remote: disableLeftRight()");
-		if (TVB.remoteHandler == undefined) {
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
 		}
 		TVB.remote.config.disableLeftRight = true;
@@ -441,7 +445,7 @@ TVB.remote.disableLeftRight = function()
 	} catch (e) {
 		TVB.error("Remote: disableLeftRight: " + e.message);
 	}
-}
+};
 
 /**
  * Enable the use of letter keys in the 
@@ -452,7 +456,7 @@ TVB.remote.enableLetters = function()
 {
 	try {
 		TVB.log("Remote: enableLetters()");
-		if (TVB.remoteHandler == undefined) {
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
 		}
 		TVB.remote.config.disableLetters= false;
@@ -474,7 +478,7 @@ TVB.remote.enableLetters = function()
 	} catch (e) {
 		TVB.error("Remote: enableLetters: " + e.message);
 	}
-}
+};
 
 /**
  * Disable the use of letter keys in the 
@@ -485,7 +489,7 @@ TVB.remote.disableLetters = function()
 {
 	try {
 		TVB.log("Remote: disableLetters()");
-		if (TVB.remoteHandler == undefined) {
+		if (TVB.remoteHandler === undefined) {
 			TVB.remoteInit();
 		}
 		TVB.remote.config.disableLetters= true;
@@ -507,7 +511,7 @@ TVB.remote.disableLetters = function()
 	} catch (e) {
 		TVB.error("Remote: disableLetters: " + e.message);
 	}
-}
+};
 
 /**
  * Returns true if the page can be refreshed
@@ -524,7 +528,7 @@ TVB.remote.getGreenRefreshStatus = function() {
 		TVB.error("Remote: getGreenRefreshStatus: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Enables the use of the back button.
@@ -538,7 +542,7 @@ TVB.remote.enableBack = function() {
 		TVB.error("Remote: enableBack: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Disable the use of the back button.
@@ -552,7 +556,7 @@ TVB.remote.disableBack = function() {
 		TVB.error("Remote: disableBack: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Returns true if the back button works
@@ -568,7 +572,7 @@ TVB.remote.getBackStatus = function() {
 		TVB.error("Remote: getBackStatus: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Destroys the remote control and release
@@ -593,132 +597,133 @@ TVB.remote.destroy = function() {
 		TVB.error("Remote: destroy: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Handles keyboard buttons
  * @param {Integer} keyunicode The unicode of a keyboard button
  */
 TVB.remote.keyboard = function(keyunicode) {
+	var params = null;
 	switch (keyunicode)
 	{
 		case 32:
 		case 13:
-			var params = {
+			params = {
 				keyName: 'OK',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.NAV, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['OK'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.OK, params);
 			break;
 		case 37:
-			var params = {
+			params = {
 				keyName: 'LEFT',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.NAV, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['LEFT'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.LEFT, params);
 			break;
 		case 39:
-			var params = {
+			params = {
 				keyName: 'RIGHT',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.NAV, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['RIGHT'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.RIGHT, params);
 			break;
 		case 38:
-			var params = {
+			params = {
 				keyName: 'UP',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.NAV, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['UP'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.UP, params);
 			break;
 		case 40:
-			var params = {
+			params = {
 				keyName: 'DOWN',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.NAV, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['DOWN'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.DOWN, params);
 			break;
 		case 63:
-			var params = {
+			params = {
 				keyName: 'HELP',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.NAV, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['HELP'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.HELP, params);
 			break;
 		case 8:
-			var params = {
+			params = {
 				keyName: 'BACK',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.NAV, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['BACK'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.BACK, params);
 			break;
 		case 113:
-			var params = {
+			params = {
 				keyName: 'RED',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.COLOR, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['RED'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.RED, params);
 			break;
 		case 119:
-			var params = {
+			params = {
 				keyName: 'GREEN',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.COLOR, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['GREEN'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.GREEN, params);
 			break;
 		case 101:
-			var params = {
+			params = {
 				keyName: 'YELLOW',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.COLOR, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['YELLOW'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.YELLOW, params);
 			break;
 		case 114:
-			var params = {
+			params = {
 				keyName: 'BLUE',
 				previousKeyName: TVB.remote.lastButton
 			};
 
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.ALL, params);
 			TVB.CustomEvent.fireEvent(TVB.remote.buttons.COLOR, params);
-			TVB.CustomEvent.fireEvent(TVB.remote.button['BLUE'],params);
+			TVB.CustomEvent.fireEvent(TVB.remote.button.BLUE, params);
 			break;
 
 
 	}
 
 
-}
+};
 
 /**
  * Remote Handler
@@ -738,22 +743,21 @@ TVB.remoteInit = function()
 {
 	var browser = TVB.getBrowserAgent();
 
-	if (browser.espial == false && browser.blobkit == false)
+	if (browser.espial === false && browser.blobkit === false)
 	{
-		document.onkeypress = function(e)
-		{
+		document.onkeypress = function(e) {
 			var e = window.event || e;
 			var keyunicode = e.charCode || e.keyCode;
 			TVB.remote.keyboard(keyunicode);
 			TVB.log(keyunicode);
-		} 
+		};
 		
 		return;
 	}
 
 	try 
 	{
-		if (TVB.remoteHandler == undefined) {
+		if (TVB.remoteHandler === undefined) {
 			TVB.log("Remote: remoteInit()");
 			TVB.remoteHandler = new TVB.remote();
 		} else {
@@ -764,4 +768,4 @@ TVB.remoteInit = function()
 		TVB.log("Remote: remoteInit: " + e.message);
 		throw e;
 	} 
-}
+};

@@ -35,7 +35,7 @@ TVB.system.getSMOJVersion = function() {
 	} catch(e) {
 		return "0.0.0";
 	}
-}
+};
 
 /**
  * Returns current BLOBkit version
@@ -52,7 +52,7 @@ TVB.system.getBLOBkitVersion = function() {
 	} catch(e) {
 		TVB.error("System: getBLOBkitVersion(): " + e.message);
 	}
-}
+};
 
 /**
  * Returns current SMOS version
@@ -71,7 +71,7 @@ TVB.system.getSMOSVersion = function() {
 	} catch(e) {
 		return "0.0.0";
 	}
-}
+};
 
 /**
  * Returns current Product name
@@ -89,7 +89,7 @@ TVB.system.getProductName = function() {
 	} catch (e) {
 		return "NON_TVBLOB";
 	}
-}
+};
 
 /**
  * Returns current product version
@@ -107,7 +107,7 @@ TVB.system.getProductVersion = function() {
 	} catch (e) {
 		return "NON_TVBLOB";
 	}
-}
+};
 
 /**
  * Returns current firmware version
@@ -125,7 +125,7 @@ TVB.system.getFirmwareVersion = function() {
 	} catch (e) {
 		return "NON_TVBLOB";
 	}
-}
+};
 
 /**
  * Returns system language code
@@ -143,7 +143,7 @@ TVB.system.getLanguageCode = function() {
 	} catch (e) {
 		return false;
 	}
-}
+};
 
 
 /**
@@ -163,7 +163,7 @@ TVB.system.getTvblobNumber = function() {
 	} catch (e) {
 		return null;
 	}
-}
+};
 
 /**
  * Returns a unique identification for the User, based on his TVBLOB Number 
@@ -180,7 +180,7 @@ TVB.system.getUserID = function() {
 		TVB.error("System: getUserID: " + e.message);
 		return null;
 	}
-}
+};
 
 /**
  * Returns current video system code (PAL/NTSC)
@@ -198,7 +198,7 @@ TVB.system.getVideoSystem = function() {
 	} catch (e) {
 		return "NON_TV";
 	}
-}
+};
 
 /*
  * Returns true if minimumVersion is verified 
@@ -232,7 +232,7 @@ TVB.system.refresh = function() {
 		TVB.error("System: refresh: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * URI of a resource in the current theme or null if not present
@@ -248,7 +248,7 @@ TVB.system.getResourceURI = function(relativeURI) {
 		TVB.log("WARNING System: getResourceURI method not found");
 		return 'file:///gui/resources/themes/PAL/consumer_v1/' + relativeURI;
 	}
-}
+};
 
 /**
  * Sleeps javascript execution for given milliseconds
@@ -264,7 +264,7 @@ TVB.system.sleep = function(ms) {
 		TVB.error("System: sleep: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Sleeps for a given number of millisecons, than executes a callback function
@@ -275,7 +275,7 @@ TVB.system.sleep = function(ms) {
 TVB.system.sleepcb = function(ms, cb) {
 	try {
 		TVB.log("System: sleepcb(" + ms + ")");
-		if (cb == undefined) {
+		if (cb === undefined) {
 			throw {message: "System: callback is undefined"};
 		}
 	
@@ -288,7 +288,7 @@ TVB.system.sleepcb = function(ms, cb) {
 		setTimeout( function() {
 			try {
 				TVB.log("System: sleeping for " + ms + " milliseconds");
-				TVB.system.sleep(parseInt(ms - mindelay));
+				TVB.system.sleep(parseInt(ms - mindelay, 10));
 				TVB.log("System: executing callback");
 				cb();
 			} catch (e) {
@@ -300,7 +300,7 @@ TVB.system.sleepcb = function(ms, cb) {
 		TVB.error("System: sleepcb: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Safely delete an element and all of his childrens
@@ -311,11 +311,12 @@ TVB.system.deleteElementById = function(id) {
 	try {
 		TVB.log("System: deleteElementById(" + id + ")");
 		
-		if (id == undefined) {
-			var startNode = document.body;		
+		var startNode = null;
+		if (id === undefined) {
+			startNode = document.body;		
 		} else {
-			var startNode = document.getElementById(id);
-			if (startNode == undefined) {
+			startNode = document.getElementById(id);
+			if (startNode === undefined) {
 				throw {message: "element not found"};
 			}
 		}
@@ -332,14 +333,14 @@ TVB.system.deleteElementById = function(id) {
 				}
 				myParent = myDiv.parentNode;
 				myParent.removeChild(myDiv);
-				if (myDiv.style != null) {
+				if (myDiv.style !== null) {
 					myDiv.style.position = 'relative';
 				}
 				myDiv = myParent;
 			}
 		}
 	
-		if (id != undefined) {
+		if (id !== undefined) {
 			var el = document.getElementById(id);
 			if (el.parentNode) {
 				el.parentNode.removeChild(el);
@@ -349,7 +350,7 @@ TVB.system.deleteElementById = function(id) {
 		TVB.error("System: deleteElementById: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Exit the browser and go back to main menu
@@ -363,7 +364,7 @@ TVB.system.exitBrowser = function() {
 		TVB.error("System: exitBrowser: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Returns to the previous page; if it is the first page of history,
@@ -378,7 +379,7 @@ TVB.system.goBackOrExitBrowser = function() {
 		TVB.error("System: goBackOrExitBrowser: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Returns current platform name
@@ -392,7 +393,7 @@ TVB.system.getPlatformName = function() {
 		TVB.error("System: getPlatformName: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Retirns current platform version
@@ -406,7 +407,7 @@ TVB.system.getPlatformVersion = function() {
 		TVB.error("System: getPlatformVersion: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Returns current platform fingerprint
@@ -420,4 +421,4 @@ TVB.system.getPlatformFingerprint = function() {
 		TVB.error("System: getPlatformFingerprint: " + e.message);
 		throw e;
 	}
-}
+};

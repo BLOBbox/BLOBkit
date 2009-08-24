@@ -23,7 +23,7 @@
  * @static
  * @namespace TVB
  */
-TVB.tuner = {}
+TVB.tuner = {};
 
 /**
  * Count the number of DVB channels available to user.<br />
@@ -40,7 +40,7 @@ TVB.tuner.countDvbChannels = function() {
 		TVB.error("Tuner: countDvbChannels:" + e.message);
 		return null;
 	}
-}
+};
 
 /**
  * Get all "scanned" DVB channels available to the user.<br />
@@ -67,4 +67,4 @@ TVB.tuner.getDvbChannelsList = function() {
 		TVB.error("Tuner: getDvbChannelsList:" + e.message);
 		return null;
 	}
-}
+};
