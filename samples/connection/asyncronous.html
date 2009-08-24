@@ -16,19 +16,17 @@
 		<div id='container' style='position: absolute; top: 200px; left: 40px; width: 500px;'></div>
 
 		<script type="text/javascript">
-			try {
-				var req = new TVB.Connection.xmlhttp(); 
-				req.callback = function(o)
-				{
-					var status = o.status;
-					document.getElementById('container').innerHTML = o.responseText;
-				};				
-
-				var params = 'param1=myParam1&param2=myParam2';
-				req.request('POST', 'results.html', params, 5000);
-			} catch (e) {
-				TVB.log(e);
-			}
+        try {
+        	var req = new TVB.Connection.xmlhttp();
+        	req.callback = function(o) {
+        		var status = o.status;
+        		document.getElementById('container').innerHTML = o.responseText;
+        	};
+        	var params = 'param1=myParam1&param2=myParam2';
+        	req.request('POST', 'results.html', params, 5000);
+        } catch (e) {
+        	TVB.log(e);
+        }
 		</script>
 	</body>
 </html>

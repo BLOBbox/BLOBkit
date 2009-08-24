@@ -13,7 +13,7 @@
 			TVB.widget.titleBar.render();
 		</script>
 
-		<table id='feed_list' border=1>
+		<table summary='data' id='feed_list' border=1>
 			<tr>
 				<td><strong>ID</strong></td>
 				<td><strong>Visibility</strong></td>
@@ -39,29 +39,29 @@
 						row.appendChild(col);
 
 						// visibility
-						var col = document.createElement('td');
-						if (feed_list[i].isHidden == true) {
-							col.innerHTML = "hidden";
+						var col2 = document.createElement('td');
+						if (feed_list[i].isHidden === true) {
+							col2.innerHTML = "hidden";
 						} else {
-							col.innerHTML = "visible";
+							col2.innerHTML = "visible";
 						}
-						row.appendChild(col);
+						row.appendChild(col2);
 
 						// title
-						var col = document.createElement('td');
-						col.innerHTML = feed_list[i].title;
-						row.appendChild(col);
+						var col3 = document.createElement('td');
+						col3.innerHTML = feed_list[i].title;
+						row.appendChild(col3);
 
 						document.getElementById('feed_list').appendChild(row);
 					}
 					
 				} else {
-					var row = document.createElement('tr');
-					var col = document.createElement('td');
-					col.innerHTML = "User has not subscribed to any feed";
-					col.setAttribute('colSpan', '3');
-					row.appendChild(col);
-					document.getElementById('feed_list').appendChild(row);
+					var row0 = document.createElement('tr');
+					var col0 = document.createElement('td');
+					col0.innerHTML = "User has not subscribed to any feed";
+					col0.setAttribute('colSpan', '3');
+					row0.appendChild(col0);
+					document.getElementById('feed_list').appendChild(row0);
 				}
 
 			} catch (e) {

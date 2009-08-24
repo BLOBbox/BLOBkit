@@ -20,11 +20,9 @@
 			try {
 				var funzo = function(){
 					return true;
-					
-				}
+				};
 				
 				TVB.log(typeof funzo);
-				
 				
 				var myMenuData = [];
 				
@@ -62,11 +60,10 @@
 					onUpdateCB: function(obj, line) { 	// mandatory if updateMode = 'manipulate'
 						obj.innerHTML = "Item #" + line + " UPDATED!!!";
 					}
-				}
+				};
 				
 				var myMenu = new TVB.menu(menuConfig);
 				document.getElementById('container').appendChild(myMenu.get());
-
 
 				var counter = 10;
 				
@@ -97,7 +94,7 @@
 						obj.style.backgroundColor = 'red';
 						obj.style.color = 'white';
 					}
-				}
+				};
 				
 				var subMenu = new TVB.menu(subConfig);
 				document.getElementById('subcontainer').appendChild(subMenu.get());

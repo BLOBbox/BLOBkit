@@ -13,7 +13,7 @@
 			TVB.widget.titleBar.render();
 		</script>
 		
-		<table>
+		<table summary='data'>
 			<tr>
 				<td class='func'>TVB.system.getBLOBkitVersion()</td>
 				<td class='data' id='getBLOBkitVersion'>&nbsp;</td>
@@ -96,10 +96,10 @@
 			document.getElementById('getUserID').innerHTML = TVB.system.getUserID();
 
 			tvbn = TVB.system.getTvblobNumber(); 
-			if (tvbn != null) {
+			if (tvbn !== null) {
 				document.getElementById('getTvblobNumber').innerHTML = tvbn;
 			} else {
-				document.getElementById('getTvblobNumber').innerHTML = "Non trusted applications cannot retrieve user's personal information"
+				document.getElementById('getTvblobNumber').innerHTML = "Non trusted applications cannot retrieve user's personal information";
 			}
 		</script>
 	</body>

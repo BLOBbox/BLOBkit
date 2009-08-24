@@ -19,8 +19,8 @@
 				switchKey: null,
 				uri: null,
 				autoplay: false,
-				fullscreen: false,
-			}
+				fullscreen: false
+			};
 			TVB.player.init(playerConfig);
 			
 			// first playback
@@ -29,7 +29,7 @@
 			TVB.player.play(); 
 			
 			TVB.CustomEvent.subscribeEvent(TVB.player.events.stop, function() {
-				if (counter == 0) {
+				if (counter === 0) {
 					document.getElementById('text').innerHTML = 'Playing Boogie (2/2)';
 					TVB.player.config.currentUri = 'http://s3.amazonaws.com/Tvblob-test/boogie.m4v';
 					TVB.player.play();
@@ -42,7 +42,7 @@
 			});
 			
 			var playlister = function() {
-				if (counter == 0) {
+				if (counter === 0) {
 					document.getElementById('text').innerHTML = 'Playing Boogie (2/2)';
 					TVB.player.config.currentUri = 'http://s3.amazonaws.com/Tvblob-test/boogie.m4v';
 					TVB.player.play();
@@ -54,9 +54,9 @@
 					TVB.player.play();
 					counter = 0; 
 				}
-			}			
-			TVB.CustomEvent.subscribeEvent(TVB.remote.button['SKIP_FORWARD'], playlister);
-			TVB.CustomEvent.subscribeEvent(TVB.remote.button['SKIP_BACKWARD'], playlister);
+			};		
+			TVB.CustomEvent.subscribeEvent(TVB.remote.button.SKIP_FORWARD, playlister);
+			TVB.CustomEvent.subscribeEvent(TVB.remote.button.SKIP_BACKWARD, playlister);
 		</script>
 	</body>
 </html>

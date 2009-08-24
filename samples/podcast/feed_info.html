@@ -28,7 +28,7 @@
 					var con = document.getElementById('content');
 					
 					// Verify the existence of the feedID
-					if (TVB.podcast.feedExists(id) == false) {
+					if (TVB.podcast.feedExists(id) === false) {
 						// ID not found
 						con.innerHTML = "<p>Error: feed not found.</p>";
 					} else {
@@ -48,7 +48,7 @@
 				} catch (e) {
 					TVB.error(e.message);
 				}
-			}
+			};
 			
 			try {
 				// Request ID's list of user's subscribed feeds 
@@ -65,9 +65,9 @@
 					}
 					
 				} else {
-					var el = document.createElement('li');
-					el.innerHTML = "Please subscribe at least to one feed with Podcast";
-					document.getElementById('feed_list').appendChild(el);
+					var elem = document.createElement('li');
+					elem.innerHTML = "Please subscribe at least to one feed with Podcast";
+					document.getElementById('feed_list').appendChild(elem);
 				}
 
 			} catch (e) {

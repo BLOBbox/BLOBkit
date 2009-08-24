@@ -8,27 +8,21 @@
 	</head>
 	<body>
 		<script type="text/javascript">
-			TVB.widget.titleBar.setTitle("Video Player - Full featured");
+			TVB.widget.titleBar.setTitle("Message Bar Example");
 			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
 			TVB.widget.titleBar.render();
 		</script>
 
-		<h1><span id='text'>Press PLAY to start then STOP to go back</span></h1>
 		<script type="text/javascript">
-			var playerConfig = {
-				top: 160,
-				left: 60,
-				switchKey: 'OK',
-				uri: "http://s3.amazonaws.com/Tvblob-test/boogie.m4v",
-				autoplay: false,
-				fullscreen: true
-			};
-			
-			TVB.player.init(playerConfig);
-			TVB.CustomEvent.subscribeEvent(TVB.player.events.stop, function() {
-				document.getElementById('text').innerHTML = 'Going back...';
-				history.go(-1);
-			});
+			try {
+				TVB.widget.messageBar("First message..."); 
+
+				setTimeout(function() {
+					TVB.widget.messageBar("Another message...");
+				}, 10000);
+			} catch (e) {
+				TVB.error("messagebar.html: " + e.message);
+			}
 		</script>
 	</body>
 </html>

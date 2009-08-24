@@ -15,8 +15,11 @@
 			var i = 0;
 			
 			setInterval(function() {
-				if (i < (data.length-1)) i = i + 1;
-				else i = 0;
+				if (i < (data.length - 1)) {
+					i = i + 1;
+				} else {
+					i = 0;
+				}
 			}, 100);
 			
 			var data = ['http://www.google.com', 'http://www.yahoo.com', 'http://www.bing.com'];
@@ -25,7 +28,7 @@
 				TVB.log("i = " + i);
 				TVB.log("data[i] = " + data[i]);
 				return data[i];
-			}
+			};
 			
 			TVB.favorites.setProducer("myProducer");
 		</script>

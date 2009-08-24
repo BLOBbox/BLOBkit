@@ -9,8 +9,8 @@ function addDIV() {
 		div.style.width = '2px';
 		div.style.height = '2px';
 		div.style.backgroundColor = 'red';
-		div.style.float = 'left';
-		//div.setAttribute("style","float:left");
+		//div.style.float = 'left';
+		div.setAttribute("style","float:left");
 		document.getElementById('area1').appendChild(div);
 	}
 }
@@ -26,15 +26,13 @@ function addHTML() {
 try {
 	$PR.register('addDIV',window);
 	addDIV();
-	var avg = $PR.averageTime('addDIV');
+	document.getElementById('test1').innerHTML = $PR.averageTime('addDIV');
 	$PR.unregister('addDIV');
-	document.getElementById('test1').innerHTML = avg;
 
 	$PR.register('addHTML',window);
 	addHTML();
-	var avg = $PR.averageTime('addHTML');
+	document.getElementById('test2').innerHTML = $PR.averageTime('addHTML');
 	$PR.unregister('addHTML');
-	document.getElementById('test2').innerHTML = avg;
 
 } catch (e) {
 	TVB.log("ERROR profiler3.html: " + e.message);

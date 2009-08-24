@@ -29,7 +29,7 @@
 					
 					// Fetch data for given feedID
 					var data = TVB.podcast.getFeedByID(id);
-					if (data == null) {
+					if (data === null) {
 						// ID not found
 						con.innerHTML = "<p>Error: feed not found.</p>";
 					} else {
@@ -39,15 +39,24 @@
 						html += "<p>Feed ID: " + data.ID;
 
 						html += "<p>Has content? ";
-						if (data.hasContent == true) html += "Yes, " + data.contentCounter;
-						else html += "No";
+						if (data.hasContent === true) {
+							html += "Yes, " + data.contentCounter;
+						} else {
+							html += "No";
+						}
 						
-						if (data.isTimeToLiveInfinite == true) html += "<p>Time to live: infinite";
-						else html += "<p>Time to live: " + data.timeToLive;
+						if (data.isTimeToLiveInfinite === true) {
+							html += "<p>Time to live: infinite";
+						} else {
+							html += "<p>Time to live: " + data.timeToLive;
+						}
 						
 						html += "<p>Is hidden? ";
-						if (data.isHidden == true) html += "Yes";
-						else html += "No";
+						if (data.isHidden === true) {
+							html += "Yes";
+						} else {
+							html += "No";
+						}
 						
 						html += "<p>Last build date: " + data.lastBuildDate;
 						html += "<p>Pubblication date: " + data.pubDate;
@@ -58,7 +67,7 @@
 				} catch (e) {
 					TVB.error(e.message);
 				}
-			}
+			};
 			
 			try {
 				// Request ID's list of user's subscribed feeds 
@@ -75,9 +84,9 @@
 					}
 					
 				} else {
-					var el = document.createElement('li');
-					el.innerHTML = "Please subscribe at least to one feed with Podcast";
-					document.getElementById('feed_list').appendChild(el);
+					var elem = document.createElement('li');
+					elem.innerHTML = "Please subscribe at least to one feed with Podcast";
+					document.getElementById('feed_list').appendChild(elem);
 				}
 
 			} catch (e) {

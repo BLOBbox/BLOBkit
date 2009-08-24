@@ -13,7 +13,7 @@
 			TVB.widget.titleBar.render();
 		</script>
 
-		<table id='feed_list'>
+		<table summary='data' id='feed_list'>
 			<tr>
 				<td><strong>ID (can be numeric or literal)</strong></td>
 			</tr>
@@ -37,11 +37,11 @@
 					}
 					
 				} else {
-					var row = document.createElement('tr');
-					var col = document.createElement('td');
+					var row2 = document.createElement('tr');
+					var col2 = document.createElement('td');
 					col.innerHTML = "User has not subscribed to any feed";
-					row.appendChild(col);
-					document.getElementById('feed_list').appendChild(row);
+					row.appendChild(col2);
+					document.getElementById('feed_list').appendChild(row2);
 				}
 
 			} catch (e) {

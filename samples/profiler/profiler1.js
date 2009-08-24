@@ -4,10 +4,11 @@
 
 try {
 	function factorial(num){
-		if (num > 1) 
+		if (num > 1) {
 			return num * factorial(num - 1);
-		else 
-			return 1
+		} else {
+			return 1;
+		}
 	}
 	
 	for (var i = 0; i < 100; i++) {
