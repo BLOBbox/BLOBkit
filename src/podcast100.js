@@ -9,7 +9,7 @@ if (TVB.podcast.version_integer < 101) {
 		try {
 			TVB.log("Podcast: init");
 			
-			if (TVB.podcast.mgr != null) {
+			if (TVB.podcast.mgr !== null) {
 				return false;
 			}
 			TVB.podcast.mgr = new PushVodFeedsManager();
@@ -18,12 +18,12 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.init: " + e.message);
 			throw e;
 		}
-	}
+	};
 	
 	TVB.podcast.refresh = function() {
 		try {
 			TVB.log("Podcast: refresh");
-			if (TVB.podcast.mgr == null) {
+			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			TVB.podcast.fh = TVB.podcast.mgr.getAllFeeds();
@@ -38,7 +38,7 @@ if (TVB.podcast.version_integer < 101) {
 					pubDate: fho.getPubDate(),
 					timeToLive: fho.getTimeToLive(),
 					isTimeToLiveInfinite: fho.isTimeToLiveInfinite()
-				}
+				};
 				TVB.podcast.feeds[fho.getID()] = fhd;
 			}
 			return true;
@@ -46,7 +46,7 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.refresh: " + e.message);
 			throw e;
 		}
-	}
+	};
 	
 	TVB.podcast.getFeedDescription = function(feedID) {
 		try {
@@ -63,7 +63,7 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.getFeedDescription: " + e.message);
 			return false;
 		}
-	}
+	};
 	
 	TVB.podcast.getFeedTitle = function(feedID) {
 		try {
@@ -80,12 +80,12 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.getFeedTitle: " + e.message);
 			return false;
 		}
-	}
+	};
 	
 	TVB.podcast.getFeeds = function() {
 		try {
 			TVB.log("Podcast: get feeds");
-			if (TVB.podcast.mgr == null) {
+			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			TVB.podcast.refresh();
@@ -94,18 +94,18 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.getFeeds: " + e.message);
 			throw e;
 		}
-	}
+	};
 	
 	TVB.podcast.getVisibleFeeds = function() {
 		try {
 			TVB.log("Podcast: get feeds");
-			if (TVB.podcast.mgr == null) {
+			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			TVB.podcast.refresh();
 			var data = [];
 			for (var i in TVB.podcast.feeds) {
-				if (TVB.podcast.feeds[i].isHidden == false) {
+				if (TVB.podcast.feeds[i].isHidden === false) {
 					data.push(TVB.podcast.feeds[i]);
 				}
 			}
@@ -114,12 +114,12 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.getFeeds: " + e.message);
 			throw e;
 		}
-	}
+	};
 	
 	TVB.podcast.getFeedsID = function() {
 		try {
 			TVB.log("Podcast: get feeds ID");
-			if (TVB.podcast.mgr == null) {
+			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			TVB.podcast.refresh();
@@ -133,12 +133,12 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.getFeedsID: " + e.message);
 			throw e;
 		}
-	}
+	};
 	
 	TVB.podcast.feedExist = function(feed_id) {
 		try {
 			TVB.log("Podcast: feed exist " + feed_id);
-			if (TVB.podcast.mgr == null) {
+			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			TVB.podcast.refresh();
@@ -152,12 +152,12 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.: " + e.message);
 			throw e;
 		}
-	}
+	};
 	
 	TVB.podcast.getFeedContentByID = function(feed_id) {
 		try {
 			TVB.log("Podcast: get feed content by id " + feed_id);
-			if (TVB.podcast.mgr == null) {
+			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			TVB.podcast.fh = TVB.podcast.mgr.getAllFeeds();
@@ -195,12 +195,12 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.getFeedContentById: " + e.message);
 			throw e;
 		}
-	}
+	};
 	
 	TVB.podcast.countFeedContentByID = function(feed_id) {
 		try {
 			TVB.log("Podcast: count feed content by id " + feed_id);
-			if (TVB.podcast.mgr == null) {
+			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			TVB.podcast.fh = TVB.podcast.mgr.getAllFeeds();
@@ -228,12 +228,12 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.countFeedContentById: " + e.message);
 			throw e;
 		}
-	}
+	};
 	
 	TVB.podcast.getUriByID = function(feed_id, id) {
 		try {
 			TVB.log("Podcast: get uri by id " + id);
-			if (TVB.podcast.mgr == null) {
+			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			var data = TVB.podcast.getFeedContentByID(feed_id);
@@ -248,6 +248,5 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.error("podcast.getUriByID: " + e.message);
 			throw e;
 		}
-	}
-	
+	};
 }

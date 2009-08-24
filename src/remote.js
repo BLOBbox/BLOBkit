@@ -746,7 +746,7 @@ TVB.remoteInit = function()
 	if (browser.espial === false && browser.blobkit === false)
 	{
 		document.onkeypress = function(e) {
-			var e = window.event || e;
+			e = window.event || e;
 			var keyunicode = e.charCode || e.keyCode;
 			TVB.remote.keyboard(keyunicode);
 			TVB.log(keyunicode);

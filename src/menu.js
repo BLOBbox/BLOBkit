@@ -271,8 +271,8 @@ TVB.menu.prototype = {
 				}
 				
 				if (this.disableUpDown === false) {
-					TVB.CustomEvent.subscribeEvent(TVB.remote.buttonUP, this.remoteHandler, this, true);
-					TVB.CustomEvent.subscribeEvent(TVB.remote.buttonDOWN, this.remoteHandler, this, true);
+					TVB.CustomEvent.subscribeEvent(TVB.remote.button.UP, this.remoteHandler, this, true);
+					TVB.CustomEvent.subscribeEvent(TVB.remote.button.DOWN, this.remoteHandler, this, true);
 				}
 				
 				if (this.disableChannelUp === false) {
@@ -581,6 +581,8 @@ TVB.menu.prototype = {
 				end = this.numElements - 1;
 			}
 			
+			var nextElement = null;
+			
 			TVB.log("Menu: start = " + start + " - end = " + end);
 			switch (args[0].keyName) {
 				case 'OK':
@@ -621,7 +623,7 @@ TVB.menu.prototype = {
 					}
 					TVB.log("Menu: working on pagination");
 					// go to next page
-					var nextElement = (this.currentPage + 1) * this.visibleElements;
+					nextElement = (this.currentPage + 1) * this.visibleElements;
 					if (nextElement >= this.numElements) {
 						TVB.log("Menu: this is the last page");
 						if (this.menuType == 'dynamic' && this.onRemoteUpdateCB !== undefined) {
@@ -651,11 +653,11 @@ TVB.menu.prototype = {
 					if (this.disableChannelUp === true) {
 						break;
 					}
-					var nextElement = (this.currentPage - 1) * this.visibleElements;
+					nextElement = (this.currentPage - 1) * this.visibleElements;
 					if (this.currentPage === 0) {
 						var lastPage = parseInt(this.numElements / this.visibleElements, 10);
 
-						if (this.menuType == 'dynamic' && this.onRemoteUpdateCB != undefined) {
+						if (this.menuType == 'dynamic' && this.onRemoteUpdateCB !== undefined) {
 							this.currentPage = lastPage;
 							this.onRemoteUpdateCB(1);
 							//this.setFocus((lastPage * this.visibleElements) -1);
@@ -708,12 +710,12 @@ TVB.menu.prototype = {
 			var nextElement = this.currentElement - 1;
 			if (nextElement < start) 
 			{
-				var lastPage = parseInt(this.numElements / this.visibleElements);
-				if (this.currentPage == 0) 
+				var lastPage = parseInt(this.numElements / this.visibleElements, 10);
+				if (this.currentPage === 0) 
 				{
 					if (this.menuType == 'dynamic')
 					{
-						if (this.onRemoteUpdateCB != undefined)
+						if (this.onRemoteUpdateCB !== undefined)
 						{
 							this.currentPage = lastPage;
 							this.onRemoteUpdateCB(1);
