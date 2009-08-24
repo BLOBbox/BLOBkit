@@ -83,7 +83,7 @@ TVB.player.config = {
 	noLittleHole: false,
 	width: 0,
 	height: 0,
-	useSIF: true,
+	useSIF: true
 };
 
 /**

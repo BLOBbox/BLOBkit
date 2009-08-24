@@ -226,7 +226,9 @@ TVB.widget.colorButtonsBarRemote = function(o) {
 TVB.widget.setLoading = function(loadingState) {
 	try {
 		TVB.log("Widget: setLoading(" + loadingState + ")");
-		tvblob.setLoading(loadingState);
+		if (typeof tvblob != 'undefined') {
+			tvblob.setLoading(loadingState);
+		}
 	} catch (e) {
 		TVB.error("Widget: setLoading: " + e.message);
 	}
@@ -339,7 +341,9 @@ TVB.widget.yesno = function(text, callback, default_value) {
 TVB.widget.setSelectedCursorColor = function(selectedColorCode) {
 	try {
 		TVB.log("Widget: setSelectedCursorColor(" + selectedColorCode + ")");
-		tvblob.setSelectedCursorColor(selectedColorCode);
+		if (typeof tvblob != 'undefined') {
+			tvblob.setSelectedCursorColor(selectedColorCode);
+		}
 	} catch (e) {
 		TVB.error("Widget: setSelectedCursorColor: " + e.message);
 	}
@@ -355,7 +359,9 @@ TVB.widget.setSelectedCursorColor = function(selectedColorCode) {
 TVB.widget.setHighlightCursorColor = function(selectedColorCode) {
 	try {
 		TVB.log("Widget: setHighlightCursorColor(" + selectedColorCode + ")");
-		tvblob.setHighlightCursorColor(selectedColorCode);
+		if (typeof tvblob != 'undefined') {
+			tvblob.setHighlightCursorColor(selectedColorCode);
+		}
 	} catch (e) {
 		TVB.error("Widget: setHighlightCursorColor: " + e.message);
 	}
@@ -370,7 +376,9 @@ TVB.widget.setLabel = function(message) {
 	try {
 		// puoi controlare per feature "tvblob" version "1.3"
 		TVB.log("Widget: setLabel(" + message + ")");
-		tvblob.setLabel(message);
+		if (typeof tvblob != 'undefined') {
+			tvblob.setLabel(message);
+		}
 	} catch (e) {
 		TVB.error("Widget: setLabel: " + e.message);
 	}
