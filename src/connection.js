@@ -13,7 +13,13 @@
  * @classDescription TVBLOB custom event class
  * @return {Void}
  */
-TVB.Connection = new Object;
+TVB.Connection = {
+	/**
+	 * Set this property to the callback to be called after a successfull XHR connection
+	 * @config callback
+	 */
+	callback: null
+};
 
 TVB.Connection.events = {
 	loadingstart : $CE.createEvent("loadingstart"),
@@ -44,28 +50,19 @@ TVB.Connection.xmlhttp = function()
 	var tid;
 	var transaction;
 	
-	/**
-	 * Set this property to the callback to be called after a successfull XHR connection
-	 * @config callback
-	 */
-	var callback;
-
 	this.success = function(o)
 	{
 		clearTimeout(oSelf.tid);
 
 		TVB.widget.setLoading(false);
 
-		try
-		{
-			if(o.responseText !== undefined)
-			{
-				if (oSelf.callback)
+		try {
+			if (o.responseText !== undefined) {
+				if (oSelf.callback) {
 					oSelf.callback(o);
+				}
 			}
-		}
-		catch (e)
-		{
+		} catch (e) {
 		}
 	};
 
@@ -120,18 +117,20 @@ TVB.Connection.xmlhttp = function()
 			return;
 		}
 
-		if (params == undefined)
+		if (params === undefined) {
 			params = null;
+		}
 
 		oSelf.method = oMethod;
 		oSelf.url = oUrl;
 		oSelf.params = oParams;
 		retry ++;
 
-		if (oTimeout == undefined)
+		if (oTimeout === undefined) {
 			oTimeout = timeout;
-		else
+		} else {
 			timeout = oTimeout;
+		}
 
 		oSelf.transaction = YAHOO.util.Connect.asyncRequest(oSelf.method, oSelf.url , callback, oSelf.params);
 
@@ -143,7 +142,7 @@ TVB.Connection.xmlhttp = function()
 			},oTimeout);
 	};
 
-}
+};
 
 /**
  * Perform a sync request and returns the content
@@ -158,10 +157,13 @@ TVB.Connection.syncRequest = function(method, uri, params) {
 		TVB.log("Connection: syncRequest(" + method + ", " + uri + ")");
 		TVB.widget.setLoading(true);
 		
+		var xmlHttp = null;
 		if (window.ActiveXObject) {
-			var xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+			xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
 		} else if (window.XMLHttpRequest) {
-			var xmlHttp = new XMLHttpRequest();
+			xmlHttp = new XMLHttpRequest();
+		} else {
+			throw UnsupportedError;
 		}
 		
 		xmlHttp.open(method, uri, false);
@@ -177,7 +179,7 @@ TVB.Connection.syncRequest = function(method, uri, params) {
 		TVB.error("Connection: syncRequest: " + e.message);
 		return false;
 	}
-}
+};
 
 /**
  * Alias to TVB.Connection

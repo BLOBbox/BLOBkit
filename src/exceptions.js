@@ -13,3 +13,4 @@
  */
 
 var InitError = new Error ("Current module has not been inited");
+var UnsupportedError = new Error ("Unsupported method or function");

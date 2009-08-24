@@ -7,13 +7,12 @@
  * @author Edoardo Esposito edoardo.esposito@tvblob.com
  */
 
-
 /**
  * BLOBkit custom event class
  * @class CustomEvent
  * @static
  */
-TVB.CustomEvent = new Object;
+TVB.CustomEvent = {};
 
 /**
  * Creates a new custom event
@@ -24,7 +23,7 @@ TVB.CustomEvent = new Object;
 TVB.CustomEvent.createEvent = function(eventName) {
 	try {
 		//TVB.log("Event: createEvent(" + eventName + ")");
-		if (eventName == undefined) {
+		if (eventName === undefined) {
 			throw {message: "eventName is undefined"};
 		}
 		var ev = new YAHOO.util.CustomEvent(eventName);
@@ -33,7 +32,7 @@ TVB.CustomEvent.createEvent = function(eventName) {
 		TVB.error("Event: createEvent: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Subscribes to a custom event
@@ -52,7 +51,7 @@ TVB.CustomEvent.subscribeEvent = function(ev, callback, obj, override) {
 		TVB.error("Event: subscribeEvent: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Unsubscribes to a custom event
@@ -67,7 +66,7 @@ TVB.CustomEvent.unsubscribeEvent = function(ev) {
 		TVB.error("Event: unsubscribeEvent: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Fires a custom event
@@ -83,7 +82,7 @@ TVB.CustomEvent.fireEvent = function(ev,params) {
 		TVB.error("Event: fireEvent: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Stops event propagation
@@ -98,7 +97,7 @@ TVB.CustomEvent.stopPropagation = function(ev) {
 		TVB.error("Event: stopPropagation: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Stops event propagation and prevents the default behaviour
@@ -113,7 +112,7 @@ TVB.CustomEvent.stopEvent = function(ev) {
 		TVB.error("Event: stopEvent: " + e.message);
 		throw e;
 	}
-}
+};
 
 
 /**
