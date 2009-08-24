@@ -14,7 +14,7 @@
  * @static
  * @namespace TVB
  */
-TVB.favorites = {}
+TVB.favorites = {};
 
 /**
  * Set the URL for favorite callback
@@ -32,7 +32,7 @@ TVB.favorites.set = function(uri) {
 		TVB.error("Favorites: set: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Configure the callback the produce the favorite url<br />
@@ -51,7 +51,7 @@ TVB.favorites.setProducer = function(functionName) {
 		TVB.error("Favorites: setProducer: " + e.message);
 		throw e;
 	}
-}
+};
 
 /*
  * Initialization of the favorites module
