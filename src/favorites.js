@@ -20,12 +20,17 @@ TVB.favorites = {};
  * Set the URL for favorite callback
  * @method set
  * @param {String} uri A complete URL that will be saved in the bookmark when the favorites button is pushed
+ * @exception {TypeError}
+ * @exception {InitError}
  */
 TVB.favorites.set = function(uri) {
 	try {
 		TVB.log("Favorites: set('" + uri + "')");
 		if (typeof uri != 'string') {
 			throw TypeError;
+		}
+		if (TVB.favorites.handler === null) {
+			throw InitError;
 		}
 		TVB.favorites.handler.setURI(encodeURI(uri));
 	} catch (e) {
@@ -39,12 +44,17 @@ TVB.favorites.set = function(uri) {
  * This is an alternative way to use this API
  * @method setProducer
  * @parameter {String} functionName the name of a function (as string!) to be called when favorite button is pushed; the function should return a string (the url to be saved with the bookmark). Only valid urls will be accepted.
+ * @exception {TypeError}
+ * @exception {InitError}
  */
 TVB.favorites.setProducer = function(functionName) {
 	try {
 		TVB.log("Favorites: setProducer('" + functionName + "')");
 		if (typeof functionName != 'string') {
 			throw TypeError;
+		}
+		if (TVB.favorites.handler === null) {
+			throw InitError;
 		}
 		TVB.favorites.handler.setProducer(functionName);
 	} catch (e) {
@@ -61,8 +71,12 @@ try {
 	 * Hander for favorites events
 	 * @private
 	 */
-	TVB.favorites.handler = new BlobFavoritesHandler();
-	TVB.favorites.set(location.href);
+	if (typeof BlobFavoritesHandler == 'function') {
+		TVB.favorites.handler = new BlobFavoritesHandler();
+		TVB.favorites.set(location.href);
+	} else {
+		TVB.favorites.handler = null;
+	}
 } catch (e) {
 	TVB.error("Favorites: " + e.message);
 }
