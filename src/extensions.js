@@ -23,7 +23,7 @@ String.prototype.trim = function(len,p) {
 	}
 
     return output.join("")+p;
-}
+};
 
 /**
  * Sets a date string into ISO8601 format
@@ -33,7 +33,7 @@ String.prototype.trim = function(len,p) {
 Date.prototype.setISO8601 = function(string) {
 	var regexp = "([0-9]{4})(-([0-9]{2})(-([0-9]{2})" + "([T,\ ]([0-9]{2}):([0-9]{2})(:([0-9]{2})(\.([0-9]+))?)?" + "(Z|(([-+])([0-9]{2}):([0-9]{2})))?)?)?)?";
 
-	if (string == undefined || string == null) {
+	if (string === undefined || string === null) {
 		return;
 	}
 
@@ -56,17 +56,17 @@ Date.prototype.setISO8601 = function(string) {
 	offset -= date.getTimezoneOffset();
 	time = (Number(date) + (offset * 60 * 1000));
 	this.setTime(Number(time));
-}
+};
 
 /**
  * Converts a date into day/month/year format
  * @method Date.stringify
  */
 Date.prototype.stringify = function() {
-	var h = parseInt(this.getHours() - 1);
+	var h = parseInt(this.getHours() - 1, 10);
 	var m = this.getMinutes();
 	if (m < 10) {m = '0' + m;}
 	var d = '';
-	d += this.getDate() + '/' + parseInt(this.getMonth() + 1) + '/' + this.getFullYear() + ' ';
+	d += this.getDate() + '/' + parseInt(this.getMonth() + 1, 10) + '/' + this.getFullYear() + ' ';
 	return d;
-}
+};

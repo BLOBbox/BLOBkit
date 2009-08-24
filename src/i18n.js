@@ -46,7 +46,7 @@ TVB.i18n.getI18NString = function(messageID, defaultValue, bundleName) {
 		TVB.error("i18n: getI18NString: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Return translation for the given messageID in the named resource bundle
@@ -81,7 +81,7 @@ TVB.i18n.getI18NStringWithArgs = function(messageID, defaultValue, bundleName, m
 		TVB.error("i18n: getI18NStringWithArgs: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Return translation for the given messageID in the platform resource 
@@ -110,7 +110,7 @@ TVB.i18n.getPlatformI18NString = function(messageID, defaultValue) {
 		TVB.error("i18n: getPlatformI18NString: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Return translation for the given messageID in the platform resource 
@@ -140,4 +140,4 @@ TVB.i18n.getPlatformI18NStringWithArgs = function(messageID, defaultValue, messa
 		TVB.error("i18n: getPlatformI18NStringWithArgs: " + e.message);
 		throw e;
 	}
-}
+};
