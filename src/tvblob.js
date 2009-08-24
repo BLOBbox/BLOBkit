@@ -27,8 +27,9 @@ TVB.dump = function(obj, level) {
 	try {
 		//TVB.log("System: dump()");
 		var dumped_text = "";
-		if (!level) 
+		if (!level) {
 			level = 0;
+		}
 		
 		//The padding given at the beginning of the line.
 		var level_padding = "";
@@ -56,7 +57,7 @@ TVB.dump = function(obj, level) {
 		TVB.error("System: dump: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * User Agent Based Browser Detection<br>
@@ -96,31 +97,33 @@ TVB.getBrowserAgent = function()
 	var win = ((mac || unix) ? false : true);
 	var version = false;
 	var mozilla = false;
+	var _tmp = null;
 	
 	if (!firefox && !safari && (ua.indexOf('gecko') != -1)) {
 		mozilla = true;
-		var _tmp = ua.split('/');
+		_tmp = ua.split('/');
 		version = _tmp[_tmp.length - 1].split(' ')[0];
 	}
 
-	if (firefox) 
-	{
-		var _tmp = ua.split('/');
+	if (firefox) {
+		_tmp = ua.split('/');
 		version = _tmp[_tmp.length - 1].split(' ')[0];
 	}
-	if (msie) 
+	
+	if (msie) {
 		version = ua.substring((ua.indexOf('msie ') + 5)).split(';')[0];
+	}
 
-	if (safari) 
-	{
+	if (safari) {
 		/*
 		* Safari doesn't report a string, have to use getBrowserEngine to get it
 		*/
 		version = this.getBrowserEngine().version;
 	}
 
-	if (opera)
+	if (opera) {
 		version = ua.substring((ua.indexOf('opera/') + 6)).split(' ')[0];
+	}
 	
 	/*
 	* Return the Browser Object
@@ -139,11 +142,11 @@ TVB.getBrowserAgent = function()
 	    win: win,
 	    unix: unix,
 	    version: version
-	}
+	};
 	return browsers;
-}
+};
 
- /**
+/**
  * Logs an object or a string to the console; works on 
  * Microsoft Internet Explorer, Mozilla Firefox,
  * Apple Safari and TVBLOB BLOBBOX.
@@ -154,16 +157,17 @@ TVB.getBrowserAgent = function()
  */
 TVB.log = function(message) {
 	try {
-		if (message == null) {
+		if (message === null) {
 			message = 'null';
 		}
 		
-		if (typeof message == 'object' && message.name != undefined && message.message != undefined && message.fileName != undefined && message.lineNumber != undefined) {
-			var output = "Error name: " + message.name + "\nError message: " + message.message + "\nFile name: " + message.fileName + "\nLine number: " + message.lineNumber;
+		var output = null;
+		if (typeof message == 'object' && message.name !== undefined && message.message !== undefined && message.fileName !== undefined && message.lineNumber !== undefined) {
+			output = "Error name: " + message.name + "\nError message: " + message.message + "\nFile name: " + message.fileName + "\nLine number: " + message.lineNumber;
 		} else if (typeof message == 'string') {
-			var output = message;
+			output = message;
 		} else {
-			var output = TVB.dump(message, 0);
+			output = TVB.dump(message, 0);
 		}
 
 		if (typeof tvblob != 'undefined') {
@@ -186,7 +190,7 @@ TVB.log = function(message) {
 	} catch (e) {
 		throw e;
 	}	
-}
+};
 
 /**
  * Similar to TVB.log, is used internally just to display errors
@@ -197,16 +201,17 @@ TVB.log = function(message) {
  */
 TVB.error = function(message) {
 	try {
-		if (message == null) {
+		if (message === null) {
 			message = 'null';
 		}
 		
-		if (typeof message == 'object' && message.name != undefined && message.message != undefined && message.fileName != undefined && message.lineNumber != undefined) {
-			var output = "Error name: " + message.name + "\nError message: " + message.message + "\nFile name: " + message.fileName + "\nLine number: " + message.lineNumber;
+		var output = null;
+		if (typeof message == 'object' && message.name !== undefined && message.message !== undefined && message.fileName !== undefined && message.lineNumber !== undefined) {
+			output = "Error name: " + message.name + "\nError message: " + message.message + "\nFile name: " + message.fileName + "\nLine number: " + message.lineNumber;
 		} else if (typeof message == 'string') {
-			var output = message;
+			output = message;
 		} else {
-			var output = TVB.dump(message, 0);
+			output = TVB.dump(message, 0);
 		}
 
 		if (typeof tvblob != 'undefined') {
@@ -225,7 +230,7 @@ TVB.error = function(message) {
 	} catch (e) {
 		throw e;
 	}	
-}
+};
 
 try {
 	tvblob.logInfo("BLOBkit version %%VERSION%%");
