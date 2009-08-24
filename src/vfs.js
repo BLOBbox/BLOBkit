@@ -40,7 +40,7 @@ TVB.vfs.getStorageSpaceStatusCode = function() {
 		TVB.error("Vfs: getStorageSpaceStatusCode: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Get storage space status string (w.r.t. the minimum space threshold set for this storage).
@@ -56,7 +56,7 @@ TVB.vfs.getStorageSpaceStatusName = function() {
 		TVB.error("Vfs: getStorageSpaceStatusName: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Get the local storage free space as string.
@@ -72,7 +72,7 @@ TVB.vfs.getFreeSpaceAsString = function() {
 		TVB.error("Vfs: getFreeSpaceAsString: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Get the local storage free space as string.
@@ -84,16 +84,16 @@ TVB.vfs.getFreeSpaceAsFloat = function() {
 		TVB.log("Vfs: getFreeSpaceAsFloat()");
 		var s = new LocalStorage();
 		var c = s.getFreeSpaceAsString();
-		if (c == null) {
+		if (c === null) {
 			return null;
 		} else {
-			return parseInt(c);
+			return parseInt(c, 10);
 		}
 	} catch (e) {
 		TVB.error("Vfs: getFreeSpaceAsFloat: " + e.message);
 		throw e;
 	}
-}
+};
 
 /**
  * Get a formatted string that represents the local storage free space.
@@ -109,4 +109,4 @@ TVB.vfs.getFreeSpaceAsFormattedString = function() {
 		TVB.error("Vfs: getFreeSpaceAsFormattedString: " + e.message);
 		throw e;
 	}
-}
+};
