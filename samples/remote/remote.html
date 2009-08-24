@@ -19,7 +19,7 @@
 				document.getElementById('lra').innerHTML = type + "<br /><pre>" + TVB.dump(args) + "</pre>";
 				TVB.log("Type: " + type);
 				TVB.log("Args:\n" + TVB.dump(args));
-			}
+			};
 
 			try {
 				TVB.remoteInit();
@@ -31,10 +31,9 @@
 				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.LETTER, callback);
 				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.COLOR, callback);
 				
-				TVB.CustomEvent.subscribeEvent(TVB.remote.button['OK'], callback);
+				TVB.CustomEvent.subscribeEvent(TVB.remote.button.OK, callback);
 				//TVB.remote.disableGreenRefresh();
-				TVB.CustomEvent.subscribeEvent(TVB.remote.button['RED'], TVB.system.refresh);
-
+				TVB.CustomEvent.subscribeEvent(TVB.remote.button.RED, TVB.system.refresh);
 				//TVB.remote.destroy();
 			} catch (e) {
 				TVB.log(e);
