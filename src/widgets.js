@@ -383,10 +383,10 @@ TVB.widget.setLabel = function(message) {
  * @method messageBar
  * @param {String} message Message to be shown
  */
-TVB.widget.messageBar= function(message) {
+TVB.widget.messageBar = function(message) {
 	try {		
 		TVB.log("Widget: messageBar(" + message + ")");
-		if (document.getElementById('TVB.widget.messageBarHandler') === undefined) {
+		if (document.getElementById('TVB.widget.messageBarHandler') === null) {
 			var configWidth = 600;
 			var singleWidth = configWidth / 4;
 			

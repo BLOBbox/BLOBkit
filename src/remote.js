@@ -17,7 +17,7 @@
 TVB.remote = function() {
 	try {
 		TVB.log("Remote: __constructor__()");
-		if (typeof BlobRemoteControl === undefined) {
+		if (typeof BlobRemoteControl == 'undefined') {
 			throw {message: "BlobRemoteControl is not available on this browser"};
 		} else {
 			TVB.remote.rc = new BlobRemoteControl();
