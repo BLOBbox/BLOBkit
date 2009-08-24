@@ -543,19 +543,23 @@ TVB.menu.prototype = {
 			var idToFocus = 'TVBLOB_' + this.menuName + '_' + lineNumber;
 			
 			// raises the callbacks
-			if (this.onBlurCB !== undefined && lineBlurred !== undefined) {
+			if (this.onBlurCB !== undefined && lineBlurred !== null) {
 				if (document.getElementById(idToBlur) !== undefined) {
 					TVB.log("Menu: blurring line " + lineBlurred);
-					this.onBlurCB(document.getElementById(idToBlur), lineBlurred);
+					try {
+						this.onBlurCB(document.getElementById(idToBlur), lineBlurred);
+					} catch (e) {}
 				}		
 			}
 			if (this.onFocusCB !== undefined) {
 				TVB.log("Menu: focussing " + this.currentElement + " by ID " + idToFocus);
-				this.onFocusCB(document.getElementById(idToFocus), lineNumber);
+				try {
+					this.onFocusCB(document.getElementById(idToFocus), lineNumber);
+				} catch (e) {}
 			}
 			
 			// throw events
-			if (lineBlurred !== undefined) {
+			if (lineBlurred !== null) {
 				TVB.CustomEvent.fireEvent(this.lineBlurEvent, {lineNumber: lineBlurred});				
 			}
 			TVB.CustomEvent.fireEvent(this.lineFocusEvent, {lineNumber: this.currentElement});
