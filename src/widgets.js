@@ -62,14 +62,7 @@ TVB.widget.colorButtonsBarB4Handler = null;
 TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 	try {		
 		TVB.log("Widget: colorButtonsBar(" + butt1 + ", " + butt2 + ", " + butt3 + ", " + butt4 + ")");
-		if (document.getElementById('TVB.widget.colorButtonsBarHandler') === undefined) {
-			/*
-			TVB.CustomEvent.subscribeEvent(TVB.remote.button['RED'], TVB.widget.colorButtonsBarRemote);
-			TVB.CustomEvent.subscribeEvent(TVB.remote.button['GREEN'], TVB.widget.colorButtonsBarRemote);
-			TVB.CustomEvent.subscribeEvent(TVB.remote.button['YELLOW'], TVB.widget.colorButtonsBarRemote);
-			TVB.CustomEvent.subscribeEvent(TVB.remote.button['BLUE'], TVB.widget.colorButtonsBarRemote);
-			TVB.CustomEvent.subscribeEvent(TVB.remote.button['OK'], TVB.widget.colorButtonsBarRemote);
-			*/
+		if (document.getElementById('TVB.widget.colorButtonsBarHandler') === null) {
 			TVB.log("Widget: drawing new color button bar");
 			
 			//var configWidth = 600;
