@@ -647,7 +647,7 @@ TVB.player.enterFullScreen = function() {
 TVB.player.addHole = function(width, height) {
 	try {
 		TVB.log("Player: addHole(" + width + ", " + height + ")");
-		if (TVB.player.config.littleHole === null) {
+		if (TVB.player.config.littleHole === null && TVB.player.config.noLittleHole === false) {
 			document.body.style.padding = '0';
 			document.body.style.margin = '0';
 			document.body.style.overflow = 'hidden';
