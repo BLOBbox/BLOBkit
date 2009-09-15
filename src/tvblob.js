@@ -232,6 +232,72 @@ TVB.error = function(message) {
 	}	
 };
 
+/**
+ * Similar to TVB.log, is used internally just to display warnings
+ * @method TVB.warning
+ * @namespace TVB
+ * @param {Object} message An object or a string to be printed on the log console
+ * @return {Void}
+ */
+TVB.warning = function(message) {
+	try {
+		if (message === null) {
+			message = 'null';
+		}
+		
+		var output = null;
+		if (typeof message == 'object' && message.name !== undefined && message.message !== undefined && message.fileName !== undefined && message.lineNumber !== undefined) {
+			output = "Error name: " + message.name + "\nError message: " + message.message + "\nFile name: " + message.fileName + "\nLine number: " + message.lineNumber;
+		} else if (typeof message == 'string') {
+			output = message;
+		} else {
+			output = TVB.dump(message, 0);
+		}
+
+		if (typeof tvblob != 'undefined') {
+			tvblob.logWarning(output);
+		}
+		else 
+			if (window.console) {
+				window.console.log(output);
+			} else
+				if (typeof console != 'undefined') {
+					console.log(output);
+				} else {
+					alert(output);
+				}
+		return;
+	} catch (e) {
+		throw e;
+	}	
+};
+
+/**
+ * Logs exceptions on BLOBbox's webdev console, in a readable and debuggable way.
+ * @param {Object} exceptionObject The exception object catched
+ * @param {String} functionName Name of the function (for tracking purpose)
+ */
+TVB.exception = function(exceptionObject, functionName) {
+	try {
+		if (typeof tvblob != 'undefined') {
+			tvblob.logError('***** ERROR *****');
+			tvblob.logError('ERROR Message: ' + exceptionObject.message);
+			tvblob.logError('ERROR Name: ' + exceptionObject.name);
+			tvblob.logError('ERROR exceptionObject: ' + exceptionObject.exceptionObject);
+			tvblob.logError('ERROR File name: ' + exceptionObject.fileName + " (line " + exceptionObject.lineNumber + ")");
+			tvblob.logError('ERROR Function name: ' + functionName);
+			tvblob.logError('*****************');
+		} else {
+			TVB.error(functionName);
+			TVB.error(exceptionObject);
+		}
+		return;
+	} catch (e) {
+		throw e;
+	}	
+};
+
+
 try {
 	tvblob.logInfo("BLOBkit version %%VERSION%%");
 } catch (e) {
