@@ -187,7 +187,7 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 TVB.widget.colorButtonsBarRemove = function() {
 	try {
 		TVB.log("Color Buttons Bar: remove");
-		if (document.getElementById('TVB.widget.colorButtonsBarHandler') !== undefined) {
+		if (document.getElementById('TVB.widget.colorButtonsBarHandler') !== null) {
 			document.body.removeChild(TVB.widget.colorButtonsBarHandler);
 		}
 	} catch (e) {
