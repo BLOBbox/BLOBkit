@@ -30,8 +30,8 @@ LIB_DEB = $(LIB_BASENAME)-$(VERSION)-debug.js
 
 CAT = cat  
 OUTDIR = build
-#YUICOMP = java -jar yuicompressor-$(COMP_VERSION)/build/yuicompressor-$(COMP_VERSION).jar --line-break 1000
-YUICOMP = yuicompressor --line-break 1000
+YUICOMP = java -jar yuicompressor-$(COMP_VERSION)/build/yuicompressor-$(COMP_VERSION).jar --line-break 1000
+#YUICOMP = yuicompressor --line-break 1000
 
 PWD = $(shell pwd)/
 
@@ -47,8 +47,8 @@ APTANA_FEATURE = $(APTANA_FEATURE_ID)_$(APTANA_VERSION)
 
 DESTDIR = $(INTEGRATION_PACKAGE_NAME)-$(VERSION)b$(BUILD)
 
-lib: yui-$(YUI_VERSION) $(LIB_NAME) $(LIB_MIN) $(LIB_DEB)
-	# Build done yuicompressor-$(COMP_VERSION) 
+lib: yui-$(YUI_VERSION) yuicompressor-$(COMP_VERSION) $(LIB_NAME) $(LIB_MIN) $(LIB_DEB)
+	# Build done  
 
 doc: yuidoc-$(YUIDOC_VERSION) $(LIB_DOC)
 
