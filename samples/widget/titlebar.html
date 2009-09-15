@@ -20,9 +20,14 @@
 				TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
 				TVB.widget.titleBar.render();
 
+				// Changes the background color of the title bar
 				//TVB.widget.titleBar.setBackgroundColor('#000000');
-				//TVB.widget.titleBar.setColor('yellow');				
-				//TVB.widget.titleBar.setLogo(true);
+				
+				// Changes the font color of the title bar
+				//TVB.widget.titleBar.setColor('yellow');
+				
+				// Remove the "for BLOBbox" logo
+				//TVB.widget.titleBar.disableLogo();
 
 				setTimeout(function() {
 					TVB.widget.titleBar.setTitle("Title Bar Example - Phase 2 - This is a very very long title and I have to trim it otherwise it doesn't fit the titlebar...");

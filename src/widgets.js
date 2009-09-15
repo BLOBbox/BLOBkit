@@ -645,6 +645,19 @@ TVB.widget.titleBarHandler = function() {
 		};
 		
 		/**
+		 * Removes the "for BLOBbox" logo or prevent the render() function to add it
+		 */
+		this.disableLogo = function() {
+			try {
+				TVB.log("Widget: titleBar.disableLogo()");
+				this.logo.style.display = 'none';
+			} catch (e) {
+				TVB.error("Widget: titleBar: disableLogo: " + e.message);
+				throw e;
+			}
+		};
+		
+		/**
 		 * Sets the position of the title bar to fixed (strongly recommended). When scrolling a page, the title bar doesn't move
 		 * @method titleBar.setFixedPosition
 		 */
