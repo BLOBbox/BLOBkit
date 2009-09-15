@@ -316,7 +316,7 @@ TVB.system.deleteElementById = function(id) {
 			startNode = document.body;		
 		} else {
 			startNode = document.getElementById(id);
-			if (startNode === undefined) {
+			if (startNode === null) {
 				throw {message: "element not found"};
 			}
 		}
@@ -333,7 +333,7 @@ TVB.system.deleteElementById = function(id) {
 				}
 				myParent = myDiv.parentNode;
 				myParent.removeChild(myDiv);
-				if (myDiv.style !== null) {
+				if (myDiv.style !== undefined) {
 					myDiv.style.position = 'relative';
 				}
 				myDiv = myParent;
