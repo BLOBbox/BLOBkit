@@ -581,7 +581,7 @@ TVB.menu.prototype = {
 			TVB.log("Menu: remoteHandler()");
 			var start = parseInt(this.currentPage * this.visibleElements, 10);
 			var end = parseInt(start + this.visibleElements, 10) - 1;
-			if (end > this.numElements) {
+			if (end >= this.numElements) {
 				end = this.numElements - 1;
 			}
 			
@@ -772,7 +772,7 @@ TVB.menu.prototype = {
 	{
 		try 
 		{
-			TVB.log("Menu: remoteHandlerDown(" + start + ", " + end + ")");
+			TVB.warning("Menu: remoteHandlerDown(" + start + ", " + end + ")");
 			TVB.widget.setLoading(true);
 			var nextElement = this.currentElement + 1;
 			if (nextElement > end) 
