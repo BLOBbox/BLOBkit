@@ -1,0 +1,34 @@
+BLOBtv Producer
+---------------
+
+Welcome to BLOBtv Producer, your final tool to be on tv!
+
+
+
+INSTALLATION
+------------
+
+The installation of BLOBtv Producer is really easy:
+
+- copy all the files in this folder in your web server
+- edit config.dist.php with your own configuration
+- rename config.dist.php to config.php
+
+Now browser to the admin/ page where you have uploaded
+BLOBtv Producer
+
+
+
+FEATURE REQUEST AND BUGS
+------------------------
+
+Please track down every feature request or bug report to
+http://code.google.com/p/blobkit/issues/list
+
+
+
+DOWNLOAD LATEST VERSION
+-----------------------
+
+Please visit http://code.google.com/p/blobkit/downloads/list
+to verify if a new version is present.
