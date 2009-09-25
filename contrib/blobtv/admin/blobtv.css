@@ -1,0 +1,69 @@
+body {
+	background: #333 url('') top center no-repeat;
+	text-align: left;
+	color: #ccc;
+}
+
+#container {
+	position: absolute;
+	top: 80px;
+	left: 40px;
+	width: 592px; /* index.php changes it */
+	border: 0px solid red;
+}
+
+#container .row {
+	display: block;
+	width: 100%;
+	height: 110px;
+	border: 0px solid yellow;
+}
+
+#container .row .thumb { 
+	width: 120px;
+	height: 90px;
+	padding: 10px;
+}
+
+#container .row .desc {
+	padding: 10px;
+	width: 100%;
+	height: 90px;
+	overflow: hidden;
+	vertical-align: top;
+}
+
+#container .row .desc .h1 {
+	font-size: 22px;
+	line-height: 22px;
+	padding: 0;
+	margin: 0;
+	font-weight: bold;
+	color: yellow;
+}
+
+#container .row .desc .h2 {
+	font-size: 20px;
+	line-height: 20px;
+	padding: 0;
+	margin: 0;
+	font-weight: normal;
+}
+
+#container .row .desc p {
+	font-size: 18px;
+	line-height: 18px;
+	padding: 0;
+	margin: 0;
+	font-weight: normal;
+}
+
+#pager {
+	position: fixed;
+	top: 460px;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	font-size: 22px;
+	color: #ccc;
+}

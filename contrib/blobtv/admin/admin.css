@@ -1,0 +1,353 @@
+*
+{
+	margin: 0;
+	padding: 0;
+}
+
+body 
+{ 
+	padding: 0 0 10px 0; 
+	background-color: #f5f5f5;
+	font-family: Verdana;
+	color: #333;
+	text-decoration: none;
+	word-spacing: Normal;
+	text-align: left;
+	letter-spacing: -1px;
+	text-indent: 0px;
+	line-height: 14px;
+	font-size: 11px;
+	
+}
+
+a:link, a:visited, a:hover, a:active
+{
+	color: #333;
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: none;
+	color: #f23a10;
+}
+
+a.selected
+{
+	text-decoration: none;
+	color: #f23a10;
+}
+
+br{clear:left}
+
+img
+{
+	border: 0;
+}
+
+.clear
+{
+	clear: both;
+	margin: 0;
+	padding: 0;
+}
+
+.button
+{
+	display: block;
+	text-align: center;
+	width: 50px;
+	float: left;
+	border: 1px solid #ccc;
+	padding: 2px 0 4px;
+	margin-left: 4px;
+}
+
+.loadingimage
+{
+	width: 16px;
+	height: 16px;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#loading
+{
+	position: absolute;
+	top: 20px;
+	right: 45px;
+}
+
+#title
+{
+/* 	position: absolute; */
+/* 	top: 0px; */
+/* 	left: 5px; */
+	width: 250px;
+	height: 40px;
+/* 	overflow: hidden; */
+}
+
+	#title h1
+	{
+		background: #f5f5f5 url('BLOBbox_logo.png') no-repeat;
+		text-indent: -10000px;
+		height: 40px;
+		width: 250px;
+	}
+
+#container
+{
+	width: 980px;
+	position: relative;
+	z-index: 1;
+/* 	margin-top: 35px; */
+}
+
+#messagebar
+{
+	height: 25px;
+	position: absolute;
+	top: 5px;
+	left: 200px;
+	width: 600px;
+}
+
+	#message
+	{
+		text-align: center;
+		height: 1.5em;
+		padding-top: 0.3em;
+	}
+	
+#topbar
+{
+	position: absolute;
+	text-align: right;
+	top: -1em;
+	left: 440px;
+	width: 500px;
+	z-index: 100000;
+}
+
+#menu
+{
+	float: left;
+	position: absolute;
+	top: 21px;
+	left: 10px;
+	text-align: left;
+}
+	#menu p
+	{
+		font-size: 11px;
+		font-weight: bold;
+		margin-bottom: 5px;
+		margin-top: 10px;
+	}
+
+	#menu a
+	{
+		font-size: 10px;
+		display: block;
+		text-decoration: none;
+	}
+
+	#menu a:hover
+	{
+		text-decoration: none;
+	}
+
+#content
+{
+	position: relative;
+	height: 500px;
+	width: 890px;
+	margin-left: 70px;
+	background: transparent url('bg.png') no-repeat;
+	padding: 20px 20px 10px 15px;
+	z-index: 10000;
+}
+
+#titlebar
+{
+	position: relative;
+	margin: 5px 0 10px 14px;
+	height: 26px;
+}
+
+	#titlebar h2
+	{
+		font-size: 18px;
+		font-weight: bold;
+	}
+	
+	#actions {
+		position: absolute;
+		top: 0px;
+		right: 40px;
+	}
+
+#inner
+{
+	border-top: 1px solid #ccc;
+	width: 820px;
+	height: 420px;
+	margin-top: 5px;
+	margin-left: 10px;
+	overflow: auto;
+	padding: 10px;
+}
+
+	#inner h3
+	{
+		margin: 5px 0 5px 10px;
+		font-size: 14px;
+	}
+
+	#inner ul
+	{
+		list-style: none;
+		margin-left: 5px;
+	}
+
+	#inner li
+	{
+		list-style: none;
+	}
+	
+	#inner table {
+		width: 100%;
+		border: 0px solid red;
+		text-align: left;
+		vertical-align: top;
+	}
+
+	#inner table tr th {
+		vertical-align: top;
+		padding: 5px 0;
+	}
+		
+	#inner table tr td {
+		vertical-align: top;
+		font-size: 80%;
+		padding: 5px 0;
+	}
+	
+	#inner table#video_list tr td {
+		border-top: 1px solid #ccc;
+	}
+	
+	#inner table .thumb {
+		width: 150px;
+	}
+	
+	#inner table .title {
+		font-weight: bold;
+	}
+	
+	#inner table .subtitle {
+		font-style: italic;
+	}
+	
+	#inner table .description {
+		font-size: 80%;
+	}
+	
+	#inner table input {
+		font-size: 120%;
+		padding: 2px;
+	}
+	
+	#inner table .inp {
+		width: 300px;
+	}
+	
+	#inner table textarea {
+		width: 300px;
+		height: 100px;
+	}
+		
+	
+	
+	
+	
+	
+	
+	
+
+#login
+{
+	width: 200px;
+	position: absolute;
+	top: 150px;
+	left: 300px;
+}
+
+
+#loginform label
+{
+	font-weight: bold;
+	text-align: right;
+	width: 120px;
+}
+
+#loginform input
+{
+	line-height: 10px;
+	padding: 5px;
+	width: 160px;
+	margin-bottom: 10px;
+
+	border: 1px solid #ccc;
+	width: 200px;
+	background: #fff url('images/input.gif') repeat-x center top;
+}
+
+#footer
+{
+	clear: both;
+	text-align: right;
+	width: 600px;
+	position: absolute;
+	left: 340px;
+	top: 565px;
+	z-index: 10000;
+}
+
+	#footer small
+	{
+		font-size: 95%;
+		color: #666;
+	}
+
+	#footer a
+	{
+		font-size: 95%;
+		color: #666;
+	}
+
+	#footer a:hover
+	{
+		font-size: 95%;
+		color: #f23a10;
+	}
+
+ul.mainmenu
+{
+/* 	margin-left: 50px!important; */
+	margin-top: 100px;	
+	text-align: center;
+}
+
+.mainmenu li
+{
+	margin-bottom: 35px;
+}
+
+.mainmenu a
+{
+	font-size: 18px;
+}
+
