@@ -31,7 +31,7 @@ $admin_pass = 'tvblob';
  * This variable contains the path to the database file that BLOBtv Producer creates and uses.
  * It must be writeble path and the file may not exists. BLOBtv Producer creates it if the file is not
  * present on the file system or it is not a valid BLOBtv Producer Database.
- * It is better to place this file outside the public web server documents folder, 
+ * It is better to place this file outside the public web server documents folder, for security reasons.
  * 
  * example:
  * $data_file = "/home/webapp/blobtv.dat";
