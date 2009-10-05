@@ -603,6 +603,8 @@ TVB.player.enterFullScreen = function() {
 			TVB.player.config.littleHole.style.height = window.innerHeight; /* 596px */
 			TVB.player.config.littleHole.style.visibility = 'visible';
 			TVB.player.config.littleHole.style.display = 'block';
+			TVB.player.config.littleHole.style.position = 'fixed';
+			TVB.player.config.littleHole.style.zIndex = '10000';
 		} 
 		
 		if (TVB.player.config.currentUri !== null) {
@@ -615,7 +617,7 @@ TVB.player.enterFullScreen = function() {
 			TVB.log("Player: enterFullScreen: after all of this");
 		}
 		TVB.player.config.isFullScreen = true;
-		
+		/*
 		try {
 			if (document.getElementById('TVB.widget.colorButtonsBarHandler') !== null) {
 				document.getElementById('TVB.widget.colorButtonsBarHandler').style.display = 'none';
@@ -631,7 +633,7 @@ TVB.player.enterFullScreen = function() {
 		} catch (e) {
 			TVB.log("Player: warning 599: " + e.message);
 		}
-		
+		*/
 		return true;
 	} catch (e) {
 		TVB.error("Player: enterFullScreen: " + e.message);
@@ -655,11 +657,11 @@ TVB.player.addHole = function(width, height) {
 			document.body.style.overflow = 'hidden';
 			TVB.player.config.littleHole = document.createElement('div');
 			TVB.player.config.littleHole.style.backgroundColor = '#0000ff';
-			TVB.player.config.littleHole.style.zIndex = '32000';
+			TVB.player.config.littleHole.style.zIndex = '10000';
 			TVB.player.config.littleHole.style.border = '0px';
 			TVB.player.config.littleHole.style.top = TVB.player.config.topCord + 'px';
 			TVB.player.config.littleHole.style.left = TVB.player.config.leftCord + 'px';
-			TVB.player.config.littleHole.style.position = 'absolute';
+			TVB.player.config.littleHole.style.position = 'fixed';
 			TVB.player.config.littleHole.style.visibility = 'hidden';
 			TVB.player.config.littleHole.style.display = 'none'; // block
 			TVB.player.config.littleHole.style.width = width + 'px';
@@ -737,8 +739,6 @@ TVB.player.exitFullScreen = function() {
 		if (TVB.player.config.noLittleHole === false) {
 			TVB.player.config.littleHole.style.top = TVB.player.config.topCord + 'px';
 			TVB.player.config.littleHole.style.left = TVB.player.config.leftCord + 'px';
-			TVB.player.config.littleHole.style.visibility = 'hidden';
-			TVB.player.config.littleHole.style.display = 'none';
 		} 
 		
 		TVB.log("Player: current URI = " + TVB.player.config.currentUri);
@@ -757,7 +757,7 @@ TVB.player.exitFullScreen = function() {
 			TVB.player.p.setFullScreenModeEnabled(false);
 		}
 		TVB.player.config.isFullScreen = false;
-		
+		/*
 		try {
 			if (document.getElementById('TVB.widget.titleHandler') !== null) {
 				document.getElementById('TVB.widget.titleHandler').style.display = 'block';
@@ -773,7 +773,7 @@ TVB.player.exitFullScreen = function() {
 		} catch (e) {
 			TVB.error("Player: warning 727: " + e.message);
 		}
-		
+		*/
 		return true;
 	} catch (e) {
 		TVB.error("Player: exitFullScreen: " + e.message);

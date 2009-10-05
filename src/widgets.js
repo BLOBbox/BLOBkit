@@ -401,19 +401,24 @@ TVB.widget.messageBar = function(message) {
 			TVB.log("Widget: singleWidth = " + singleWidth);
 			
 			TVB.widget.messageBarHandler = document.createElement('div');
-			TVB.widget.messageBarHandler.style.position = 'absolute';
-			if (TVB.system.getVideoSystem() == "NTSC") {
-				TVB.widget.messageBarHandler.style.top = '400px'; // 78 meno di PAL
+			TVB.widget.messageBarHandler.style.position = 'fixed';
+			if (document.getElementById('TVB.widget.colorButtonsBarHandler') === null) {
+				TVB.widget.messageBarHandler.style.top = parseInt(window.innerHeight - 21, 10) + "px";
 			} else {
-				TVB.widget.messageBarHandler.style.top = '478px';
+				TVB.widget.messageBarHandler.style.top = parseInt(window.innerHeight - 42, 10) + "px";
 			}
-			TVB.widget.messageBarHandler.style.left = '40px';
-			TVB.widget.messageBarHandler.style.width = configWidth + 'px';
+			TVB.widget.messageBarHandler.style.left = '0px';
+			TVB.widget.messageBarHandler.style.width = parseInt(window.innerWidth - 40, 10) + "px";
 			TVB.widget.messageBarHandler.style.height = '21px';
 			TVB.widget.messageBarHandler.style.fontSize = '19px';
 			TVB.widget.messageBarHandler.style.fontFamily = 'Tiresias';
 			TVB.widget.messageBarHandler.style.backgroundColor = '#000001';
-			TVB.widget.messageBarHandler.style.zIndex = '31000';
+			TVB.widget.messageBarHandler.style.zIndex = '5000';
+			TVB.widget.messageBarHandler.style.overflow = 'hidden';
+			TVB.widget.messageBarHandler.style.margin = 0;
+			TVB.widget.messageBarHandler.style.padding = 0;
+			TVB.widget.messageBarHandler.style.paddingLeft = "20px";
+			TVB.widget.messageBarHandler.style.paddingRight = "20px";
 			TVB.widget.messageBarHandler.id = 'TVB.widget.messageBarHandler';
 			TVB.widget.messageBarHandler.innerHTML = message;
 			document.body.appendChild(TVB.widget.messageBarHandler);
@@ -468,6 +473,7 @@ TVB.widget.titleBarHandler = function() {
 		this.bar.style.bottom = "0px";
 		this.bar.style.left = "0px";
 		this.bar.style.height = "28px";
+		//this.bar.style.zIndex = "1000";
 		this.bar.style.width = parseInt(this.iwc, 10) + "px";		
 		
 		/**
@@ -485,6 +491,7 @@ TVB.widget.titleBarHandler = function() {
 		this.logo.style.right = "20px";
 		this.logo.style.width = "109px";
 		this.logo.style.height = "72px";
+		//this.logo.style.zIndex = "1001";
 
 		/**
 		 * DOM object handlers - title
@@ -500,6 +507,7 @@ TVB.widget.titleBarHandler = function() {
 		this.title.style.fontFamily = "TVBLOB, TireriasScreen, Tiresias, sans-serif";
 		this.title.style.color = '#cccccc';
 		this.title.style.overflow = 'hidden';
+		//this.title.style.zIndex = '1002';
 		this.title.innerHTML = '&nbsp;';
 
 		/**
@@ -513,6 +521,7 @@ TVB.widget.titleBarHandler = function() {
 		this.icon.style.left = "40px";
 		this.icon.style.height = "72px";
 		this.icon.style.width = "100px";
+		//this.icon.style.zIndex = "1001";
 		this.icon.style.backgroundColor = 'transparent';
 		this.icon.style.overflow = 'hidden';
 
@@ -530,7 +539,7 @@ TVB.widget.titleBarHandler = function() {
 		this.handler.style.height = "72px";
 		this.handler.style.width = parseInt(this.iwc, 10) + "px";
 		this.handler.style.overflow = 'hidden';
-		this.handler.style.zIndex = 100;
+		//this.handler.style.zIndex = "12000";
 		this.handler.appendChild(this.bar);
 		this.handler.appendChild(this.logo);
 		this.handler.appendChild(this.icon);
