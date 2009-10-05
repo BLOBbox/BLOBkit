@@ -373,17 +373,17 @@ TVB.player.play = function() {
 			TVB.player.exitFullScreen();
 		}
 		*/
-		setTimeout(function() {
-			try {
-				TVB.player.removeBufferingMessage();
-				TVB.player.p.play();
-				TVB.player.config.isPlaying = true;
-			} catch (e) {
-				TVB.error("Player: play: " + e.message);
-				TVB.player.config.isPlaying = false;
-				throw e;
-			}
-		}, 500);
+		//setTimeout(function() {
+		try {
+			TVB.player.removeBufferingMessage();
+			TVB.player.p.play();
+			TVB.player.config.isPlaying = true;
+		} catch (e) {
+			TVB.error("Player: play: " + e.message);
+			TVB.player.config.isPlaying = false;
+			throw e;
+		}
+		//}, 500);
 		return true;
 	} catch (e) {
 		TVB.player.config.isPlaying = false;
