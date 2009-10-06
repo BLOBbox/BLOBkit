@@ -514,6 +514,46 @@ TVB.remote.disableLetters = function()
 };
 
 /**
+ * Disable the use of vcr keys in the 
+ * current page.
+ * @method disableVcr
+ */
+TVB.remote.disableVcr = function() 
+{
+	try {
+		TVB.log("Remote: disableVcr()");
+		if (TVB.remoteHandler === undefined) {
+			TVB.remoteInit();
+		}
+		for (var i = 0; i < TVB.remote.btns_vcr.length; i++) {
+			TVB.remote.rc.removeKeyHandler(TVB.remote.btns_vcr[i]);
+		}
+	} catch (e) {
+		TVB.error("Remote: disableVcr: " + e.message);
+	}
+};
+
+/**
+ * Enable the use of vcr keys in the 
+ * current page.
+ * @method enableVcr
+ */
+TVB.remote.enableVcr = function() 
+{
+	try {
+		TVB.log("Remote: enableVcr()");
+		if (TVB.remoteHandler === undefined) {
+			TVB.remoteInit();
+		}
+		for (var i = 0; i < TVB.remote.btns_vcr.length; i++) {
+			TVB.remote.rc.setKeyHandler(TVB.remote.btns_vcr[i], "TVB.remote.handler");
+		}
+	} catch (e) {
+		TVB.error("Remote: enableVcr: " + e.message);
+	}
+};
+
+/**
  * Returns true if the page can be refreshed
  * automatically by pressing the green button
  * on the remote control
