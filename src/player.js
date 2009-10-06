@@ -1030,7 +1030,7 @@ TVB.player.showBufferingMessage = function() {
 			div.style.left = '30px';
 			div.style.padding = 0;
 			div.style.margin = 0;
-			div.style.zIndex = '8000';			
+			div.style.zIndex = '10001';			
 			document.body.appendChild(div);
 		}
 		var ico = null;
@@ -1065,7 +1065,7 @@ TVB.player.showStartingPlaybackMessage = function() {
 			div.style.left = '30px';
 			div.style.padding = 0;
 			div.style.margin = 0;
-			div.style.zIndex = '8001';			
+			div.style.zIndex = '10002';			
 			document.body.appendChild(div);
 		}
 		var ico = null;
@@ -1104,7 +1104,7 @@ TVB.player.showUnableToPlayMessage = function() {
 			div.style.padding = '0';
 			div.style.paddingLeft = '10px';
 			div.style.paddingRight = '10px';
-			div.style.zIndex = '8002';
+			div.style.zIndex = '10003';
 
 			div.innerHTML = '';
 	
