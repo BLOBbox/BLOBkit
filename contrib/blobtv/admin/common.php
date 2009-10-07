@@ -15,6 +15,8 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 	}
 } else {
 	$sqlite3 = true;
+	$sqlite3 = false; // DEBUG
+	$data_file = "/Library/WebServer/Documents/webtv.sql";
 }
 
 $available_languages = Array('it', 'en');
@@ -204,20 +206,24 @@ function aggiorna_video($id, $title, $subtitle, $date, $description) {
 
 function get_video_details($id) {
 	global $db_conn;
+	$sql = "SELECT * FROM items WHERE id = $id";
 	if ($sqlite3) {
-		$res = @$db_conn->querySingle("SELECT * FROM items WHERE id = $id", true); 
+		$res = @$db_conn->querySingle($sql, true); 
 	} else {
-		$res = @$db_conn->singleQuery("SELECT * FROM items WHERE id = $id", true);
+		$results = @$db_conn->query($sql);
+		$res = $results->fetch(SQLITE_ASSOC);
 	}
 	return $res;
 }
 
 function delete_video($id) {
 	global $db_conn, $base_video_folder, $base_thumb_folder;
+	$sql = "SELECT file_name, thumbnail FROM items WHERE id = $id";
 	if ($sqlite3) {
-		$results = @$db_conn->querySingle("SELECT file_name, thumbnail FROM items WHERE id = $id", true);
+		$results = @$db_conn->querySingle($sql, true);
 	} else {
-		$results = @$db_conn->singleQuery("SELECT file_name, thumbnail FROM items WHERE id = $id", true);
+		$res = @$db_conn->query($sql);
+		$results = $res->fetch(SQLITE_ASSOC);
 	}
 	if (!@unlink($base_video_folder . "/" . $results['file_name'])) {
 		print "<p>" . str_replace("%%FILE%%", $results['file_name'], ERR_UNABLE_TO_DEL) . "</p>";
