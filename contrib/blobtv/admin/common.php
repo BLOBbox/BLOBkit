@@ -15,8 +15,6 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 	}
 } else {
 	$sqlite3 = true;
-	$sqlite3 = false; // DEBUG
-	$data_file = "/Library/WebServer/Documents/webtv.sql";
 }
 
 $available_languages = Array('it', 'en');
