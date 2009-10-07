@@ -49,6 +49,7 @@ define("LOADING", "Loading...");
 define("LOGIN", "Login");
 define("LOGOUT", "Logout");
 define("NEW_VIDEO", "New video");
+define("NO_DATA", "No videos are present");
 define("NO_VIDEOS", "No video is currently available in this Web TV.");
 define("PAGE_X_OF_Y", "Page %%X%% of %%Y%%");
 define("PASSWORD", "Password:");

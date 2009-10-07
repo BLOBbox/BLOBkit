@@ -36,6 +36,7 @@ include 'admin/common.php';
 			}
 			print "TVB.widget.titleBar.render();";
 			print "var page_string = \"" . PAGE_X_OF_Y . "\";";
+			print "var nodata_string = \"" . NO_DATA . "\";";
 			print "var menuData = [];";
 			$dat = load_video_list(false);
 			foreach ($dat as $item) {
