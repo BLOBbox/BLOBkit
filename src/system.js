@@ -175,7 +175,7 @@ TVB.system.getTvblobNumber = function() {
 TVB.system.getUserID = function() {
 	try {
 		TVB.log("System: getUserID()");
-		return tvblob.getDomainTackingID();
+		return tvblob.getDomainTrackingID();
 	} catch (e) {
 		TVB.error("System: getUserID: " + e.message);
 		return null;
