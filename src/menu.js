@@ -719,13 +719,11 @@ TVB.menu.prototype = {
 				{
 					if (this.menuType == 'dynamic')
 					{
-						/*
 						if (this.onRemoteUpdateCB !== undefined)
 						{
 							this.currentPage = lastPage;
 							this.onRemoteUpdateCB(1);
 						}
-						*/
 					}
 					else
 					{
