@@ -986,7 +986,7 @@ TVB.player.showPausedMessage = function() {
 			div.style.left = '30px';
 			div.style.padding = 0;
 			div.style.margin = 0;
-			div.style.zIndex = '1900';			
+			div.style.zIndex = '10004';			
 			document.body.appendChild(div);
 		}
 		var ico = null;
