@@ -770,7 +770,7 @@ TVB.menu.prototype = {
 	{
 		try 
 		{
-			TVB.warning("Menu: remoteHandlerDown(" + start + ", " + end + ")");
+			TVB.log("Menu: remoteHandlerDown(" + start + ", " + end + ")");
 			TVB.widget.setLoading(true);
 			var nextElement = this.currentElement + 1;
 			if (nextElement > end) 
