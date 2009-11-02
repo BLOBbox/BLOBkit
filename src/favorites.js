@@ -34,7 +34,7 @@ TVB.favorites.set = function(uri) {
 		}
 		TVB.favorites.handler.setURI(encodeURI(uri));
 	} catch (e) {
-		TVB.error("Favorites: set: " + e.message);
+		TVB.warning("Favorites: set: " + e.message);
 		throw e;
 	}
 };
@@ -58,7 +58,7 @@ TVB.favorites.setProducer = function(functionName) {
 		}
 		TVB.favorites.handler.setProducer(functionName);
 	} catch (e) {
-		TVB.error("Favorites: setProducer: " + e.message);
+		TVB.warning("Favorites: setProducer: " + e.message);
 		throw e;
 	}
 };
@@ -78,6 +78,6 @@ try {
 		TVB.favorites.handler = null;
 	}
 } catch (e) {
-	TVB.error("Favorites: " + e.message);
+	TVB.warning("Favorites: " + e.message);
 }
 

@@ -50,7 +50,7 @@ TVB.system.getBLOBkitVersion = function() {
 		var vor = ver.split(" build");
 		return vor[0];
 	} catch(e) {
-		TVB.error("System: getBLOBkitVersion(): " + e.message);
+		TVB.warning("System: getBLOBkitVersion(): " + e.message);
 	}
 };
 
@@ -177,7 +177,7 @@ TVB.system.getUserID = function() {
 		TVB.log("System: getUserID()");
 		return tvblob.getDomainTrackingID();
 	} catch (e) {
-		TVB.error("System: getUserID: " + e.message);
+		TVB.warning("System: getUserID: " + e.message);
 		return null;
 	}
 };
@@ -229,7 +229,7 @@ TVB.system.refresh = function() {
 		TVB.log("System: refresh()");
 		window.location.reload(true);
 	} catch (e) {
-		TVB.error("System: refresh: " + e.message);
+		TVB.warning("System: refresh: " + e.message);
 		throw e;
 	}
 };
@@ -245,7 +245,7 @@ TVB.system.getResourceURI = function(relativeURI) {
 		TVB.log("System: getResourceURI(" + relativeURI + ")");
 		return tvblob.getResourceURI(relativeURI);
 	} catch (e) {
-		TVB.log("WARNING System: getResourceURI method not found");
+		TVB.warning("WARNING System: getResourceURI method not found");
 		return 'file:///gui/resources/themes/PAL/consumer_v1/' + relativeURI;
 	}
 };
@@ -261,7 +261,7 @@ TVB.system.sleep = function(ms) {
 		tvblob.sleep(ms);
 		TVB.log("System: awakening");
 	} catch (e) {
-		TVB.error("System: sleep: " + e.message);
+		TVB.warning("System: sleep: " + e.message);
 		throw e;
 	}
 };
@@ -297,7 +297,7 @@ TVB.system.sleepcb = function(ms, cb) {
 			}
 		}, mindelay);
 	} catch (e) {
-		TVB.error("System: sleepcb: " + e.message);
+		TVB.warning("System: sleepcb: " + e.message);
 		throw e;
 	}
 };
@@ -347,7 +347,7 @@ TVB.system.deleteElementById = function(id) {
 			}
 		}
 	} catch (e) {
-		TVB.error("System: deleteElementById: " + e.message);
+		TVB.warning("System: deleteElementById: " + e.message);
 		throw e;
 	}
 };
@@ -361,7 +361,7 @@ TVB.system.exitBrowser = function() {
 		TVB.log("System: exitBrowser()");
 		tvblob.exitBrowser();
 	} catch (e) {
-		TVB.error("System: exitBrowser: " + e.message);
+		TVB.warning("System: exitBrowser: " + e.message);
 		throw e;
 	}
 };
@@ -376,7 +376,7 @@ TVB.system.goBackOrExitBrowser = function() {
 		TVB.log("System: goBackOrExitBrowser()");
 		tvblob.goBackOrExitBrowser();
 	} catch (e) {
-		TVB.error("System: goBackOrExitBrowser: " + e.message);
+		TVB.warning("System: goBackOrExitBrowser: " + e.message);
 		throw e;
 	}
 };
@@ -390,7 +390,7 @@ TVB.system.getPlatformName = function() {
 		TVB.log("System: getPlatformName()");
 		return tvblob.getPlatformName();
 	} catch (e) {
-		TVB.error("System: getPlatformName: " + e.message);
+		TVB.warning("System: getPlatformName: " + e.message);
 		throw e;
 	}
 };
@@ -404,7 +404,7 @@ TVB.system.getPlatformVersion = function() {
 		TVB.log("System: getPlatformVersion()");
 		return tvblob.getPlatformVersion();
 	} catch (e) {
-		TVB.error("System: getPlatformVersion: " + e.message);
+		TVB.warning("System: getPlatformVersion: " + e.message);
 		throw e;
 	}
 };
@@ -418,7 +418,7 @@ TVB.system.getPlatformFingerprint = function() {
 		TVB.log("System: getPlatformFingerprint()");
 		return tvblob.getPlatformFingerprint();
 	} catch (e) {
-		TVB.error("System: getPlatformFingerprint: " + e.message);
+		TVB.warning("System: getPlatformFingerprint: " + e.message);
 		throw e;
 	}
 };

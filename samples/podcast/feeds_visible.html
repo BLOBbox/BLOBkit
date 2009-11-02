@@ -28,8 +28,13 @@
 				
 				// Draw on screen a table containing all feeds ID, visibility status and title
 				
-				if (feed_list.length > 0) {
+				var count = 0;
+				for (var j in feed_list) {
+					count++;
+				}
 				
+				// Draw on screen a table containing all feeds ID, visibility status and title
+				if (count > 0) {
 					for (var i in feed_list) {
 						var row = document.createElement('tr');
 

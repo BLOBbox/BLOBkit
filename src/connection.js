@@ -150,7 +150,7 @@ TVB.Connection.xmlhttp = function()
  * @param	{Object}	method	'POST' or 'GET'
  * @param	{Object}	uri
  * @param	{Object}	params
- * @return	{String}	The message returned
+ * @return	{String}	The message returned, false if connection failed
  */
 TVB.Connection.syncRequest = function(method, uri, params) {
 	try {
@@ -173,10 +173,11 @@ TVB.Connection.syncRequest = function(method, uri, params) {
 
 		if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
 			return xmlHttp.responseText;
+		} else {
+			return false;
 		}
-		return false;
 	} catch (e) {
-		TVB.error("Connection: syncRequest: " + e.message);
+		TVB.warning("Connection: syncRequest: " + e.message);
 		return false;
 	}
 };

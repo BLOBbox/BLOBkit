@@ -30,6 +30,7 @@ TVB.vfs = {};
  * Get space status code (w.r.t. the minimum space threshold set for this storage).
  * @method getStorageSpaceStatusCode
  * @return {Number} spaceStatus Code
+ * @exception {UnsupportedError}
  */
 TVB.vfs.getStorageSpaceStatusCode = function() {
 	try {
@@ -37,8 +38,8 @@ TVB.vfs.getStorageSpaceStatusCode = function() {
 		var s = new LocalStorage();
 		return s.getStorageSpaceStatusCode();
 	} catch (e) {
-		TVB.error("Vfs: getStorageSpaceStatusCode: " + e.message);
-		throw e;
+		TVB.warning("Vfs: getStorageSpaceStatusCode: " + e.message);
+		throw UnsupportedError;
 	}
 };
 
@@ -46,6 +47,7 @@ TVB.vfs.getStorageSpaceStatusCode = function() {
  * Get storage space status string (w.r.t. the minimum space threshold set for this storage).
  * @method getStorageSpaceStatusName
  * @return {String} spaceStatus Name
+ * @exception {UnsupportedError}
  */
 TVB.vfs.getStorageSpaceStatusName = function() {
 	try {
@@ -53,8 +55,8 @@ TVB.vfs.getStorageSpaceStatusName = function() {
 		var s = new LocalStorage();
 		return s.getStorageSpaceStatusName();
 	} catch (e) {
-		TVB.error("Vfs: getStorageSpaceStatusName: " + e.message);
-		throw e;
+		TVB.warning("Vfs: getStorageSpaceStatusName: " + e.message);
+		throw UnsupportedError;
 	}
 };
 
@@ -62,6 +64,7 @@ TVB.vfs.getStorageSpaceStatusName = function() {
  * Get the local storage free space as string.
  * @method getFreeSpaceAsString
  * @return {String} a string that can be converted to long and represents free space, null if the information is not available
+ * @exception {UnsupportedError}
  */
 TVB.vfs.getFreeSpaceAsString = function() {
 	try {
@@ -69,8 +72,8 @@ TVB.vfs.getFreeSpaceAsString = function() {
 		var s = new LocalStorage();
 		return s.getFreeSpaceAsString();
 	} catch (e) {
-		TVB.error("Vfs: getFreeSpaceAsString: " + e.message);
-		throw e;
+		TVB.warning("Vfs: getFreeSpaceAsString: " + e.message);
+		throw UnsupportedError;
 	}
 };
 
@@ -78,6 +81,7 @@ TVB.vfs.getFreeSpaceAsString = function() {
  * Get the local storage free space as string.
  * @method getFreeSpaceAsString
  * @return {Number} a float converted from the string that represents free space, null if the information is not available
+ * @exception {UnsupportedError}
  */
 TVB.vfs.getFreeSpaceAsFloat = function() {
 	try {
@@ -90,8 +94,8 @@ TVB.vfs.getFreeSpaceAsFloat = function() {
 			return parseInt(c, 10);
 		}
 	} catch (e) {
-		TVB.error("Vfs: getFreeSpaceAsFloat: " + e.message);
-		throw e;
+		TVB.warning("Vfs: getFreeSpaceAsFloat: " + e.message);
+		throw UnsupportedError;
 	}
 };
 
@@ -99,6 +103,7 @@ TVB.vfs.getFreeSpaceAsFloat = function() {
  * Get a formatted string that represents the local storage free space.
  * @method getFreeSpaceAsFormattedString
  * @return {String} a formatted string to show free space, null if the information is not available
+ * @exception {UnsupportedError}
  */
 TVB.vfs.getFreeSpaceAsFormattedString = function() {
 	try {
@@ -106,7 +111,7 @@ TVB.vfs.getFreeSpaceAsFormattedString = function() {
 		var s = new LocalStorage();
 		return s.getFreeSpaceAsFormattedString();
 	} catch (e) {
-		TVB.error("Vfs: getFreeSpaceAsFormattedString: " + e.message);
-		throw e;
+		TVB.warning("Vfs: getFreeSpaceAsFormattedString: " + e.message);
+		throw UnsupportedError;
 	}
 };

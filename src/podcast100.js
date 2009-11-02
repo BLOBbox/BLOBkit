@@ -15,7 +15,7 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.podcast.mgr = new PushVodFeedsManager();
 			return true;
 		} catch (e) {
-			TVB.error("podcast.init: " + e.message);
+			TVB.warning("podcast.init: " + e.message);
 			throw e;
 		}
 	};
@@ -43,7 +43,7 @@ if (TVB.podcast.version_integer < 101) {
 			}
 			return true;
 		} catch (e) {
-			TVB.error("podcast.refresh: " + e.message);
+			TVB.warning("podcast.refresh: " + e.message);
 			throw e;
 		}
 	};
@@ -60,7 +60,7 @@ if (TVB.podcast.version_integer < 101) {
 			}
 			return false;
 		} catch (e) {
-			TVB.error("podcast.getFeedDescription: " + e.message);
+			TVB.warning("podcast.getFeedDescription: " + e.message);
 			return false;
 		}
 	};
@@ -77,7 +77,7 @@ if (TVB.podcast.version_integer < 101) {
 			}
 			return false;
 		} catch (e) {
-			TVB.error("podcast.getFeedTitle: " + e.message);
+			TVB.warning("podcast.getFeedTitle: " + e.message);
 			return false;
 		}
 	};
@@ -91,7 +91,7 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.podcast.refresh();
 			return TVB.podcast.feeds;
 		} catch (e) {
-			TVB.error("podcast.getFeeds: " + e.message);
+			TVB.warning("podcast.getFeeds: " + e.message);
 			throw e;
 		}
 	};
@@ -111,7 +111,7 @@ if (TVB.podcast.version_integer < 101) {
 			}
 			return data;
 		} catch (e) {
-			TVB.error("podcast.getFeeds: " + e.message);
+			TVB.warning("podcast.getFeeds: " + e.message);
 			throw e;
 		}
 	};
@@ -130,7 +130,7 @@ if (TVB.podcast.version_integer < 101) {
 			TVB.log(TVB.dump(ids));
 			return TVB.podcast.feeds;
 		} catch (e) {
-			TVB.error("podcast.getFeedsID: " + e.message);
+			TVB.warning("podcast.getFeedsID: " + e.message);
 			throw e;
 		}
 	};
@@ -149,7 +149,7 @@ if (TVB.podcast.version_integer < 101) {
 			}
 			return false;
 		} catch (e) {
-			TVB.error("podcast.: " + e.message);
+			TVB.warning("podcast.: " + e.message);
 			throw e;
 		}
 	};
@@ -192,7 +192,7 @@ if (TVB.podcast.version_integer < 101) {
 			}
 			return null;
 		} catch (e) {
-			TVB.error("podcast.getFeedContentById: " + e.message);
+			TVB.warning("podcast.getFeedContentById: " + e.message);
 			throw e;
 		}
 	};
@@ -225,7 +225,7 @@ if (TVB.podcast.version_integer < 101) {
 			}
 			return null;
 		} catch (e) {
-			TVB.error("podcast.countFeedContentById: " + e.message);
+			TVB.warning("podcast.countFeedContentById: " + e.message);
 			throw e;
 		}
 	};
@@ -245,7 +245,7 @@ if (TVB.podcast.version_integer < 101) {
 			}
 			return false;
 		} catch (e) {
-			TVB.error("podcast.getUriByID: " + e.message);
+			TVB.warning("podcast.getUriByID: " + e.message);
 			throw e;
 		}
 	};

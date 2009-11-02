@@ -238,7 +238,7 @@ TVB.player.init = function(config){
 			return false;
 		}
 	} catch (e) {
-		TVB.error("Player: init: " + e.message);
+		TVB.warning("Player: init: " + e.message);
 		throw e;
 	}
 };
@@ -291,7 +291,7 @@ TVB.player.handleRemote = function(type, args) {
 			}
 		}
 	} catch (e) {
-		TVB.error("Player: handleRemote: " + e.message);
+		TVB.warning("Player: handleRemote: " + e.message);
 	}
 };
 
@@ -308,7 +308,7 @@ TVB.player.play = function() {
 			return false;
 		}
 		if (TVB.player.config.currentUri === null) {
-			TVB.error("Player: play: please config a player uri before trying to play");
+			TVB.warning("Player: play: please config a player uri before trying to play");
 			return false;
 		}
 		
@@ -362,7 +362,7 @@ TVB.player.play = function() {
 				TVB.player.config.littleHole.style.display = 'block';
 			}
 		} catch (e) {
-			TVB.error("Player: play: " + e.message);
+			TVB.warning("Player: play: " + e.message);
 		}
 		/*
 		TVB.log("Player: play: TVB.player.config.isFullScreen == " + TVB.player.config.isFullScreen);
@@ -379,7 +379,7 @@ TVB.player.play = function() {
 			TVB.player.p.play();
 			TVB.player.config.isPlaying = true;
 		} catch (e) {
-			TVB.error("Player: play: " + e.message);
+			TVB.warning("Player: play: " + e.message);
 			TVB.player.config.isPlaying = false;
 			throw e;
 		}
@@ -387,7 +387,7 @@ TVB.player.play = function() {
 		return true;
 	} catch (e) {
 		TVB.player.config.isPlaying = false;
-		TVB.error("Player: play: " + e.message);
+		TVB.warning("Player: play: " + e.message);
 		throw e;
 	}
 };
@@ -409,7 +409,7 @@ TVB.player.pause = function() {
 		}
 		return true;
 	} catch (e) {
-		TVB.error("Player: pause: " + e.message);
+		TVB.warning("Player: pause: " + e.message);
 		throw e;
 	}
 };
@@ -448,7 +448,7 @@ TVB.player.playpause = function() {
 		// otherwise I can use p.playPause();
 		return true;
 	} catch (e) {
-		TVB.error("Player: playpause: " + e.message);
+		TVB.warning("Player: playpause: " + e.message);
 		throw e;
 	}
 };
@@ -470,7 +470,7 @@ TVB.player.rewind = function() {
 		}
 		return true;
 	} catch (e) {
-		TVB.error("Player: rewind: " + e.message);
+		TVB.warning("Player: rewind: " + e.message);
 		return false;
 	}
 };
@@ -492,7 +492,7 @@ TVB.player.fastforward = function() {
 		}
 		return true;
 	} catch (e) {
-		TVB.error("Player: fastforward: " + e.message);
+		TVB.warning("Player: fastforward: " + e.message);
 		return false;
 	}
 };
@@ -532,7 +532,7 @@ TVB.player.stop = function() {
 		}
 		return true;
 	} catch (e) {
-		TVB.error("Player: stop: " + e.message);
+		TVB.warning("Player: stop: " + e.message);
 		throw e;
 	}
 };
@@ -551,7 +551,7 @@ TVB.player.getContent = function() {
 			return null;
 		}
 	} catch (e) {
-		TVB.error("Player: getContent: " + e.message);
+		TVB.warning("Player: getContent: " + e.message);
 		return null;
 	}
 };
@@ -570,7 +570,7 @@ TVB.player.setContent = function(uri) {
 			TVB.player.play();
 		}
 	} catch (e) {
-		TVB.error("Player: setContent: " + e.message);
+		TVB.warning("Player: setContent: " + e.message);
 		throw e;
 	}
 };
@@ -636,7 +636,7 @@ TVB.player.enterFullScreen = function() {
 		*/
 		return true;
 	} catch (e) {
-		TVB.error("Player: enterFullScreen: " + e.message);
+		TVB.warning("Player: enterFullScreen: " + e.message);
 		return false;
 	}
 };
@@ -679,7 +679,8 @@ TVB.player.addHole = function(width, height) {
 		}
 		return;
 	} catch (e) {
-		TVB.error("Player: addHole: " + e.message);
+		TVB.warning("Player: addHole: " + e.message);
+		throw e;
 	}
 };
 
@@ -697,7 +698,8 @@ TVB.player.switchFullScreen = function() {
 			return TVB.player.enterFullScreen();
 		}
 	} catch (e) {
-		TVB.error("Player: switchFullScreen: " + e.message);
+		TVB.warning("Player: switchFullScreen: " + e.message);
+		return false;
 	}
 };
 
@@ -776,7 +778,7 @@ TVB.player.exitFullScreen = function() {
 		*/
 		return true;
 	} catch (e) {
-		TVB.error("Player: exitFullScreen: " + e.message);
+		TVB.warning("Player: exitFullScreen: " + e.message);
 		return false;
 	}
 };
@@ -805,7 +807,7 @@ TVB.player.destroy = function() {
 		TVB.player.config.isInit = false;
 		return true;
 	} catch (e) {
-		TVB.error("Player: destroy: " + e.message);
+		TVB.warning("Player: destroy: " + e.message);
 		return false;
 	}
 };
@@ -867,7 +869,8 @@ TVB.player.events = function(event) {
 				TVB.log("Player: unhandled state: " + event.newState);
 		}
 	} catch (e) {
-		TVB.error("Player: events: " + e.message);
+		TVB.warning("Player: events: " + e.message);
+		throw e;
 	}
 };
 
@@ -880,7 +883,8 @@ TVB.player.mute = function() {
 		TVB.log("Player: mute()");
 		TVB.player.p.setMuted(true);
 	} catch (e) {
-		TVB.error("Player: mute: " + e.message);
+		TVB.warning("Player: mute: " + e.message);
+		throw e;
 	}
 };
 
@@ -893,7 +897,8 @@ TVB.player.unmute = function() {
 		TVB.log("Player: unmute()");
 		TVB.player.p.setMuted(false);
 	} catch (e) {
-		TVB.error("Player: unmute: " + e.message);
+		TVB.warning("Player: unmute: " + e.message);
+		throw e;
 	}
 };
 
@@ -907,7 +912,7 @@ TVB.player.isMuted = function() {
 		TVB.log("Player: isMuted() -> " + TVB.player.p.isMuted());
 		return TVB.player.p.isMuted();
 	} catch (e) {
-		TVB.error("Player: isMuted: " + e.message);
+		TVB.warning("Player: isMuted: " + e.message);
 		return false;
 	}
 };
@@ -922,7 +927,7 @@ TVB.player.isInited = function() {
 		TVB.log("Player: isInited() -> " + TVB.player.config.isInit);
 		return TVB.player.config.isInit;
 	} catch (e) {
-		TVB.error("Player: isInited: " + e.message);
+		TVB.warning("Player: isInited: " + e.message);
 		return false;
 	}
 };
@@ -937,7 +942,7 @@ TVB.player.getContent = function() {
 		TVB.log("Player: getContent() -> " + TVB.player.p.getContent());
 		return TVB.player.p.getContent();
 	} catch (e) {
-		TVB.error("Player: getContent: " + e.message);
+		TVB.warning("Player: getContent: " + e.message);
 		return null;
 	}
 };
@@ -952,7 +957,7 @@ TVB.player.getStatus = function() {
 		TVB.log("Player: getStatus() -> " + TVB.player.p.getStatus());
 		return TVB.player.p.getStatus();
 	} catch (e) {
-		TVB.error("Player: getStatus: " + e.message);
+		TVB.warning("Player: getStatus: " + e.message);
 		return null;
 	}
 };
@@ -968,7 +973,7 @@ TVB.player.isFullScreenModeEnabled = function() {
 		TVB.log("Player: isFullScreenModeEnabled() -> " + TVB.player.p.isFullScreenModeEnabled());
 		return TVB.player.p.isFullScreenModeEnabled();
 	} catch (e) {
-		TVB.error("Player: isFullScreenModeEnabled:" + e.message);
+		TVB.warning("Player: isFullScreenModeEnabled:" + e.message);
 		return false;
 	}
 };
@@ -1001,7 +1006,7 @@ TVB.player.showPausedMessage = function() {
 			TVB.log("Player: warning in showBufferingMessage: " + e.message);
 		}
 	} catch (e) {
-		TVB.error("Player: showPausedMessage: " + e.message);
+		TVB.warning("Player: showPausedMessage: " + e.message);
 		throw e;
 	}
 };
@@ -1013,7 +1018,8 @@ TVB.player.removePausedMessage = function() {
 			TVB.system.deleteElementById('TVB.player.pausedmessage');
 		}
 	} catch (e) {
-		TVB.error("Player: removePausedMessage: " + e.message);
+		TVB.warning("Player: removePausedMessage: " + e.message);
+		throw e;
 	}
 };
 
@@ -1046,7 +1052,7 @@ TVB.player.showBufferingMessage = function() {
 		}
 		//document.getElementById('bufferingmessage').innerHTML = tvblob.getI18NString("hint.buffering", "Adapting to network conditions...", "messagesMediaPlayer");
 	} catch (e) {
-		TVB.error("Player: showBufferingMessage: " + e.message);
+		TVB.warning("Player: showBufferingMessage: " + e.message);
 		throw e;
 	}
 };
@@ -1080,7 +1086,7 @@ TVB.player.showStartingPlaybackMessage = function() {
 			TVB.log("Player: warning in showStartingPlaybackMessage: " + e.message);
 		}
 	} catch (e) {
-		TVB.error("Player: showStartingPlaybackMessage: " + e.message);
+		TVB.warning("Player: showStartingPlaybackMessage: " + e.message);
 		throw e;
 	}
 };
@@ -1095,26 +1101,29 @@ TVB.player.showUnableToPlayMessage = function() {
 			div.style.color = 'red';
 			div.style.zIndex = '32010';
 			div.style.border = '0';
-			div.style.top = parseInt(window.innerHeight - 85, 10) + "px";
-			div.style.left = '40px';
+			div.style.top = parseInt(window.innerHeight - 28, 10) + "px";
+			div.style.left = '0px';
 			div.style.position = 'fixed';
 			div.style.display = 'block';
-			div.style.width = '300px';
+			div.style.width = parseInt(window.innerWidth - 40, 10) + "px";
 			div.style.margin = '0';
 			div.style.padding = '0';
-			div.style.paddingLeft = '10px';
-			div.style.paddingRight = '10px';
-			div.style.zIndex = '10003';
+			div.style.paddingLeft = '20px';
+			div.style.paddingRight = '20px';
+			div.style.overflow = 'hidden';
+			div.style.height = '28px';
+			div.style.zIndex = '10004';
 
 			div.innerHTML = '';
 	
 			document.body.appendChild(div);
 		}
 
-		document.getElementById('tvbplayererrormessage').innerHTML = tvblob.getI18NStringWithArgs("hint.unableToPlay", "Unable to play", "messagesMediaPlayer", ["..."]);
+		//document.getElementById('tvbplayererrormessage').innerHTML = tvblob.getI18NStringWithArgs("hint.unableToPlay", "Unable to play", "messagesMediaPlayer", [TVB.player.config.currentUri]);
+		document.getElementById('tvbplayererrormessage').innerHTML = tvblob.getI18NString("error.title", "Unable to play", "messagesMediaPlayer");
 
 	} catch (e) {
-		TVB.error("Player: showUnableToPlayMessage: " + e.message);
+		TVB.warning("Player: showUnableToPlayMessage: " + e.message);
 		throw e;
 	}
 };
@@ -1129,7 +1138,8 @@ TVB.player.removeBufferingMessage = function() {
 			}
 		}, 1000);
 	} catch (e) {
-		TVB.error("Player: removeBufferingMessage: " + e.message);
+		TVB.warning("Player: removeBufferingMessage: " + e.message);
+		throw e;
 	}
 };
 
@@ -1138,11 +1148,13 @@ TVB.player.removeErrorMessage = function() {
 		TVB.log("Player: removeErrorMessage()");
 		setTimeout(function() {
 			if (document.getElementById('tvbplayererrormessage')) {
-				document.getElementById('tvbplayererrormessage').innerHTML = '';
+				//document.getElementById('tvbplayererrormessage').innerHTML = '';
+				TVB.system.deleteElementById('tvbplayererrormessage');
 			}
 		}, 1000);
 	} catch (e) {
-		TVB.error("Player: removeErrorMessage: " + e.message);
+		TVB.warning("Player: removeErrorMessage: " + e.message);
+		throw e;
 	}
 };
 
@@ -1157,7 +1169,7 @@ TVB.player.disableRemote = function() {
 		TVB.player.config.disableRemote = true;
 		return true;
 	} catch (e) {
-		TVB.error("Player: disableRemote:" + e.message);
+		TVB.warning("Player: disableRemote:" + e.message);
 		return false;
 	}
 };
@@ -1173,7 +1185,7 @@ TVB.player.enableRemote = function() {
 		TVB.player.config.disableRemote = false;
 		return true;
 	} catch (e) {
-		TVB.error("Player: enableRemote:" + e.message);
+		TVB.warning("Player: enableRemote:" + e.message);
 		return false;
 	}
 };
@@ -1200,7 +1212,7 @@ TVB.player.setSize = function(width, height) {
 		TVB.player.config.width = width;
 		TVB.player.config.height = height;
 	} catch (e) {
-		TVB.error("Player: setSize: " + e.message);
+		TVB.warning("Player: setSize: " + e.message);
 		throw e;
 	}
 };

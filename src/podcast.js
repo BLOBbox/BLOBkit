@@ -110,6 +110,7 @@ try {
  * @method init
  * @deprecated it is no more necessary to init the podcast system
  * @return {Boolean} Result of the operation
+ * @exception {InitError}
  */
 TVB.podcast.init = function() {
 	try {
@@ -121,8 +122,8 @@ TVB.podcast.init = function() {
 		TVB.podcast.mgr = new PushVodFeedsManager();
 		return true;
 	} catch (e) {
-		TVB.error("Podcast: init: " + e.message);
-		throw e;
+		TVB.warning("Podcast: init: " + e.message);
+		throw InitError;
 	}
 };
 
@@ -154,14 +155,16 @@ TVB.podcast.getFeeds = function() {
 			TVB.podcast.init();
 		}
 		var fe = [];
+		TVB.log("Initializing fh");
 		var fh = TVB.podcast.mgr.getAllFeeds();
 		for (var i in fh) {
+			TVB.log("Iteration " + i);
 			var fho = fh[i];
 			fe[fho.getID()] = TVB.podcast.formatFeedObject(fho);
 		}
 		return fe;
 	} catch (e) {
-		TVB.error("Podcast: getFeeds: " + e.message);
+		TVB.warning("Podcast: getFeeds: " + e.message);
 		throw e;
 	}
 };
@@ -200,7 +203,7 @@ TVB.podcast.getFeedsID = function() {
 		}
 		return ids;
 	} catch (e) {
-		TVB.error("Podcast: getFeedsID: " + e.message);
+		TVB.warning("Podcast: getFeedsID: " + e.message);
 		throw e;
 	}
 };
@@ -225,7 +228,7 @@ TVB.podcast.getFeedByID = function(feedID) {
 			return TVB.podcast.formatFeedObject(fho);
 		}
 	} catch (e) {
-		TVB.error("Podcast: getFeeds: " + e.message);
+		TVB.warning("Podcast: getFeeds: " + e.message);
 		throw e;
 	}
 };
@@ -251,7 +254,7 @@ TVB.podcast.getVisibleFeeds = function() {
 		}
 		return fe;
 	} catch (e) {
-		TVB.error("podcast.getFeeds: " + e.message);
+		TVB.warning("podcast.getFeeds: " + e.message);
 		throw e;
 	}
 };
@@ -278,7 +281,7 @@ TVB.podcast.getVisibleFeedsID = function() {
 		}
 		return ids;
 	} catch (e) {
-		TVB.error("Podcast: getVisibleFeedsID: " + e.message);
+		TVB.warning("Podcast: getVisibleFeedsID: " + e.message);
 		throw e;
 	}
 };
@@ -314,7 +317,7 @@ TVB.podcast.formatFeedObject = function(feedHandler) {
 		
 		return fhd;
 	} catch (e) {
-		TVB.error("Podcast: formatFeedObject: " + e.message);
+		TVB.warning("Podcast: formatFeedObject: " + e.message);
 		throw e;
 	}
 };
@@ -339,7 +342,7 @@ TVB.podcast.getFeedDescription = function(feedID) {
 			return fho.getDescription();
 		}
 	} catch (e) {
-		TVB.error("podcast.getFeedDescription: " + e.message);
+		TVB.warning("podcast.getFeedDescription: " + e.message);
 		return false;
 	}
 };
@@ -364,7 +367,7 @@ TVB.podcast.getFeedTitle = function(feedID) {
 			return fho.getTitle();
 		}
 	} catch (e) {
-		TVB.error("podcast.getFeedTitle: " + e.message);
+		TVB.warning("podcast.getFeedTitle: " + e.message);
 		return false;
 	}
 };
@@ -379,10 +382,10 @@ TVB.podcast.getFeedTitle = function(feedID) {
 TVB.podcast.feedExist = function(feedID) {
 	try {
 		TVB.log("Podcast: feedExist(" + feedID + ")");
-		TVB.error("Podcast: feedExist: this function is deprecated, please use feedExists.");
+		TVB.warning("Podcast: feedExist: this function is deprecated, please use feedExists.");
 		return TVB.podcast.feedExists(feedID);
 	} catch (e) {
-		TVB.error("Podcast: feedExist: " + e.message);
+		TVB.warning("Podcast: feedExist: " + e.message);
 		throw e;
 	}
 };
@@ -407,7 +410,7 @@ TVB.podcast.feedExists = function(feedID) {
 			return true;
 		}
 	} catch (e) {
-		TVB.error("Podcast: feedExists: " + e.message);
+		TVB.warning("Podcast: feedExists: " + e.message);
 		throw e;
 	}
 };
@@ -462,7 +465,7 @@ TVB.podcast.countFeedContentByID = function(feedID) {
 			return content;
 		}
 	} catch (e) {
-		TVB.error("podcast.countFeedContentByID: " + e.message);
+		TVB.warning("podcast.countFeedContentByID: " + e.message);
 		throw e;
 	}
 };
@@ -525,7 +528,7 @@ TVB.podcast.formatContentObject = function(contentHandler) {
 		}
 		return chd;
 	} catch (e) {
-		TVB.error("Podcast: formatContentObject: " + e.message);
+		TVB.warning("Podcast: formatContentObject: " + e.message);
 		throw e;
 	}
 };
@@ -550,7 +553,7 @@ TVB.podcast.getFeedContentByID = function(feedID) {
 		}
 		return cl;
 	} catch (e) {
-		TVB.error("Podcast: getFeedContentByID: " + e.message);
+		TVB.warning("Podcast: getFeedContentByID: " + e.message);
 		throw e;
 	}
 };
@@ -576,7 +579,7 @@ TVB.podcast.getFeedContentByContentID = function(feedID, contentID) {
 			return TVB.podcast.formatContentObject(cho);
 		}
 	} catch (e) {
-		TVB.error("Podcast: getFeedContentByID: " + e.message);
+		TVB.warning("Podcast: getFeedContentByID: " + e.message);
 		throw e;
 	}
 };
@@ -598,7 +601,7 @@ TVB.podcast.getUriByID = function(feedID, contentID) {
 		var cho = fho.getContentByID(contentID); 
 		return cho.getURI();
 	} catch (e) {
-		TVB.error("Podcast: getUriByID: " + e.message);
+		TVB.warning("Podcast: getUriByID: " + e.message);
 		throw e;
 	}
 };

@@ -55,6 +55,7 @@ TVB.ad.config = {
  * Initialize the connection with your application and the AD server
  * @method init
  * @param	{Object}	config	See manual for configuration options
+ * @exception {InitError}
  */
 TVB.ad.init = function(config) {
 	try {
@@ -81,8 +82,8 @@ TVB.ad.init = function(config) {
 			TVB.ad.config.autoplay = false;
 		}
 	} catch (e) {
-		TVB.error("Ad client: init : " + e.message);
-		throw e;
+		TVB.warning("Ad client: init : " + e.message);
+		throw InitError;
 	}
 };
 
@@ -129,7 +130,8 @@ TVB.ad.prepareMessage = function() {
 	
 		return msg;
 	} catch (e) {
-		TVB.error("Ad client: prepareMessage: " + e.message);
+		TVB.warning("Ad client: prepareMessage: " + e.message);
+		throw e;
 	}
 };
 
@@ -152,7 +154,8 @@ TVB.ad.askTimeline = function(metadata) {
 		TVB.ad.config.timeline = TVB.json.parse(res);
 		return TVB.ad.config.timeline;
 	} catch (e) {
-		TVB.error("Ad client: askTimeline: " + e.message);
+		TVB.warning("Ad client: askTimeline: " + e.message);
+		throw e;
 	}
 };
 
@@ -190,10 +193,10 @@ TVB.ad.setContent = function(uri, metadata) {
 			} else if (i == -2) {
 				TVB.ad.config.adPost = true;
 			} else {
-				if (timeline[i]['action_type'] > 1 && timeline[i]['action_type'] < 4) {
+				if (timeline[i].action_type > 1 && timeline[i].action_type < 4) {
 					preload[i] = new Image();
-					preload[i].src = timeline[i]['ad_url'];
-					TVB.log("Faucet: preloaded " + timeline[i]['ad_url']);
+					preload[i].src = timeline[i].ad_url;
+					TVB.log("Faucet: preloaded " + timeline[i].ad_url);
 				}
 			}
 		}
@@ -208,7 +211,7 @@ TVB.ad.setContent = function(uri, metadata) {
 						TVB.CustomEvent.fireEvent(TVB.ad.events.start_media, {});
 					}
 				} catch (e) {
-					TVB.error("Ad client: events_starting_playback: " + e.message);
+					TVB.warning("Ad client: events_starting_playback: " + e.message);
 					throw e;
 				}
 			});
@@ -220,7 +223,7 @@ TVB.ad.setContent = function(uri, metadata) {
 					TVB.ad.config.uistate = TVB.ad.config.uistatetype.DURING;
 					TVB.ad.showVideo();
 				} catch (e) {
-					TVB.error("Ad client: events_start_media: " + e.message);
+					TVB.warning("Ad client: events_start_media: " + e.message);
 					throw e;
 				}
 			});
@@ -232,7 +235,7 @@ TVB.ad.setContent = function(uri, metadata) {
 					TVB.ad.config.uistate = TVB.ad.config.uistatetype.BEFORE;
 					TVB.ad.showAdBefore();
 				} catch (e) {
-					TVB.error("Ad client: events_start_ad_before: " + e.message);
+					TVB.warning("Ad client: events_start_ad_before: " + e.message);
 					throw e;
 				}
 			});
@@ -244,7 +247,7 @@ TVB.ad.setContent = function(uri, metadata) {
 					TVB.ad.config.uistate = TVB.ad.config.uistatetype.AFTER;
 					TVB.ad.showAdAfter();
 				} catch (e) {
-					TVB.error("Ad client: events_start_ad_after: " + e.message);
+					TVB.warning("Ad client: events_start_ad_after: " + e.message);
 					throw e;
 				}
 			});
@@ -300,7 +303,7 @@ TVB.ad.removeMessage = function() {
 			document.body.removeChild(document.getElementById('messaggiopromozionale'));
 		}
 	} catch (e) {
-		TVB.error("Ad client: removeMessage: " + e.message);
+		TVB.warning("Ad client: removeMessage: " + e.message);
 	}
 };
 
@@ -357,8 +360,6 @@ TVB.ad.showEmbedded = function(opt, ts) {
 			document.body.removeChild(document.getElementById('banner'));
 		}, parseInt(duration + ts, 10));
 		
-		//TVB.log("Ad client: vengo a " + parseInt(ts) + " e vado via alle " + parseInt(duration + ts) + ".");
-		
 		TVB.ad.config.timeoutArray.push(tostart);
 		TVB.ad.config.timeoutArray.push(toend);
 	} catch (e) {
@@ -385,7 +386,6 @@ TVB.ad.showBanner = function(opt,ts) {
 			duration = 8000;
 		}
 		var ad_id = opt.ad_id;
-		//TVB.log("Ad client: questo banner ha ad_id = " + ad_id);
 		var action_id = opt.action_id;
 		var action_type = opt.action_type;
 
@@ -408,7 +408,6 @@ TVB.ad.showBanner = function(opt,ts) {
 					div.style.margin = '0';
 					div.style.padding = '0';
 				
-					//TVB.log("Ad client: showBanner: mostro il banner " + div.id);
 					TVB.ad.sendConfirmation(ad_id, action_id, 0, 0);
 					document.body.appendChild(div);
 				},ts);
@@ -451,8 +450,8 @@ TVB.ad.showAdBefore = function() {
 		}
 		
 		var items = null;
-		if (timeline[-1]['media_items'] !== undefined) {
-			items = timeline['-1']['media_items'];
+		if (timeline[-1].media_items !== undefined) {
+			items = timeline['-1'].media_items;
 		}
 		else {
 			items = timeline['-1'];
@@ -461,11 +460,11 @@ TVB.ad.showAdBefore = function() {
 		var feedid = '36';
 		
 		var contentid = null;
-		if (items['media_item_id'] !== undefined) {
-			contentid = items['media_item_id'];
+		if (items.media_item_id !== undefined) {
+			contentid = items.media_item_id;
 		}
 		else {
-			contentid = items[0]['media_item_id'];
+			contentid = items[0].media_item_id;
 		}
 		
 		var uri = TVB.podcast.getUriByID(feedid, contentid);
@@ -532,7 +531,7 @@ TVB.ad.showVideo = function() {
 			var tl = TVB.ad.config.timeline;
 			for (var i in tl) {
 				if (i >= 0) {
-					switch (tl[i]['action_type']) {
+					switch (tl[i].action_type) {
 						case 1:
 							TVB.log(tl[i]);
 							
@@ -543,12 +542,12 @@ TVB.ad.showVideo = function() {
 							break;
 						case 2:
 							opt = {
-								'url':tl[i]['ad_url'],
-								'width':tl[i]['width'],
-								'height':tl[i]['height'],
-								'topCoord':tl[i]['top'],
-								'leftCoord':tl[i]['left'],
-								'duration': (tl[i]['duration'] * 1000),
+								'url':tl[i].ad_url,
+								'width':tl[i].width,
+								'height':tl[i].height,
+								'topCoord':tl[i].top,
+								'leftCoord':tl[i].left,
+								'duration': (tl[i].duration * 1000),
 								'ad_id': tl[i].ad_id,
 								'action_id': tl[i].action_id,
 								'action_type': 0
@@ -558,27 +557,26 @@ TVB.ad.showVideo = function() {
 							break;
 						case 3:
 							opt = {
-								'url':tl[i]['ad_url'],
-								'width':tl[i]['width'],
-								'height':tl[i]['height'],
-								'topCoord':tl[i]['top'],
-								'leftCoord':tl[i]['left'],
-								'duration': (tl[i]['duration'] * 1000),
-								'ad_id': tl[i]['ad_id'],
-								'action_id': tl[i]['action_id'],
+								'url':tl[i].ad_url,
+								'width':tl[i].width,
+								'height':tl[i].height,
+								'topCoord':tl[i].top,
+								'leftCoord':tl[i].left,
+								'duration': (tl[i].duration * 1000),
+								'ad_id': tl[i].ad_id,
+								'action_id': tl[i].action_id,
 								'action_type': 0
 								};
 							milliStart = i * 1000;
 							TVB.ad.showEmbedded(opt, milliStart);
 							break;
 						default:
-							TVB.ad.sendConfirmation(tl[i]['ad_id'], tl[i]['action_id'], 0, 9);
+							TVB.ad.sendConfirmation(tl[i].ad_id, tl[i].action_id, 0, 9);
 					}
 				}
 			}
 
 		});
-	
 	
 		var stopFunction = function() {
 			TVB.ad.config.uistate = TVB.ad.config.uistatetype.BEFORE;
@@ -593,7 +591,7 @@ TVB.ad.showVideo = function() {
 
 			for (i in TVB.ad.config.timeoutArray)
 			{
-				//TVB.log('Ad client: Deactivating banner ' + i);
+				TVB.log('Ad client: Deactivating banner ' + i);
 				clearTimeout(TVB.ad.config.timeoutArray[i]);
 			}
 
@@ -635,9 +633,7 @@ TVB.ad.showAdAfter = function() {
 		}
 	
 		var timeline = TVB.ad.config.timeline;
-		//TVB.log("Ad client: timeline[-2] vale " + timeline[-2]);
 		if (timeline[-2] === undefined) {
-			//TVB.log("Ad client: non ho ad after, ritorno in regia");
 			TVB.CustomEvent.fireEvent(TVB.ad.events.end_playlist, {});
 			return;
 		}
@@ -646,20 +642,19 @@ TVB.ad.showAdAfter = function() {
 			for (var j in timeline[-2].media_items) {
 				TVB.ad.sendConfirmation(timeline[-2].media_items[j].ad_id, timeline[-2].action_id, 0, 2);
 			}
-			//TVB.log("Ad client: non e' un filmato di after, ritorno in regia");
 			TVB.CustomEvent.fireEvent(TVB.ad.events.end_playlist, {});
 			return;
 		}
 	
-		var items = timeline['-2']['media_items'];
+		var items = timeline['-2'].media_items;
 		//TVB.log("Ad client: showAdAfter: items = " + TVB.dump(items));
 	
 		var feedid = '36';
 		var contentid = null; 
-		if (items['media_item_id'] !== undefined) {
-			contentid = items['media_item_id'];
+		if (items.media_item_id !== undefined) {
+			contentid = items.media_item_id;
 		} else {
-			contentid = items[0]['media_item_id'];	
+			contentid = items[0].media_item_id;	
 		}
 	
 		var uri = TVB.podcast.getUriByID(feedid,contentid);
@@ -676,7 +671,6 @@ TVB.ad.showAdAfter = function() {
 		setTimeout(function() {
 			TVB.player.play();
 		}, 700);
-		//TVB.log("Il telecomando ora e' " + TVB.player.config.disableRemote);
 	
 		TVB.CustomEvent.subscribeEvent(TVB.player.events.end_of_streaming,function()
 				{
@@ -713,8 +707,6 @@ TVB.ad.sendConfirmation = function(ad_id, action_id, ad_action_type, result) {
 				'result': result
 			}
 		};
-
-		//TVB.log("Ad client: " + TVB.dump(msg));
 
 		var reqUri = TVB.ad.config.server_uri + '?action=sendConfirm&params=' + TVB.json.stringify(msg);
 	

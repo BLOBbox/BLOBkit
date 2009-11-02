@@ -28,7 +28,7 @@ TVB.remote = function() {
 		}
 		return;
 	} catch (e) {
-		TVB.error("Remote: __constructor__: " + e.message);
+		TVB.warning("Remote: __constructor__: " + e.message);
 	}
 };
 
@@ -96,7 +96,7 @@ try {
 		TVB.remote.button[TVB.remote.btns[i]] = TVB.CustomEvent.createEvent('button_' + TVB.remote.btns[i]);
 	}
 } catch (e) {
-	TVB.error("Remote: __constructor__: " + e.message);
+	TVB.warning("Remote: __constructor__: " + e.message);
 }
 
 /**
@@ -168,7 +168,7 @@ TVB.remote.handler = function(o) {
 			tvblob.goBackOrExitBrowser();
 		} 
 	} catch (e) {
-		TVB.error("Remote: handler: " + e.message);
+		TVB.warning("Remote: handler: " + e.message);
 	}
 };
 
@@ -183,7 +183,7 @@ TVB.remote.getLastButtonPressed = function() {
 		TVB.log("Remote: getLastButtonPressed() -> " + TVB.remote.lastButton);
 		return TVB.remote.lastButton;
 	} catch (e) {
-		TVB.error("Remote: getLastButtonPressed: " + e.message);
+		TVB.warning("Remote: getLastButtonPressed: " + e.message);
 		return null;
 	}
 };
@@ -248,7 +248,7 @@ TVB.remote.enableGreenRefresh = function() {
 		TVB.log("Remote: enableGreenRefresh()");
 		TVB.remote.config.refresh = true;
 	} catch (e) {
-		TVB.error("Remote: enableGreenRefresh: " + e.message);
+		TVB.warning("Remote: enableGreenRefresh: " + e.message);
 	}
 };
 
@@ -262,7 +262,7 @@ TVB.remote.disableGreenRefresh = function() {
 		TVB.log("Remote: disableGreenRefresh()");
 		TVB.remote.config.refresh = false;
 	} catch (e) {
-		TVB.error("Remote: disableGreenRefresh: " + e.message);
+		TVB.warning("Remote: disableGreenRefresh: " + e.message);
 	}
 };
 
@@ -284,7 +284,7 @@ TVB.remote.enableOk = function()
 		TVB.remote.rc.setKeyHandler('OK', "TVB.remote.handler");
 
 	} catch (e) {
-		TVB.error("Remote: disableOk: " + e.message);
+		TVB.warning("Remote: disableOk: " + e.message);
 	}
 };
 
@@ -305,7 +305,7 @@ TVB.remote.disableOk = function() {
 		TVB.remote.rc.removeKeyHandler('OK');
 
 	} catch (e) {
-		TVB.error("Remote: disableOk: " + e.message);
+		TVB.warning("Remote: disableOk: " + e.message);
 	}
 };
 
@@ -330,7 +330,7 @@ TVB.remote.enableNav = function()
 		TVB.remote.rc.setKeyHandler('OK', "TVB.remote.handler");
 
 	} catch (e) {
-		TVB.error("Remote: enableNav: " + e.message);
+		TVB.warning("Remote: enableNav: " + e.message);
 	}
 };
 
@@ -354,7 +354,7 @@ TVB.remote.disableNav = function() {
 		TVB.remote.rc.removeKeyHandler('OK');
 
 	} catch (e) {
-		TVB.error("Remote: disableNav: " + e.message);
+		TVB.warning("Remote: disableNav: " + e.message);
 	}
 };
 
@@ -377,7 +377,7 @@ TVB.remote.enableUpDown = function()
 		TVB.remote.rc.setKeyHandler('DOWN', "TVB.remote.handler");
 
 	} catch (e) {
-		TVB.error("Remote: disableUpDown: " + e.message);
+		TVB.warning("Remote: disableUpDown: " + e.message);
 	}
 };
 
@@ -399,7 +399,7 @@ TVB.remote.disableUpDown = function()
 		TVB.remote.rc.removeKeyHandler('DOWN');
 
 	} catch (e) {
-		TVB.error("Remote: disableUpDown: " + e.message);
+		TVB.warning("Remote: disableUpDown: " + e.message);
 	}
 };
 
@@ -421,7 +421,7 @@ TVB.remote.enableLeftRight = function()
 		TVB.remote.rc.setKeyHandler('RIGHT', "TVB.remote.handler");
 
 	} catch (e) {
-		TVB.error("Remote: disableLeftRight: " + e.message);
+		TVB.warning("Remote: disableLeftRight: " + e.message);
 	}
 };
 
@@ -443,7 +443,7 @@ TVB.remote.disableLeftRight = function()
 		TVB.remote.rc.removeKeyHandler('RIGHT');
 
 	} catch (e) {
-		TVB.error("Remote: disableLeftRight: " + e.message);
+		TVB.warning("Remote: disableLeftRight: " + e.message);
 	}
 };
 
@@ -476,7 +476,7 @@ TVB.remote.enableLetters = function()
 		TVB.remote.rc.setKeyHandler('BACKSPACE', "TVB.remote.handler");
 
 	} catch (e) {
-		TVB.error("Remote: enableLetters: " + e.message);
+		TVB.warning("Remote: enableLetters: " + e.message);
 	}
 };
 
@@ -509,7 +509,7 @@ TVB.remote.disableLetters = function()
 		TVB.remote.rc.removeKeyHandler('BACKSPACE');
 
 	} catch (e) {
-		TVB.error("Remote: disableLetters: " + e.message);
+		TVB.warning("Remote: disableLetters: " + e.message);
 	}
 };
 
@@ -529,7 +529,7 @@ TVB.remote.disableVcr = function()
 			TVB.remote.rc.removeKeyHandler(TVB.remote.btns_vcr[i]);
 		}
 	} catch (e) {
-		TVB.error("Remote: disableVcr: " + e.message);
+		TVB.warning("Remote: disableVcr: " + e.message);
 	}
 };
 
@@ -549,7 +549,7 @@ TVB.remote.enableVcr = function()
 			TVB.remote.rc.setKeyHandler(TVB.remote.btns_vcr[i], "TVB.remote.handler");
 		}
 	} catch (e) {
-		TVB.error("Remote: enableVcr: " + e.message);
+		TVB.warning("Remote: enableVcr: " + e.message);
 	}
 };
 
@@ -565,7 +565,7 @@ TVB.remote.getGreenRefreshStatus = function() {
 		TVB.log("Remote: getGreenRefreshStatus() -> " + TVB.remote.config.refresh);
 		return TVB.remote.config.refresh;
 	} catch (e) {
-		TVB.error("Remote: getGreenRefreshStatus: " + e.message);
+		TVB.warning("Remote: getGreenRefreshStatus: " + e.message);
 		throw e;
 	}
 };
@@ -579,7 +579,7 @@ TVB.remote.enableBack = function() {
 		TVB.log("Remote: enableBack()");
 		TVB.remote.config.back = true;
 	} catch (e) {
-		TVB.error("Remote: enableBack: " + e.message);
+		TVB.warning("Remote: enableBack: " + e.message);
 		throw e;
 	}
 };
@@ -593,7 +593,7 @@ TVB.remote.disableBack = function() {
 		TVB.log("Remote: disableBack()");
 		TVB.remote.config.back = false;
 	} catch (e) {
-		TVB.error("Remote: disableBack: " + e.message);
+		TVB.warning("Remote: disableBack: " + e.message);
 		throw e;
 	}
 };
@@ -609,7 +609,7 @@ TVB.remote.getBackStatus = function() {
 		TVB.log("Remote: getBackStatus() -> " + TVB.remote.config.back);
 		return TVB.remote.config.back;
 	} catch (e) {
-		TVB.error("Remote: getBackStatus: " + e.message);
+		TVB.warning("Remote: getBackStatus: " + e.message);
 		throw e;
 	}
 };
@@ -634,7 +634,7 @@ TVB.remote.destroy = function() {
 		delete TVB.remoteHandler;
 		return true;
 	} catch (e) {
-		TVB.error("Remote: destroy: " + e.message);
+		TVB.warning("Remote: destroy: " + e.message);
 		throw e;
 	}
 };

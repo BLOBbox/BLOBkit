@@ -37,7 +37,7 @@ TVB.tuner.countDvbChannels = function() {
 		var tuner = BlobTunerManager();
 		return tuner.getAllTunerChannels().length;
 	} catch (e) {
-		TVB.error("Tuner: countDvbChannels:" + e.message);
+		TVB.warning("Tuner: countDvbChannels:" + e.message);
 		return null;
 	}
 };
@@ -64,7 +64,7 @@ TVB.tuner.getDvbChannelsList = function() {
 		}
 		return data;
 	} catch (e) {
-		TVB.error("Tuner: getDvbChannelsList:" + e.message);
+		TVB.warning("Tuner: getDvbChannelsList:" + e.message);
 		return null;
 	}
 };

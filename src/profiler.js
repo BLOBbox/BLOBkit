@@ -32,7 +32,7 @@ TVB.Profiler.register = function(fn, namespace) {
 	
 		YAHOO.tool.Profiler.registerFunction(fn, namespace);
 	} catch (e) {
-		TVB.error("Profiler: register: " + e.message);
+		TVB.warning("Profiler: register: " + e.message);
 		throw e;
 	}
 };
@@ -48,7 +48,7 @@ TVB.Profiler.unregister = function(fn)
 		TVB.log("Profiler: unregister(" + fn + ")");
 		YAHOO.tool.Profiler.unregisterFunction(fn);
 	} catch (e) {
-		TVB.error("Profiler: register: " + e.message);
+		TVB.warning("Profiler: register: " + e.message);
 		throw e;
 	}
 };
@@ -83,7 +83,7 @@ TVB.Profiler.profile = function(fn,namespace,callback,params) {
 
 		return rv;
 	} catch (e) {
-		TVB.error("Profiler: profile: " + e.message);
+		TVB.warning("Profiler: profile: " + e.message);
 		throw e;
 	}
 };
@@ -99,7 +99,7 @@ TVB.Profiler.callCount = function(fn) {
 		TVB.log("Profiler: callCount(" + fn + ")");
 		return (YAHOO.tool.Profiler.getCallCount(fn));
 	} catch (e) {
-		TVB.error("Profiler: callCount: " + e.message);
+		TVB.warning("Profiler: callCount: " + e.message);
 		throw e;
 	}
 };
@@ -115,7 +115,7 @@ TVB.Profiler.maxTime = function(fn) {
 		TVB.log("Profiler: maxTime(" + fn + ")");
 		return(YAHOO.tool.Profiler.getMax(fn));
 	} catch (e) {
-		TVB.error("Profiler: maxTime: " + e.message);
+		TVB.warning("Profiler: maxTime: " + e.message);
 		throw e;
 	}
 };
@@ -131,7 +131,7 @@ TVB.Profiler.minTime = function(fn) {
 		TVB.log("Profiler: minTime(" + fn + ")");
 		return(YAHOO.tool.Profiler.getMin(fn));
 	} catch (e) {
-		TVB.error("Profiler: minTime: " + e.message);
+		TVB.warning("Profiler: minTime: " + e.message);
 		throw e;
 	}
 };
@@ -148,7 +148,7 @@ TVB.Profiler.averageTime = function(fn) {
 		var avg = YAHOO.tool.Profiler.getAverage(fn);
 		return avg;
 	} catch (e) {
-		TVB.error("Profiler: averageTime: " + e.message);
+		TVB.warning("Profiler: averageTime: " + e.message);
 		throw e;
 	}
 };

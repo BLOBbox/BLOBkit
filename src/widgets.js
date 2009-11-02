@@ -175,7 +175,7 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 		TVB.widget.colorButtonsBarB4Handler.innerHTML = butt4.toUpperCase();
 		
 	} catch (e) {
-		TVB.error("Widget: colorButtonsBar: " + e.message);
+		TVB.warning("Widget: colorButtonsBar: " + e.message);
 		throw e;
 	}	
 };
@@ -191,7 +191,7 @@ TVB.widget.colorButtonsBarRemove = function() {
 			document.body.removeChild(TVB.widget.colorButtonsBarHandler);
 		}
 	} catch (e) {
-		TVB.error("Widget: colorButtonsBar: " + e.message);
+		TVB.warning("Widget: colorButtonsBar: " + e.message);
 		throw e;
 	}
 };
@@ -207,7 +207,7 @@ TVB.widget.colorButtonsBarRemote = function(o) {
 	try {
 		TVB.log("Widget: colorButtonsBarRemote " + o.keyName);
 	} catch (e) {
-		TVB.error("Widget: colorButtonsBarRemote: " + e.message);
+		TVB.warning("Widget: colorButtonsBarRemote: " + e.message);
 		throw e;
 	}
 };
@@ -224,7 +224,7 @@ TVB.widget.setLoading = function(loadingState) {
 			tvblob.setLoading(loadingState);
 		}
 	} catch (e) {
-		TVB.error("Widget: setLoading: " + e.message);
+		TVB.warning("Widget: setLoading: " + e.message);
 	}
 };
 
@@ -320,7 +320,7 @@ TVB.widget.yesno = function(text, callback, default_value) {
 		TVB.log("Working height dopo: " + desired_height);
 		TVB.log("Width: " + viewportwidth + " - Height: " + viewportheight);
 	} catch (e) {
-		TVB.error("Widget: yesno: " + e.message);
+		TVB.warning("Widget: yesno: " + e.message);
 		throw e;
 	}	
 };
@@ -339,7 +339,7 @@ TVB.widget.setSelectedCursorColor = function(selectedColorCode) {
 			tvblob.setSelectedCursorColor(selectedColorCode);
 		}
 	} catch (e) {
-		TVB.error("Widget: setSelectedCursorColor: " + e.message);
+		TVB.warning("Widget: setSelectedCursorColor: " + e.message);
 	}
 };
 
@@ -357,7 +357,7 @@ TVB.widget.setHighlightCursorColor = function(selectedColorCode) {
 			tvblob.setHighlightCursorColor(selectedColorCode);
 		}
 	} catch (e) {
-		TVB.error("Widget: setHighlightCursorColor: " + e.message);
+		TVB.warning("Widget: setHighlightCursorColor: " + e.message);
 	}
 };
 
@@ -374,7 +374,7 @@ TVB.widget.setLabel = function(message) {
 			tvblob.setLabel(message);
 		}
 	} catch (e) {
-		TVB.error("Widget: setLabel: " + e.message);
+		TVB.warning("Widget: setLabel: " + e.message);
 	}
 };
 
@@ -428,7 +428,7 @@ TVB.widget.messageBar = function(message) {
 			}, 5000);
 		}
 	} catch (e) {
-		TVB.error("Widget: messageBar: " + e.message);
+		TVB.warning("Widget: messageBar: " + e.message);
 		throw e;
 	}	
 };
@@ -444,7 +444,7 @@ TVB.widget.messageBarRemove = function() {
 			document.body.removeChild(TVB.widget.messageBarHandler);
 		}
 	} catch (e) {
-		TVB.error("Widget: messageBar: " + e.message);
+		TVB.warning("Widget: messageBar: " + e.message);
 		throw e;
 	}
 };
@@ -563,7 +563,7 @@ TVB.widget.titleBarHandler = function() {
 					document.body.style.paddingTop = "72px";
 				});
 			} catch (e) {
-				TVB.error("Widget: titleBar: render: " + e.message);
+				TVB.warning("Widget: titleBar: render: " + e.message);
 				throw e;
 			}			
 		};
@@ -579,7 +579,7 @@ TVB.widget.titleBarHandler = function() {
 					document.body.removeChild(document.getElementById('TVB.widget.titleHandler'));
 				}
 			} catch (e) {
-				TVB.error("Widget: titleBar: remove: " + e.message);
+				TVB.warning("Widget: titleBar: remove: " + e.message);
 				throw e;
 			}
 		};
@@ -594,7 +594,7 @@ TVB.widget.titleBarHandler = function() {
 				TVB.log("Widget: titleBar.setTitle(" + title + ")");
 				this.title.innerHTML = title.toUpperCase();
 			} catch (e) {
-				TVB.error("Widget: titleBar: setTitle: " + e.message);
+				TVB.warning("Widget: titleBar: setTitle: " + e.message);
 				throw e;
 			}
 		};
@@ -623,12 +623,12 @@ TVB.widget.titleBarHandler = function() {
 						TVB.widget.titleBar.title.style.left = parseInt(tl, 10) + "px";
 						TVB.widget.titleBar.title.style.width = parseInt(tw, 10) + "px";
 					} catch (e) {
-						TVB.error(e.message);
+						TVB.warning(e.message);
 					}
 				});
 				
 			} catch (e) {
-				TVB.error("Widget: titleBar: setIcon: " + e.message);
+				TVB.warning("Widget: titleBar: setIcon: " + e.message);
 				throw e;
 			}
 		};
@@ -648,7 +648,7 @@ TVB.widget.titleBarHandler = function() {
 					this.logo.style.backgroundImage = "url('http://www.blobforge.com/static/lib/resources/lfb.png')";
 				}
 			} catch (e) {
-				TVB.error("Widget: titleBar: setLogo: " + e.message);
+				TVB.warning("Widget: titleBar: setLogo: " + e.message);
 				throw e;
 			}
 		};
@@ -661,7 +661,7 @@ TVB.widget.titleBarHandler = function() {
 				TVB.log("Widget: titleBar.disableLogo()");
 				this.logo.style.display = 'none';
 			} catch (e) {
-				TVB.error("Widget: titleBar: disableLogo: " + e.message);
+				TVB.warning("Widget: titleBar: disableLogo: " + e.message);
 				throw e;
 			}
 		};
@@ -675,7 +675,7 @@ TVB.widget.titleBarHandler = function() {
 				TVB.log("Widget: titleBar.setFixedPosition()");
 				this.handler.style.position = 'fixed';
 			} catch (e) {
-				TVB.error("Widget: titleBar: setFixedPosition: " + e.message);
+				TVB.warning("Widget: titleBar: setFixedPosition: " + e.message);
 				throw e;
 			}
 		};
@@ -689,7 +689,7 @@ TVB.widget.titleBarHandler = function() {
 				TVB.log("Widget: titleBar.setAbsolutePosition()");
 				this.handler.style.position = 'absolute';
 			} catch (e) {
-				TVB.error("Widget: titleBar: setAbsolutePosition: " + e.message);
+				TVB.warning("Widget: titleBar: setAbsolutePosition: " + e.message);
 				throw e;
 			}
 		};
@@ -703,7 +703,7 @@ TVB.widget.titleBarHandler = function() {
 				TVB.log("Widget: titleBar.setBackgroundColor(" + color + ")");
 				this.bar.style.backgroundColor = color;
 			} catch (e) {
-				TVB.error("Widget: titleBar: setBackgroundColor: " + e.message);
+				TVB.warning("Widget: titleBar: setBackgroundColor: " + e.message);
 				throw e;
 			}
 		};
@@ -717,13 +717,13 @@ TVB.widget.titleBarHandler = function() {
 				TVB.log("Widget: titleBar.setColor(" + color + ")");
 				this.title.style.color = color;
 			} catch (e) {
-				TVB.error("Widget: titleBar: setColor: " + e.message);
+				TVB.warning("Widget: titleBar: setColor: " + e.message);
 				throw e;
 			}
 		};
 
 	} catch (e) {
-		TVB.error("Widget: titleBar: " + e.message);
+		TVB.warning("Widget: titleBar: " + e.message);
 		throw e;
 	}
 };

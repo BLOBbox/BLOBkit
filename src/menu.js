@@ -142,7 +142,7 @@ TVB.menu = function(config) {
 		// initializing remote control		
 		TVB.remoteInit();
 	} catch (e) {
-		TVB.log("ERROR Menu: __constructor: " + e.message);
+		TVB.warning("Menu: __constructor: " + e.message);
 		throw e;
 	}
 };
@@ -292,7 +292,7 @@ TVB.menu.prototype = {
 				throw {message: "Menu: please init first"};
 			}
 		} catch (e) {
-			TVB.log("ERROR Menu: get: " + e.message);
+			TVB.warning("Menu: get: " + e.message);
 			throw e;
 		}
 	},
@@ -332,7 +332,7 @@ TVB.menu.prototype = {
 				throw {message: "Menu: please init first"};
 			}
 		} catch (e) {
-			TVB.log("ERROR Menu: deactivate: " + e.message);
+			TVB.warning("Menu: deactivate: " + e.message);
 			throw e;
 		}		
 	},
@@ -359,7 +359,7 @@ TVB.menu.prototype = {
 			}
 			this.currentPage = currentPage;
 		} catch (e) {
-			TVB.log("ERROR Menu: countPages: " + e.message);
+			TVB.warning("Menu: countPages: " + e.message);
 			throw e;
 		}
 	},
@@ -396,14 +396,14 @@ TVB.menu.prototype = {
 						this.menuDiv.appendChild(returned);
 						TVB.log("Menu: appended child");
 					}  else {
-						TVB.log("ERROR Menu: drawPage: returned is not an object!");
+						TVB.warning("Menu: drawPage: returned is not an object!");
 					}
 				}
 			} else {
 				throw {message: "Menu: please init first"};
 			}
 		} catch (e) {
-			TVB.log("ERROR Menu: drawPage: " + e.message);
+			TVB.warning("Menu: drawPage: " + e.message);
 			throw e;
 		}
 	},
@@ -430,7 +430,7 @@ TVB.menu.prototype = {
 				return newLine;
 			}	
 		} catch (e) {
-			TVB.log("ERROR Menu: drawSingleLine: " + e.message);
+			TVB.warning("Menu: drawSingleLine: " + e.message);
 			throw e;
 		}
 	},
@@ -467,12 +467,12 @@ TVB.menu.prototype = {
 					this.onUpdateCB(obj, lineNumber);
 					break;
 				default:
-					TVB.log("ERROR Menu: updateSingleLine: updateMode " + this.updateMode + " is not valid");
+					TVB.warning("Menu: updateSingleLine: updateMode " + this.updateMode + " is not valid");
 			}
 			
 			return true;
 		} catch (e) {
-			TVB.log("ERROR Menu: updateSingleLine: " + e.message);
+			TVB.warning("Menu: updateSingleLine: " + e.message);
 			throw e;
 		}
 	},
@@ -487,7 +487,7 @@ TVB.menu.prototype = {
 			TVB.log("Menu: getCurrentLine()");
 			return this.currentElement;
 		} catch (e) {
-			TVB.log("ERROR Menu: getCurrentLine: " + e.message);
+			TVB.warning("Menu: getCurrentLine: " + e.message);
 			throw e;
 		}
 	},
@@ -502,7 +502,7 @@ TVB.menu.prototype = {
 			TVB.log("Menu: getCurrentPage()");
 			return this.currentPage;
 		} catch (e) {
-			TVB.log("ERROR Menu: getCurrentPage: " + e.message);
+			TVB.warning("Menu: getCurrentPage: " + e.message);
 			throw e;
 		}
 	},
@@ -521,7 +521,7 @@ TVB.menu.prototype = {
 			}
 			return total;
 		} catch (e) {
-			TVB.log("ERROR Menu: getTotalPages: " + e.message);
+			TVB.warning("Menu: getTotalPages: " + e.message);
 			throw e;
 		}
 	},
@@ -564,7 +564,7 @@ TVB.menu.prototype = {
 			}
 			TVB.CustomEvent.fireEvent(this.lineFocusEvent, {lineNumber: this.currentElement});
 		} catch (e) {
-			TVB.log("ERROR Menu: setFocus: " + e.message);
+			TVB.warning("Menu: setFocus: " + e.message);
 			throw e;
 		}
 	},
@@ -695,7 +695,7 @@ TVB.menu.prototype = {
 					TVB.log("Type: " + type);
 			}	
 		} catch (e) {
-			TVB.log("ERROR Menu: remoteHandler: " + e.message);
+			TVB.warning("Menu: remoteHandler: " + e.message);
 			throw e;
 		}
 	},
@@ -754,7 +754,7 @@ TVB.menu.prototype = {
 			}			
 			TVB.widget.setLoading(false);
 		} catch (e) {
-			TVB.log("ERROR Menu: remoteHandlerUp: " + e.message);
+			TVB.warning("Menu: remoteHandlerUp: " + e.message);
 			throw e;
 		}
 	},
@@ -829,7 +829,7 @@ TVB.menu.prototype = {
 		} 
 		catch (e) 
 		{
-			TVB.log("ERROR Menu: remoteHandlerDown: " + e.message);
+			TVB.warning("Menu: remoteHandlerDown: " + e.message);
 			throw e;
 		}
 	},
@@ -858,7 +858,7 @@ TVB.menu.prototype = {
 				this.drawPage();
 			}
 		} catch (e) {
-			TVB.log("ERROR Menu: remoteHandlerDown: " + e.message);
+			TVB.warning("Menu: remoteHandlerDown: " + e.message);
 			throw e;
 		}
 	}

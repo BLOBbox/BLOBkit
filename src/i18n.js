@@ -43,7 +43,7 @@ TVB.i18n.getI18NString = function(messageID, defaultValue, bundleName) {
 			return defaultValue;
 		}
 	} catch (e) {
-		TVB.error("i18n: getI18NString: " + e.message);
+		TVB.warning("i18n: getI18NString: " + e.message);
 		throw e;
 	}
 };
@@ -78,7 +78,7 @@ TVB.i18n.getI18NStringWithArgs = function(messageID, defaultValue, bundleName, m
 			return defaultValue;
 		}
 	} catch (e) {
-		TVB.error("i18n: getI18NStringWithArgs: " + e.message);
+		TVB.warning("i18n: getI18NStringWithArgs: " + e.message);
 		throw e;
 	}
 };
@@ -107,7 +107,7 @@ TVB.i18n.getPlatformI18NString = function(messageID, defaultValue) {
 			return defaultValue;
 		}
 	} catch (e) {
-		TVB.error("i18n: getPlatformI18NString: " + e.message);
+		TVB.warning("i18n: getPlatformI18NString: " + e.message);
 		throw e;
 	}
 };
@@ -137,7 +137,7 @@ TVB.i18n.getPlatformI18NStringWithArgs = function(messageID, defaultValue, messa
 			return defaultValue;
 		}
 	} catch (e) {
-		TVB.error("i18n: getPlatformI18NStringWithArgs: " + e.message);
+		TVB.warning("i18n: getPlatformI18NStringWithArgs: " + e.message);
 		throw e;
 	}
 };

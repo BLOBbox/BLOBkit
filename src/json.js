@@ -38,7 +38,8 @@ TVB.json.parse = function(jsonString, customFormatter) {
 			}
 		}
 	} catch (e) {
-		TVB.error("Json: parse: " + e.message);
+		TVB.warning("Json: parse: " + e.message);
+		throw e;
 	}
 };
 
@@ -60,6 +61,7 @@ TVB.json.stringify = function(data, whitelist, depth) {
 		TVB.log("Json: stringify()");
 		return YAHOO.lang.JSON.stringify(data, whitelist, depth);
 	} catch (e) {
-		TVB.error("Json: strinfigy: " + e.message);
+		TVB.warning("Json: strinfigy: " + e.message);
+		throw e;
 	}
 };

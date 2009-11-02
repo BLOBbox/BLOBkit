@@ -6,15 +6,13 @@
  * @author Edoardo Esposito   edoardo.esposito@tvblob.com
  */
 
-if (typeof TVB == 'undefined' || !TVB) {
-	/**
-	 * Create a new instance of TVB.
-	 * @class TVB
-	 * @namespace
-	 * @static
-	 */
-    var TVB = {};
-}
+/**
+ * Create a new instance of TVB.
+ * @class TVB
+ * @namespace
+ * @static
+ */
+var TVB = {};
 
 /**
  * Dumps the content of an object or an array.
@@ -171,11 +169,7 @@ TVB.log = function(message) {
 		}
 
 		if (typeof tvblob != 'undefined') {
-			if (output.substr(0, 5) == "ERROR") {
-				tvblob.logError(output);
-			} else {
-				tvblob.logInfo(output);
-			}
+			tvblob.logInfo(output);
 		}
 		else 
 			if (window.console) {
@@ -215,7 +209,7 @@ TVB.error = function(message) {
 		}
 
 		if (typeof tvblob != 'undefined') {
-			tvblob.logError("ERROR " + output);
+			tvblob.logError(output);
 		}
 		else 
 			if (window.console) {
@@ -280,12 +274,12 @@ TVB.warning = function(message) {
 TVB.exception = function(exceptionObject, functionName) {
 	try {
 		if (typeof tvblob != 'undefined') {
-			tvblob.logError('***** ERROR *****');
-			tvblob.logError('ERROR Message: ' + exceptionObject.message);
-			tvblob.logError('ERROR Name: ' + exceptionObject.name);
-			tvblob.logError('ERROR exceptionObject: ' + exceptionObject.exceptionObject);
-			tvblob.logError('ERROR File name: ' + exceptionObject.fileName + " (line " + exceptionObject.lineNumber + ")");
-			tvblob.logError('ERROR Function name: ' + functionName);
+			tvblob.logError('*****************');
+			tvblob.logError('Message: ' + exceptionObject.message);
+			tvblob.logError('Name: ' + exceptionObject.name);
+			tvblob.logError('exceptionObject: ' + exceptionObject.exceptionObject);
+			tvblob.logError('File name: ' + exceptionObject.fileName + " (line " + exceptionObject.lineNumber + ")");
+			tvblob.logError('Function name: ' + functionName);
 			tvblob.logError('*****************');
 		} else {
 			TVB.error(functionName);
