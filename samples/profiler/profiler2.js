@@ -28,7 +28,7 @@ function write_logs_smoj(number, log_yes_no) {
 
 function write_logs_pre_concat(number, log_yes_no) {
 	for (var i = 0; i < number; i++) {
-		var string = "This is the log number " + i;,
+		var string = "This is the log number " + i;
 		if (log_yes_no) {
 			TVB.log(string);
 		}
