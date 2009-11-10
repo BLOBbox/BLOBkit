@@ -319,7 +319,13 @@ TVB.player.play = function() {
 				TVB.player.showStartingPlaybackMessage();
 				TVB.player.p.setContent(TVB.player.config.currentUri);
 				TVB.log("Player: setContent end");
+			} else if (TVB.player.p.getStatus() == 'STOPPED') {
+				TVB.log("Player: setContent start because STOPPED");
+				TVB.player.showStartingPlaybackMessage();
+				TVB.player.p.setContent(TVB.player.config.currentUri);
+				TVB.log("Player: setContent end");
 			}
+
 		} catch (e) {
 			TVB.error("Player: error setting content: " + e.message);
 			TVB.player.removeBufferingMessage();
@@ -515,9 +521,9 @@ TVB.player.stop = function() {
 				TVB.player.config.littleHole.style.display = 'none';
 			}
 			TVB.player.p.stop();
-			try {
-				TVB.player.p.setContent('');
-			} catch (e) {}
+			/*try {
+				TVB.player.p.setContent(null);
+			} catch (e) {}*/
 			if (TVB.player.config.isFullScreen === true) {
 				TVB.player.config.wasFullScreen = true;
 				if (TVB.player.exitFullScreen() === false) {
