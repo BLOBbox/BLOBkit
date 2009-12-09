@@ -50,3 +50,21 @@ doTest({
 		return tvblob.getSMOJVersion();
 	}
 });
+
+doTest({
+	name: "getProductName()",
+	expectedException: false,
+	expectedValue: productName,
+	test: function() {
+		return tvblob.getProductName();
+	}
+});
+
+doTest({
+	name: "getProductVersion()",
+	expectedException: false,
+	expectedValue: productVersion,
+	test: function() {
+		return tvblob.getProductVersion();
+	}
+});
