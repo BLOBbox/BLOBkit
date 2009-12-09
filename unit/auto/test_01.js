@@ -14,6 +14,8 @@ doTest({
 
 // Control tests
 
+tvblob.logInfo("*** STARTING TEST ***");
+
 if (showDebugMessages) {
 	doTest({
 		name: "true is true (expected success)",
@@ -167,3 +169,5 @@ doTest({
 		return tvblob.getFeatureVersion("BlobRemoteControl");
 	}
 });
+
+tvblob.logInfo("*** TEST DONE ***");

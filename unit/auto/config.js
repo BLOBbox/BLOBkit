@@ -21,3 +21,7 @@ SMOJVersion = "1.51.0.7BF.1";
 SMOSVersion = "2.14.2-wifi-otus [2382/wifi-otus]";
 tvblobNumber = "02226719628";
 videoSystem = "PAL";
+
+
+
+// inserisco START e DONE nei log del test
