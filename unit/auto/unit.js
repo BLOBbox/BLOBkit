@@ -1,6 +1,9 @@
 /* jslint evil: true */
 
-function appendResult(testName, success, expectedValue, testResult) {
+function appendResult(test, success, testResult) {
+	var testName = test.name;
+	var reference = test.reference;
+	var expectedValue = test.expectedValue;
 	var logMessage = testName + ": "; 
 	var htmlLogMessage = document.createElement('p');
 	if (success) {
@@ -24,6 +27,7 @@ function appendResult(testName, success, expectedValue, testResult) {
 	document.getElementById('results').appendChild(htmlLogMessage);
 	if (success === false) {
 		appendMessage("Excepted: " + expectedValue + " - Obtained: " + testResult);
+		appendMessage("Reference URI: " + reference);
 	}
 }
 
@@ -45,19 +49,19 @@ function doTest(test) {
 	try {
 		var res = test.test();
 		if (test.expectedException === true) {
-			appendResult(test.name, false, "Exception", "Exception");
+			appendResult(test, false, "Exception");
 		} else {
 			if (res == test.expectedValue) {
-				appendResult(test.name, true, test.expectedValue, res);
+				appendResult(test, true, res);
 			} else {
-				appendResult(test.name, false, test.expectedValue, res);
+				appendResult(test, false, res);
 			}
 		}
 	} catch (e) {
 		if (test.expectedException === true) {
-			appendResult(test.name, true, "Exception", "Exception");
+			appendResult(test, true, "Exception");
 		} else {
-			appendResult(test.name, false, test.expectedValue, "Exception");
+			appendResult(test, false, "Exception");
 			appendMessage(e.message);
 		}
 	}
