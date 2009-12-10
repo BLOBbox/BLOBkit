@@ -14,7 +14,7 @@ doTest({
 
 // Control tests
 
-tvblob.logInfo("*** STARTING TEST ***");
+appendMessage("*** STARTING TEST ***");
 
 if (showDebugMessages) {
 	doTest({
@@ -170,4 +170,17 @@ doTest({
 	}
 });
 
-tvblob.logInfo("*** TEST DONE ***");
+// Player tests
+
+doTest({
+	name: "Player test 01",
+	expectedException: false,
+	expectedValue: featureVersionBlobRemoteControl,
+	reference: "http://bigone/wiki/doku.php?id=feature",
+	test: function() {
+		return tvblob.getFeatureVersion("BlobRemoteControl");
+	}
+});
+
+
+appendMessage("*** TEST DONE ***");
