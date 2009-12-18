@@ -103,7 +103,7 @@ TVB.player.p = {};
 TVB.player.init = function(config){
 	try {
 		TVB.log("Player: init(config)");
-		
+			
 		if (TVB.player.config.isInit === false) {
 			TVB.player.p = new BlobPlayer();
 			
@@ -112,6 +112,18 @@ TVB.player.init = function(config){
 			TVB.player.config.isFullScreen = false;
 			TVB.player.config.wasFullScreen = false;
 			TVB.player.config.isBuffering = false;
+			
+			TVB.player.config.geometryAllowed = false;
+			try {
+				var temp_ver = TVB.system.getSMOJVersion();
+				temp_ver = temp_ver.split('.'); 
+				if (parseInt(temp_ver[0]) > 1) {
+					TVB.player.config.geometryAllowed = true;
+				} else if (parseInt(temp_ver[1]) > 49) {
+					TVB.player.config.geometryAllowed = true;
+				}
+			} catch (e) {}
+			TVB.log("Player: geometry allowed? " + TVB.player.config.geometryAllowed);
 			
 			var currentSMOJ = TVB.system.getSMOJVersion();
 			var currentSMOJarr = currentSMOJ.split('.'); 
@@ -752,14 +764,20 @@ TVB.player.exitFullScreen = function() {
 		TVB.log("Player: current URI = " + TVB.player.config.currentUri);
 		
 		if (TVB.player.config.currentUri !== null) {
-			TVB.log("Player: set position " + newX + ", " + newY);
-			TVB.player.p.setPosition(newX, newY);
-			if (TVB.player.config.useSIF === true) {
-				TVB.log("Player: set scale SIF");
-				TVB.player.p.setScale("SIF");
+			
+			if (TVB.player.config.geometryAllowed === true) {
+				TVB.log("Player: setGeometry(" + newX + ", " + newY + ", " + TVB.player.config.width + ", " + TVB.player.config.height + ");");
+				TVB.player.p.setGeometry(newX, newY, TVB.player.config.width, TVB.player.config.height);
 			} else {
-				TVB.log("Player: set size (" + TVB.player.config.width + ", " + TVB.player.config.height + ")");
-				TVB.player.p.setSize(TVB.player.config.width, TVB.player.config.height);
+				if (TVB.player.config.useSIF === true) {
+					TVB.log("Player: set scale SIF");
+					TVB.player.p.setScale("SIF");
+				} else {
+					TVB.log("Player: set size (" + TVB.player.config.width + ", " + TVB.player.config.height + ")");
+					TVB.player.p.setSize(TVB.player.config.width, TVB.player.config.height);
+				}
+				TVB.log("Player: set position " + newX + ", " + newY);
+				TVB.player.p.setPosition(newX, newY);
 			}
 			TVB.log("Player: set full screen mode enabled false");
 			TVB.player.p.setFullScreenModeEnabled(false);
@@ -1219,6 +1237,51 @@ TVB.player.setSize = function(width, height) {
 		TVB.player.config.height = height;
 	} catch (e) {
 		TVB.warning("Player: setSize: " + e.message);
+		throw e;
+	}
+};
+
+/**
+ * Change the whole geometry for the player
+ * @param {Integer} x Left coord
+ * @param {Integer} y Top coord
+ * @param {Integer} w Width
+ * @param {Integer} x Height
+ * @return {Boolean}
+ */
+TVB.player.setGeometry = function(x, y, w, h) {
+	try {
+		if (TVB.player.config.geometryAllowed === false) {
+			throw UnsupportedError;
+		}
+		if (typeof x != 'number') {
+			throw TypeError;
+		}
+		if (typeof y != 'number') {
+			throw TypeError;
+		}
+		if (typeof w != 'number') {
+			throw TypeError;
+		}
+		if (typeof h != 'number') {
+			throw TypeError;
+		}
+		
+		TVB.warning("Player: setGeometry(" + x + ", " + y + ", " + w + ", " + h + ");");
+		TVB.player.p.setGeometry(x, y, w, h);
+		
+		if (TVB.player.config.noLittleHole === false) {
+			TVB.player.config.topCord = y;
+			TVB.player.config.leftCord = x;
+			TVB.player.config.littleHole.style.top = TVB.player.config.topCord + 'px';
+			TVB.player.config.littleHole.style.left = TVB.player.config.leftCord + 'px';
+			TVB.player.config.littleHole.style.width = w + 'px';
+			TVB.player.config.littleHole.style.height = h + 'px';			
+		}
+		
+		return true;
+	} catch (e) {
+		TVB.error("Player: setGeometry: " + e.message);
 		throw e;
 	}
 };
