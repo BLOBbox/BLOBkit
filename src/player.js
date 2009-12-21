@@ -1243,17 +1243,14 @@ TVB.player.setSize = function(width, height) {
 
 /**
  * Change the whole geometry for the player
- * @param {Integer} x Left coord
- * @param {Integer} y Top coord
- * @param {Integer} w Width
- * @param {Integer} x Height
+ * @param {Integer} x Left coord
+ * @param {Integer} y Top coord
+ * @param {Integer} w Width
+ * @param {Integer} x Height
  * @return {Boolean}
  */
 TVB.player.setGeometry = function(x, y, w, h) {
 	try {
-		if (TVB.player.config.geometryAllowed === false) {
-			throw UnsupportedError;
-		}
 		if (typeof x != 'number') {
 			throw TypeError;
 		}
@@ -1267,8 +1264,17 @@ TVB.player.setGeometry = function(x, y, w, h) {
 			throw TypeError;
 		}
 		
-		TVB.warning("Player: setGeometry(" + x + ", " + y + ", " + w + ", " + h + ");");
-		TVB.player.p.setGeometry(x, y, w, h);
+		TVB.player.config.useSIF = false;
+		
+		if (TVB.player.config.geometryAllowed === false) {
+			TVB.log("Player: setSize(" + w + ", " + h + ");");
+			TVB.player.p.setSize(w, h);
+			TVB.log("Player: setPosition(" + x + ", " + y + ");");
+			TVB.player.p.setPosition(x, y);			
+		} else {
+			TVB.log("Player: setGeometry(" + x + ", " + y + ", " + w + ", " + h + ");");
+			TVB.player.p.setGeometry(x, y, w, h);
+		}
 		
 		if (TVB.player.config.noLittleHole === false) {
 			TVB.player.config.topCord = y;
