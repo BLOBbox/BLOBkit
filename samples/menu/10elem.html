@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>BLOBkit Samples</title>
 		<link rel='stylesheet' type='text/css' href='../tvb.css' />
-		<script type="text/javascript" src='../tvb-min.js'></script>
+		<script type="text/javascript" src='../tvb-debug.js'></script>
 	</head>
 	<body>
 		<script type="text/javascript">
@@ -34,6 +34,7 @@
 					menuName: 'mainMenu',
 					visibleElements: 6,
 					numElements: myMenuData.length,
+					menuType: 'paged',
 					updateMode: 'manipulate',			// optional: redraw | manipulate (default 'redraw')
 
 					drawSingleLineCB: function(line) { 	// mandatory

@@ -625,7 +625,7 @@ TVB.menu.prototype = {
 					if (this.disableChannelDown === true) {
 						break;
 					}
-					TVB.log("Menu: working on pagination");
+					TVB.warning("Menu: working on pagination");
 					// go to next page
 					nextElement = (this.currentPage + 1) * this.visibleElements;
 					if (nextElement >= this.numElements) {
@@ -775,7 +775,7 @@ TVB.menu.prototype = {
 			var nextElement = this.currentElement + 1;
 			if (nextElement > end) 
 			{
-				TVB.log("Menu: working on pagination");
+				TVB.warning("Menu: working on pagination");
 				// go to next page
 				if (nextElement >= this.numElements) 
 				{
