@@ -710,7 +710,7 @@ TVB.menu.prototype = {
 	remoteHandlerUp: function(start, end) {
 		try {
 			TVB.log("Menu: remoteHandlerUp(" + start + ", " + end + ")");
-			TVB.widget.setLoading(true);
+			//TVB.widget.setLoading(true);
 			var nextElement = this.currentElement - 1;
 			if (nextElement < start) 
 			{
@@ -752,7 +752,7 @@ TVB.menu.prototype = {
 			{
 				this.setFocus(nextElement);
 			}			
-			TVB.widget.setLoading(false);
+			//TVB.widget.setLoading(false);
 		} catch (e) {
 			TVB.warning("Menu: remoteHandlerUp: " + e.message);
 			throw e;
@@ -771,7 +771,7 @@ TVB.menu.prototype = {
 		try 
 		{
 			TVB.log("Menu: remoteHandlerDown(" + start + ", " + end + ")");
-			TVB.widget.setLoading(true);
+			//TVB.widget.setLoading(true);
 			var nextElement = this.currentElement + 1;
 			if (nextElement > end) 
 			{
@@ -792,11 +792,11 @@ TVB.menu.prototype = {
 							TVB.log("Menu: back to page 0");
 							TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});						
 							this.currentPage = 0;
-							TVB.widget.setLoading(true);
+							//TVB.widget.setLoading(true);
 							this.drawPage();
 							TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
 							this.setFocus(0);
-							TVB.widget.setLoading(false);
+							//TVB.widget.setLoading(false);
 						}
 					} else {
 						if (this.menuType == 'dynamic') {
@@ -814,9 +814,9 @@ TVB.menu.prototype = {
 					TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});						
 					this.currentPage++;
 					TVB.log("Menu: going to page " + this.currentPage);
-					TVB.widget.setLoading(true);
+					//TVB.widget.setLoading(true);
 					this.drawPage();
-					TVB.widget.setLoading(false);
+					//TVB.widget.setLoading(false);
 					TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
 					this.setFocus(nextElement);
 				}
@@ -825,7 +825,7 @@ TVB.menu.prototype = {
 			{
 				this.setFocus(nextElement);
 			}
-			TVB.widget.setLoading(false);
+			//TVB.widget.setLoading(false);
 		} 
 		catch (e) 
 		{
@@ -850,9 +850,9 @@ TVB.menu.prototype = {
 				this.currentElement = 0;
 				this.currentPage = 0;
 				this.numElements = newElementNumber;
-				TVB.widget.setLoading(true);
+				//TVB.widget.setLoading(true);
 				this.drawPage();
-				TVB.widget.setLoading(false);
+				//TVB.widget.setLoading(false);
 			} else {
 				this.numElements = newElementNumber;
 				this.drawPage();
