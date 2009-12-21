@@ -213,10 +213,10 @@ TVB.error = function(message) {
 		}
 		else 
 			if (window.console) {
-				window.console.log(output);
+				window.console.error(message);
 			} else
 				if (typeof console != 'undefined') {
-					console.log(output);
+					console.error(message);
 				} else {
 					alert(output);
 				}
@@ -253,10 +253,10 @@ TVB.warning = function(message) {
 		}
 		else 
 			if (window.console) {
-				window.console.log(output);
+				window.console.warn(message);
 			} else
 				if (typeof console != 'undefined') {
-					console.log(output);
+					console.warn(message);
 				} else {
 					alert(output);
 				}
