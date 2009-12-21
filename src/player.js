@@ -1216,25 +1216,28 @@ TVB.player.enableRemote = function() {
 
 /**
  * Change the size of the player
- * @param {Integer} width
- * @param {Integer} height
+ * @method setSize
+ * @param {Integer} w Width
+ * @param {Integer} h Height
+ * @exception TypeError
+ * @exception RangeError
  */
-TVB.player.setSize = function(width, height) {
+TVB.player.setSize = function(w, h) {
 	try {
-		TVB.log("Player: setSize(" + width + ", " + height + ")");
-		if (width < 0 || height < 0) {
+		TVB.log("Player: setSize(" + w + ", " + h + ")");
+		if (w < 0 || h < 0) {
 			throw RangeError;
 		}
-		if (typeof width != 'number' || typeof height != 'number') {
+		if (typeof w != 'number' || typeof h != 'number') {
 			throw TypeError;
 		}
-		TVB.player.p.setSize(width, height);
+		TVB.player.p.setSize(w, h);
 		if (TVB.player.config.noLittleHole === false) {
-			TVB.player.config.littleHole.style.width = width + 'px';
-			TVB.player.config.littleHole.style.height = height + 'px';
+			TVB.player.config.littleHole.style.width = w + 'px';
+			TVB.player.config.littleHole.style.height = h + 'px';
 		}
-		TVB.player.config.width = width;
-		TVB.player.config.height = height;
+		TVB.player.config.width = w;
+		TVB.player.config.height = h;
 	} catch (e) {
 		TVB.warning("Player: setSize: " + e.message);
 		throw e;
@@ -1242,26 +1245,51 @@ TVB.player.setSize = function(width, height) {
 };
 
 /**
+ * Reposition current player instance on the canvas
+ * @method setPosition
+ * @param {Integer} x Left coord
+ * @param {Integer} y Top coord
+ * @exception TypeError
+ */
+TVB.player.setPosition = function(x, y) {
+	try {
+		if (typeof x != 'number' || typeof y != 'number') {
+			throw TypeError;
+		}
+		
+		TVB.log("Player: setPosition(" + x + ", " + y + ");");
+		TVB.player.p.setPosition(x, y);			
+
+		TVB.player.config.topCord = y;
+		TVB.player.config.leftCord = x;
+
+		if (TVB.player.config.noLittleHole === false) {
+			TVB.player.config.littleHole.style.top = y + 'px';
+			TVB.player.config.littleHole.style.left = x + 'px';
+		}
+	} catch (e) {
+		TVB.error("Player: setPosition: " + e.message);
+		throw e;
+	}
+};
+
+/**
  * Change the whole geometry for the player
+ * @method setGeometry
  * @param {Integer} x Left coord
  * @param {Integer} y Top coord
  * @param {Integer} w Width
  * @param {Integer} x Height
- * @return {Boolean}
+ * @exception TypeError
+ * @exception RangeError
  */
 TVB.player.setGeometry = function(x, y, w, h) {
 	try {
-		if (typeof x != 'number') {
+		if (typeof x != 'number' || typeof y != 'number' || typeof w != 'number' || typeof h != 'number') {
 			throw TypeError;
 		}
-		if (typeof y != 'number') {
-			throw TypeError;
-		}
-		if (typeof w != 'number') {
-			throw TypeError;
-		}
-		if (typeof h != 'number') {
-			throw TypeError;
+		if (w < 0 || h < 0) {
+			throw RangeError;
 		}
 		
 		TVB.player.config.useSIF = false;
@@ -1276,18 +1304,33 @@ TVB.player.setGeometry = function(x, y, w, h) {
 			TVB.player.p.setGeometry(x, y, w, h);
 		}
 		
+		TVB.player.config.topCord = y;
+		TVB.player.config.leftCord = x;
+
 		if (TVB.player.config.noLittleHole === false) {
-			TVB.player.config.topCord = y;
-			TVB.player.config.leftCord = x;
-			TVB.player.config.littleHole.style.top = TVB.player.config.topCord + 'px';
-			TVB.player.config.littleHole.style.left = TVB.player.config.leftCord + 'px';
+			TVB.player.config.littleHole.style.top = y + 'px';
+			TVB.player.config.littleHole.style.left = x + 'px';
 			TVB.player.config.littleHole.style.width = w + 'px';
 			TVB.player.config.littleHole.style.height = h + 'px';			
 		}
-		
-		return true;
 	} catch (e) {
 		TVB.error("Player: setGeometry: " + e.message);
+		throw e;
+	}
+};
+
+/**
+ * Restart current video playback from the beginning
+ * @method restartCurrentVideo
+ */
+TVB.player.restartCurrentVideo = function() {
+	try {
+		if (TVB.player.config.isPlaying === true) {
+			TVB.player.stop();
+		}
+		TVB.player.play();
+	} catch (e) {
+		TVB.error("Player: restartCurrentVideo: " + e.message);
 		throw e;
 	}
 };
