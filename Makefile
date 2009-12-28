@@ -60,7 +60,7 @@ fix: lib installfix
 yuidoc-$(YUIDOC_VERSION):
 	wget $(YUIDOC_DOWNLOAD)
 	unzip yuidoc_$(YUIDOC_VERSION).zip
-	-rm yuidoc_$(YUIDOC_VERSION).zip
+	if [ -e "yuidoc_$(YUIDOC_VERSION).zip" ]; then rm yuidoc_$(YUIDOC_VERSION).zip; fi
 	mv yuidoc yuidoc-$(YUIDOC_VERSION)
 
 yui-$(YUI_VERSION):
@@ -84,7 +84,7 @@ yuicompressor-$(COMP_VERSION):
 	wget $(COMP_DOWNLOAD)
 	unzip yuicompressor-$(COMP_VERSION)
 	#mv yuicompressor-$(COMP_VERSION) yuicompressor
-	rm yuicompressor-$(COMP_VERSION).zip
+	if [ -e "yuicompressor-$(COMP_VERSION).zip" ]; then rm yuicompressor-$(COMP_VERSION).zip; fi
 
 $(LIB_NAME):
 	# Building $(LIB_NAME)...
@@ -92,9 +92,8 @@ $(LIB_NAME):
 	mkdir -p $(OUTDIR)
 	$(CAT) $(SOURCES) > $(OUTDIR)/$(LIB_NAME)
 	sed -i    -e "s/TVB.log *(/\/\/TVB.log(/g" $(OUTDIR)/$(LIB_NAME)
-	-rm $(OUTDIR)/$(LIB_NAME)-e
 	sed -i    -e "s/%%VERSION%%/$(VERSION) rev $(BUILD) build on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/$(LIB_NAME)
-	-rm $(OUTDIR)/$(LIB_NAME)-e
+	if [ -e "$(OUTDIR)/$(LIB_NAME)-e" ]; then rm $(OUTDIR)/$(LIB_NAME)-e; fi
 	cd $(OUTDIR) && cp $(LIB_NAME) $(LIB_BASENAME).js 
 
 $(LIB_DOC):
@@ -102,13 +101,12 @@ $(LIB_DOC):
 	mkdir -p $(OUTDIR)
 	$(CAT) $(DOC_SOURCES) > $(OUTDIR)/$(LIB_DOC)
 	sed -i    -e "s/TVB.log *(/\/\/TVB.log(/g" $(OUTDIR)/$(LIB_DOC)
-	-rm $(OUTDIR)/$(LIB_DOC)-e
 	sed -i    -e "s/%%VERSION%%/$(VERSION) rev $(BUILD) build on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/$(LIB_DOC)
-	-rm $(OUTDIR)/$(LIB_DOC)-e
-	cd $(OUTDIR) && cp $(LIB_DOC) $(LIB_BASENAME)-doc.js 
-	-rm -rf $(OUTDIR)/docsrc
-	-rm -rf $(OUTDIR)/doc
-	-rm -rf $(OUTDIR)/docparse
+	if [ -e "$(OUTDIR)/$(DOC)-e" ]; then rm $(OUTDIR)/$(LIB_DOC)-e; fi
+	cd $(OUTDIR) && cp $(LIB_DOC) $(LIB_BASENAME)-doc.js
+	if [ -d "$(OUTDIR)/docsrc" ]; then rm -r $(OUTDIR)/docsrc; fi
+	if [ -d "$(OUTDIR)/doc" ]; then rm -r $(OUTDIR)/doc; fi
+	if [ -d "$(OUTDIR)/docparse" ]; then rm -r $(OUTDIR)/docparse; fi
 	
 	mkdir -p $(OUTDIR)/docsrc
 	mkdir -p $(OUTDIR)/doc
@@ -116,17 +114,17 @@ $(LIB_DOC):
 	#cd $(OUTDIR) && cp $(LIB_BASENAME)-doc.js docsrc
 	cp $(DOC_SOURCES) $(OUTDIR)/docsrc
 	sed -i    -e "s/%%VERSION%%/$(VERSION) rev $(BUILD) build on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/docsrc/*.js
-	-rm $(OUTDIR)/docsrc/*.js-e
+	if [ -e "$(OUTDIR)/docsrc/*.js-e" ]; then rm $(OUTDIR)/docsrc/*.js-e; fi
 	python yuidoc-$(YUIDOC_VERSION)/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc --template=$(PWD)doc_tpl --version=$(VERSION) --yuiversion=2 --project="BLOBkit Library" --projecturl=http://www.blobforge.com
-	-rm -rf $(OUTDIR)/docsrc
-	-rm -rf $(OUTDIR)/docparse
+	if [ -d "$(OUTDIR)/docsrc" ]; then rm -r $(OUTDIR)/docsrc; fi
+	if [ -d "$(OUTDIR)/docparse" ]; then rm -r $(OUTDIR)/docparse; fi
 
 $(LIB_DEB):
 	# Building $(LIB_DEB)...
 	mkdir -p $(OUTDIR)
 	$(CAT) $(DEBUG_SOURCES) > $(OUTDIR)/$(LIB_DEB)
 	sed -i    -e "s/%%VERSION%%/$(VERSION)-debug rev $(BUILD) build by $(LAST_CHANGE_AUTHOR) on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/$(LIB_DEB)
-	-rm $(OUTDIR)/$(LIB_DEB)-e
+	if [ -e "$(OUTDIR)/$(LIB_DEB)-e" ]; then rm $(OUTDIR)/$(LIB_DEB)-e; fi
 	cd $(OUTDIR) && cp $(LIB_DEB) $(LIB_BASENAME)-debug.js
 	cd $(OUTDIR) && cp $(LIB_DEB) ../samples/$(LIB_BASENAME)-debug.js
 
@@ -157,19 +155,19 @@ $(LIB_ZIP):
 	
 clean:
 	# Cleaning folders...
-	-rm -rf build
-	-rm samples/$(LIB_BASENAME)-min.js
-	-rm samples/$(LIB_BASENAME)-debug.js
-	-rm -r $(INTEGRATION_PACKAGE_NAME)*
-	-rm com.tvblob.blobkit_*.jar
-	-rm BLOBkit_*.zip
+	if [ -d "$(OUTDIR)" ]; then rm -r $(OUTDIR); fi
+	if [ -e "samples/$(LIB_BASENAME)-min.js" ]; then rm samples/$(LIB_BASENAME)-min.js; fi
+	if [ -e "samples/$(LIB_BASENAME)-debug.js" ]; then rm samples/$(LIB_BASENAME)-debug.js; fi
+	if [ -d "$(INTEGRATION_PACKAGE_NAME)*" ]; then rm -r $(INTEGRATION_PACKAGE_NAME)*; fi
+	if [ -e "com.tvblob.blobkit_*.jar" ]; then rm com.tvblob.blobkit_*.jar; fi
+	if [ -e "BLOBkit_*.zip" ]; then rm BLOBkit_*.zip; fi
 	# Use make cleanall to clean everything
 
 cleanall: clean
 	# Cleaning libraries...
-	-rm -r yui-*
-	-rm -r yuicompressor-*
-	-rm -r yuidoc-*
+	if [ -d "yui-*" ]; then rm -r yui-*; fi
+	if [ -d "yuicompressor-*" ]; then rm -r yuicompressor-*; fi
+	if [ -d "yuidoc-*" ]; then rm -r yuidoc-*; fi
 
 aptana: $(APTANA_COMPONENT).jar
 
@@ -188,20 +186,17 @@ $(APTANA_COMPONENT).jar:
 	mkdir -p $(APTANA_COMPONENT)/views
 	cp aptana_src/plugin.xml $(APTANA_COMPONENT)/
 	sed -i    -e "s/%%VERSION%%/$(VERSION)/g" $(APTANA_COMPONENT)/plugin.xml
-	-rm $(APTANA_COMPONENT)/plugin.xml-e
+	if [ -e "$(APTANA_COMPONENT)/plugin.xml-e" ]; then rm $(APTANA_COMPONENT)/plugin.xml-e; fi
 	cp aptana_src/build.properties $(APTANA_COMPONENT)/
 	
 	cp aptana_src/tvblob.png $(APTANA_COMPONENT)/icons
 	
-	#cp aptana_src/index.html $(APTANA_COMPONENT)/docs
-	#sed -i    -e "s/LibraryName/BLOBkit/g" $(APTANA_COMPONENT)/docs/index.html
-	#-rm $(APTANA_COMPONENT)/index.html-e
 	cp -r $(OUTDIR)/doc/* $(APTANA_COMPONENT)/docs/
 	cd $(APTANA_COMPONENT)/docs && find . -name .svn | xargs rm -rf
 	
 	cp aptana_src/index.xml $(APTANA_COMPONENT)/docs
 	sed -i    -e "s/LibraryName/BLOBkit/g" $(APTANA_COMPONENT)/docs/index.xml
-	-rm $(APTANA_COMPONENT)/index.xml-e
+	if [ -e "$(APTANA_COMPONENT)/index.xml-e" ]; then rm $(APTANA_COMPONENT)/index.xml-e; fi
 
 	cp build/$(LIB_BASENAME).js $(APTANA_COMPONENT)/libraries/lib/sm
 	cp build/$(LIB_BASENAME)-min.js $(APTANA_COMPONENT)/libraries/lib/sm
@@ -215,11 +210,9 @@ $(APTANA_COMPONENT).jar:
 
 	cp aptana_src/MANIFEST.MF $(APTANA_COMPONENT)/META-INF
 	sed -i    -e "s/LibraryName/BLOBkit/g" $(APTANA_COMPONENT)/META-INF/MANIFEST.MF
-	-rm $(APTANA_COMPONENT)/MANIFEST.MF-e
 	sed -i    -e "s/org.library.name.0.1/$(APTANA_COMPONENT)/g" $(APTANA_COMPONENT)/META-INF/MANIFEST.MF
-	-rm $(APTANA_COMPONENT)/MANIFEST.MF-e
 	sed -i    -e "s/OrganizationName/TVBLOB Srl/g" $(APTANA_COMPONENT)/META-INF/MANIFEST.MF
-	-rm $(APTANA_COMPONENT)/MANIFEST.MF-e
+	if [ -e "$(APTANA_COMPONENT)/MANIFEST.MF-e" ]; then rm $(APTANA_COMPONENT)/MANIFEST.MF-e; fi
 
 	cp -r samples/* $(APTANA_COMPONENT)/samples
 	cp snippets/* $(APTANA_COMPONENT)/snippets
@@ -230,7 +223,7 @@ $(APTANA_COMPONENT).jar:
 	find $(APTANA_COMPONENT)/samples -name \*-e | xargs rm
 	
 	cd $(APTANA_COMPONENT) && zip -r ../$(OUTDIR)/$(APTANA_COMPONENT).jar *
-	-rm -rf $(APTANA_COMPONENT)
+	if [ -d "$(APTANA_COMPONENT)" ]; then rm -r $(APTANA_COMPONENT); fi
 	
 	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > $(OUTDIR)/site.xml
 	echo "<site>" >> $(OUTDIR)/site.xml
@@ -245,13 +238,13 @@ $(APTANA_COMPONENT).jar:
 	
 	cp aptana_src/artifacts.xml $(OUTDIR)/artifacts.xml
 	sed -i    -e "s/BLOBKITVERSION/$(APTANA_VERSION)/g" $(OUTDIR)/artifacts.xml
-	-rm $(APTANA_FEATURE)/artifacts.xml-e
+	if [ -e "$(APTANA_FEATURE)/artifacts.xml-e" ]; then rm $(APTANA_FEATURE)/artifacts.xml-e; fi
 	cd $(OUTDIR) && zip artifacts.jar artifacts.xml
 	rm $(OUTDIR)/artifacts.xml
 	
 	cp aptana_src/content.xml $(OUTDIR)/content.xml
 	sed -i    -e "s/BLOBKITVERSION/$(APTANA_VERSION)/g" $(OUTDIR)/content.xml
-	-rm $(APTANA_FEATURE)/content.xml-e
+	if [ -e "$(APTANA_FEATURE)/content.xml-e" ]; then rm $(APTANA_FEATURE)/content.xml-e; fi
 	cd $(OUTDIR) && zip content.jar content.xml
 	rm $(OUTDIR)/content.xml
 
@@ -260,13 +253,13 @@ $(APTANA_COMPONENT).jar:
 	cp aptana_src/featureMANIFEST.MF $(APTANA_FEATURE)/META_INF/MANIFEST.MF
 	cp aptana_src/feature.xml $(APTANA_FEATURE)/feature.xml	
 	sed -i    -e "s/%%VERSION%%/$(APTANA_VERSION)/g" $(APTANA_FEATURE)/feature.xml
-	-rm $(APTANA_FEATURE)/feature.xml-e
+	if [ -e "$(APTANA_FEATURE)/feature.xml-e" ]; then rm $(APTANA_FEATURE)/feature.xml-e; fi
 	cd $(APTANA_FEATURE) && zip -r ../$(OUTDIR)/$(APTANA_FEATURE).jar *
-	-rm -rf $(APTANA_FEATURE)
+	if [ -d "$(APTANA_FEATURE)" ]; then rm -r $(APTANA_FEATURE); fi
 	
 release: all
 	# Building release package
-	-rm -rf $(DESTDIR) 
+	if [ -d "$(DESTDIR)" ]; then rm -r $(DESTDIR); fi
 	mkdir $(DESTDIR) 
 	cp $(OUTDIR)/$(LIB_NAME) $(DESTDIR)/$(LIB_NAME)
 	cp $(OUTDIR)/$(LIB_NAME) $(DESTDIR)/$(LIB_BASENAME).js
@@ -280,7 +273,6 @@ release: all
 	cp $(OUTDIR)/$(LIB_MIN) $(DESTDIR)/$(LIB_MIN)
 	cp $(OUTDIR)/$(LIB_MIN) $(DESTDIR)/$(LIB_BASENAME)-min.js
 
-	#cp $(OUTDIR)/$(LIB_ZIP) $(DESTDIR)/$(LIB_ZIP)
 	cp $(OUTDIR)/$(LIB_ZIP) $(DESTDIR)/BLOBkit_$(VERSION).zip
 	cp $(OUTDIR)/$(LIB_ZIP) $(DESTDIR)/BLOBkit.zip
 
@@ -301,7 +293,6 @@ release: all
 	cp $(OUTDIR)/site.xml $(DESTDIR)/eclipse
 	cp $(OUTDIR)/artifacts.jar $(DESTDIR)/eclipse
 	cp $(OUTDIR)/content.jar $(DESTDIR)/eclipse
-	
 	
 	mkdir -p $(DESTDIR)/eclipse/features
 	cp $(OUTDIR)/$(APTANA_FEATURE).jar $(DESTDIR)/eclipse/features
