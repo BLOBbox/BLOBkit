@@ -1,4 +1,4 @@
-VERSION = 1.4.1
+VERSION = 1.4.2
 YUI_VERSION = 2.7.0b
 COMP_VERSION = 2.4.2
 YUIDOC_VERSION = 1.0.0b1
@@ -158,14 +158,18 @@ $(LIB_ZIP):
 clean:
 	# Cleaning folders...
 	-rm -rf build
-	-rm -r yui-*
-	-rm -r yuicompressor-*
-	-rm -r yuidoc-*
 	-rm samples/$(LIB_BASENAME)-min.js
 	-rm samples/$(LIB_BASENAME)-debug.js
 	-rm -r $(INTEGRATION_PACKAGE_NAME)*
 	-rm com.tvblob.blobkit_*.jar
 	-rm BLOBkit_*.zip
+	# Use make cleanall to clean everything
+
+cleanall: clean
+	# Cleaning libraries...
+	-rm -r yui-*
+	-rm -r yuicompressor-*
+	-rm -r yuidoc-*
 
 aptana: $(APTANA_COMPONENT).jar
 
@@ -228,15 +232,6 @@ $(APTANA_COMPONENT).jar:
 	cd $(APTANA_COMPONENT) && zip -r ../$(OUTDIR)/$(APTANA_COMPONENT).jar *
 	-rm -rf $(APTANA_COMPONENT)
 	
-	mkdir -p $(APTANA_FEATURE)
-	mkdir -p $(APTANA_FEATURE)/META_INF
-	cp aptana_src/featureMANIFEST.MF $(APTANA_FEATURE)/META_INF/MANIFEST.MF
-	cp aptana_src/feature.xml $(APTANA_FEATURE)/feature.xml	
-	sed -i    -e "s/%%VERSION%%/$(APTANA_VERSION)/g" $(APTANA_FEATURE)/feature.xml
-	-rm $(APTANA_FEATURE)/feature.xml-e
-	cd $(APTANA_FEATURE) && zip -r ../$(OUTDIR)/$(APTANA_FEATURE).jar *
-	-rm -rf $(APTANA_FEATURE)
-	
 	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > $(OUTDIR)/site.xml
 	echo "<site>" >> $(OUTDIR)/site.xml
 	echo "<description url=\"http://www.blobforge.com/static/lib/eclipse/\">" >> $(OUTDIR)/site.xml
@@ -249,17 +244,26 @@ $(APTANA_COMPONENT).jar:
 	echo "</site>" >> $(OUTDIR)/site.xml
 	
 	cp aptana_src/artifacts.xml $(OUTDIR)/artifacts.xml
-	sed -i    -e "s/BLOBKITVERSION/$(APTANA_VERSION)/g" $(APTANA_FEATURE)/artifacts.xml
+	sed -i    -e "s/BLOBKITVERSION/$(APTANA_VERSION)/g" $(OUTDIR)/artifacts.xml
 	-rm $(APTANA_FEATURE)/artifacts.xml-e
-	zip $(OUTDIR)/artifacts.jar $(OUTDIR)/artifacts.xml
-	#rm $(OUTDIR)/artifacts.xml
+	cd $(OUTDIR) && zip artifacts.jar artifacts.xml
+	rm $(OUTDIR)/artifacts.xml
 	
 	cp aptana_src/content.xml $(OUTDIR)/content.xml
-	sed -i    -e "s/BLOBKITVERSION/$(APTANA_VERSION)/g" $(APTANA_FEATURE)/content.xml
+	sed -i    -e "s/BLOBKITVERSION/$(APTANA_VERSION)/g" $(OUTDIR)/content.xml
 	-rm $(APTANA_FEATURE)/content.xml-e
-	zip $(OUTDIR)/content.jar $(OUTDIR)/content.xml
-	#rm $(OUTDIR)/content.xml
+	cd $(OUTDIR) && zip content.jar content.xml
+	rm $(OUTDIR)/content.xml
 
+	mkdir -p $(APTANA_FEATURE)
+	mkdir -p $(APTANA_FEATURE)/META_INF
+	cp aptana_src/featureMANIFEST.MF $(APTANA_FEATURE)/META_INF/MANIFEST.MF
+	cp aptana_src/feature.xml $(APTANA_FEATURE)/feature.xml	
+	sed -i    -e "s/%%VERSION%%/$(APTANA_VERSION)/g" $(APTANA_FEATURE)/feature.xml
+	-rm $(APTANA_FEATURE)/feature.xml-e
+	cd $(APTANA_FEATURE) && zip -r ../$(OUTDIR)/$(APTANA_FEATURE).jar *
+	-rm -rf $(APTANA_FEATURE)
+	
 release: all
 	# Building release package
 	-rm -rf $(DESTDIR) 
