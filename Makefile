@@ -248,6 +248,17 @@ $(APTANA_COMPONENT).jar:
 	echo "<category-def name=\"SDK\" label=\"BLOBkit Javascript Library\" />" >> $(OUTDIR)/site.xml
 	echo "</site>" >> $(OUTDIR)/site.xml
 	
+	cp aptana_src/artifacts.xml $(OUTDIR)/artifacts.xml
+	sed -i    -e "s/BLOBKITVERSION/$(APTANA_VERSION)/g" $(APTANA_FEATURE)/artifacts.xml
+	-rm $(APTANA_FEATURE)/artifacts.xml-e
+	zip $(OUTDIR)/artifacts.jar $(OUTDIR)/artifacts.xml
+	#rm $(OUTDIR)/artifacts.xml
+	
+	cp aptana_src/content.xml $(OUTDIR)/content.xml
+	sed -i    -e "s/BLOBKITVERSION/$(APTANA_VERSION)/g" $(APTANA_FEATURE)/content.xml
+	-rm $(APTANA_FEATURE)/content.xml-e
+	zip $(OUTDIR)/content.jar $(OUTDIR)/content.xml
+	#rm $(OUTDIR)/content.xml
 
 release: all
 	# Building release package
@@ -284,6 +295,9 @@ release: all
 	
 	mkdir -p $(DESTDIR)/eclipse
 	cp $(OUTDIR)/site.xml $(DESTDIR)/eclipse
+	cp $(OUTDIR)/artifacts.jar $(DESTDIR)/eclipse
+	cp $(OUTDIR)/content.jar $(DESTDIR)/eclipse
+	
 	
 	mkdir -p $(DESTDIR)/eclipse/features
 	cp $(OUTDIR)/$(APTANA_FEATURE).jar $(DESTDIR)/eclipse/features
