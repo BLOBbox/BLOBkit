@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<script type="text/javascript" src='../tvb-debug.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Video Player - Get Dvb Channel List");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<table summary='data' id='channel_list' border=1>
+			<tr>
+				<td><strong>ID</strong></td>
+				<td><strong>Name</strong></td>
+				<td><strong>URI</strong></td>
+				<td><strong>Number</strong></td>
+			</tr>
+		</table>
+		
+		<script type="text/javascript">
+			// count the number of DVB channels available
+			var num = TVB.tuner.countDvbChannels();
+			
+			if (num > 0) {
+				var channels = TVB.tuner.getDvbChannelsList();
+				
+				for (var i = 0; i < num; i++) {
+					var row = document.createElement('tr');
+
+					// ID
+					var col_id = document.createElement('td');
+					col_id.innerHTML = channels[i].ID;
+					row.appendChild(col_id);
+
+					// name
+					var col_name = document.createElement('td');
+					col_name.innerHTML = channels[i].name;
+					row.appendChild(col_name);
+
+					// uri
+					var col_uri = document.createElement('td');
+					col_uri.innerHTML = channels[i].uri;
+					row.appendChild(col_uri);
+
+					// number
+					var col_number = document.createElement('td');
+					col_number.innerHTML = channels[i].number;
+					row.appendChild(col_number);
+
+					document.getElementById('channel_list').appendChild(row);
+					
+				}
+
+				// Put the name of current channel in the title bar
+				TVB.widget.titleBar.setTitle("Video Player - " + num + " channels");
+			} else {
+				TVB.widget.titleBar.setTitle("Video Player - No DVB channels found!");
+			}
+		</script>
+	</body>
+</html>
