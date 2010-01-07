@@ -1,5 +1,5 @@
-VERSION = 1.4.2
-YUI_VERSION = 2.7.0b
+VERSION = 1.5.0
+YUI_VERSION = 2.8.0r4
 COMP_VERSION = 2.4.2
 YUIDOC_VERSION = 1.0.0b1
 
@@ -77,7 +77,9 @@ yui-$(YUI_VERSION):
 	#2.6.0 only
 	#patch -p0 yui/build/yahoo/yahoo.js < patch/yahoo.diff
 	#2.7.0b only
-	patch -p0 yui/build/event/event.js < patch/event.js.diff
+	#patch -p0 yui/build/event/event.js < patch/event.js.diff
+	#2.8.0r4 only
+	patch -p0 yui/build/event/event.js < patch/event_2.8.0r4.js.diff
 	mv yui yui-$(YUI_VERSION)
 
 yuicompressor-$(COMP_VERSION):
