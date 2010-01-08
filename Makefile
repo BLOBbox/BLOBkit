@@ -12,14 +12,14 @@ COMP_DOWNLOAD = "http://www.julienlecomte.net/yuicompressor/yuicompressor-$(COMP
 YUIDOC_DOWNLOAD = "http://yuilibrary.com/downloads/yuidoc/yuidoc_$(YUIDOC_VERSION).zip"
 
 YUI_SOURCES = yui-$(YUI_VERSION)/build/yahoo/yahoo.js yui-$(YUI_VERSION)/build/dom/dom.js yui-$(YUI_VERSION)/build/event/event.js yui-$(YUI_VERSION)/build/connection/connection.js yui-$(YUI_VERSION)/build/json/json.js
-TVB_SOURCES = src/exceptions.js src/extensions.js src/system.js src/json.js src/event.js src/connection.js src/remote.js src/player.js src/ad.js src/podcast.js src/podcast100.js src/widgets.js src/menu.js src/i18n.js src/vfs.js src/tuner.js src/favorites.js
+TVB_SOURCES = src/tvblob/exceptions.js src/tvblob/extensions.js src/system/system.js src/json/json.js src/event/event.js src/connection/connection.js src/remote/remote.js src/player/player.js src/ad/ad.js src/podcast/podcast.js src/podcast/podcast100.js src/widgets/widgets.js src/menu/menu.js src/i18n/i18n.js src/vfs/vfs.js src/tuner/tuner.js src/favorites/favorites.js
 DEB_YUI = yui-$(YUI_VERSION)/build/profiler/profiler.js 
-DEB_TVB = src/profiler.js
+DEB_TVB = src/profiler/profiler.js
 NON_DEB = 
 
-SOURCES =  src/tvblob.js $(NON_DEB) $(YUI_SOURCES) $(TVB_SOURCES)
-DEBUG_SOURCES = src/tvblob.js $(DEB_TVB) $(YUI_SOURCES) $(DEB_YUI) $(TVB_SOURCES)
-DOC_SOURCES = src/tvblob.js $(DEB_TVB) $(TVB_SOURCES)
+SOURCES =  src/tvblob/tvblob.js $(NON_DEB) $(YUI_SOURCES) $(TVB_SOURCES)
+DEBUG_SOURCES = src/tvblob/tvblob.js $(DEB_TVB) $(YUI_SOURCES) $(DEB_YUI) $(TVB_SOURCES)
+DOC_SOURCES = src/tvblob/tvblob.js $(DEB_TVB) $(TVB_SOURCES)
 
 LIB_BASENAME = tvb
 LIB_NAME = $(LIB_BASENAME)-$(VERSION).js
@@ -114,12 +114,14 @@ $(LIB_DOC):
 	mkdir -p $(OUTDIR)/doc
 	mkdir -p $(OUTDIR)/docparse
 	#cd $(OUTDIR) && cp $(LIB_BASENAME)-doc.js docsrc
-	cp $(DOC_SOURCES) $(OUTDIR)/docsrc
-	sed -i    -e "s/%%VERSION%%/$(VERSION) rev $(BUILD) build on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/docsrc/*.js
-	if [ -e "$(OUTDIR)/docsrc/*.js-e" ]; then rm $(OUTDIR)/docsrc/*.js-e; fi
-	python yuidoc-$(YUIDOC_VERSION)/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc --template=$(PWD)doc_tpl --version=$(VERSION) --yuiversion=2 --project="BLOBkit Library" --projecturl=http://www.blobforge.com
-	if [ -d "$(OUTDIR)/docsrc" ]; then rm -r $(OUTDIR)/docsrc; fi
-	if [ -d "$(OUTDIR)/docparse" ]; then rm -r $(OUTDIR)/docparse; fi
+	##cp -r $(DOC_SOURCES) $(OUTDIR)/docsrc
+	cp -r src/* $(OUTDIR)/docsrc/
+	sed -i    -e "s/%%VERSION%%/$(VERSION) rev $(BUILD) build on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/docsrc/tvblob/*.js
+	if [ -e "$(OUTDIR)/docsrc/tvblob/*.js-e" ]; then rm $(OUTDIR)/docsrc/tvblob/*.js-e; fi
+	#python yuidoc-$(YUIDOC_VERSION)/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc --template=$(PWD)doc_tpl --version=$(VERSION) --yuiversion=2 --project="BLOBkit Library" --projecturl=http://www.blobforge.com
+	python yuidoc-223548a/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc --template=$(PWD)doc_tpl --version=$(VERSION) --yuiversion=2 --project="BLOBkit Library" --projecturl=http://www.blobforge.com
+	#if [ -d "$(OUTDIR)/docsrc" ]; then rm -rf $(OUTDIR)/docsrc; fi
+	#if [ -d "$(OUTDIR)/docparse" ]; then rm -rf $(OUTDIR)/docparse; fi
 
 $(LIB_DEB):
 	# Building $(LIB_DEB)...
@@ -157,7 +159,7 @@ $(LIB_ZIP):
 	
 clean:
 	# Cleaning folders...
-	if [ -d "$(OUTDIR)" ]; then rm -r $(OUTDIR); fi
+	if [ -d "$(OUTDIR)" ]; then rm -rf $(OUTDIR); fi
 	if [ -e "samples/$(LIB_BASENAME)-min.js" ]; then rm samples/$(LIB_BASENAME)-min.js; fi
 	if [ -e "samples/$(LIB_BASENAME)-debug.js" ]; then rm samples/$(LIB_BASENAME)-debug.js; fi
 	if [ -d "$(INTEGRATION_PACKAGE_NAME)*" ]; then rm -r $(INTEGRATION_PACKAGE_NAME)*; fi
