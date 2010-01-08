@@ -116,11 +116,12 @@ $(LIB_DOC):
 	#cd $(OUTDIR) && cp $(LIB_BASENAME)-doc.js docsrc
 	##cp -r $(DOC_SOURCES) $(OUTDIR)/docsrc
 	cp -r src/* $(OUTDIR)/docsrc/
-	sed -i    -e "s/%%VERSION%%/$(VERSION) rev $(BUILD) build on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/docsrc/tvblob/*.js
-	if [ -e "$(OUTDIR)/docsrc/tvblob/*.js-e" ]; then rm $(OUTDIR)/docsrc/tvblob/*.js-e; fi
-	#python yuidoc-$(YUIDOC_VERSION)/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc --template=$(PWD)doc_tpl --version=$(VERSION) --yuiversion=2 --project="BLOBkit Library" --projecturl=http://www.blobforge.com
-	python yuidoc-223548a/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc --template=$(PWD)doc_tpl --version=$(VERSION) --yuiversion=2 --project="BLOBkit Library" --projecturl=http://www.blobforge.com
-	#if [ -d "$(OUTDIR)/docsrc" ]; then rm -rf $(OUTDIR)/docsrc; fi
+	sed -i    -e "s/%%VERSION%%/$(VERSION) rev $(BUILD) build on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/docsrc/tvblob/tvblob.js
+	if [ -e "$(OUTDIR)/docsrc/tvblob/tvblob.js-e" ]; then rm $(OUTDIR)/docsrc/tvblob/tvblob.js-e; fi
+	find $(OUTDIR)/docsrc -name .svn | xargs rm -rf
+	python yuidoc-$(YUIDOC_VERSION)/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc --template=$(PWD)doc_tpl --version=$(VERSION) --yuiversion=2 --project="BLOBkit Javascript Library" --projecturl=http://www.blobforge.com
+	#python yuidoc-e8b2adb/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc -t $(PWD)doc_tpl -v $(VERSION) -Y 2 --project="BLOBkit Javascript Library" --projecturl=http://www.blobforge.com
+	if [ -d "$(OUTDIR)/docsrc" ]; then rm -rf $(OUTDIR)/docsrc; fi
 	#if [ -d "$(OUTDIR)/docparse" ]; then rm -rf $(OUTDIR)/docparse; fi
 
 $(LIB_DEB):
