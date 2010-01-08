@@ -1,6 +1,7 @@
 /**
  * Custom Javascript Extensions
  * @module extensions
+ * @namespace TVB
  * @title Custom Javascript Extensions
  * @author Edoardo Esposito edoardo.esposito@tvblob.com
  */

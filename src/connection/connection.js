@@ -1,5 +1,6 @@
 /**
  * The connection module provides syncronous and asyncronous connection tools.
+ * 
  * @module connection
  * @namespace TVB
  * @title Connection Manager
