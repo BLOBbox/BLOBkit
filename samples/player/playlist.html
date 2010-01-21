@@ -25,13 +25,13 @@
 			
 			// first playback
 			var counter = 0;
-			TVB.player.config.currentUri = 'http://cdn-0.tvblob.com/hdtv/ratatouille_720p.mov?bitrate=1000';
+			TVB.player.setContent('http://cdn-0.tvblob.com/hdtv/ratatouille_720p.mov?bitrate=1000');
 			TVB.player.play(); 
 			
-			TVB.CustomEvent.subscribeEvent(TVB.player.events.stop, function() {
+			TVB.CustomEvent.subscribeEvent(TVB.player.events.end_of_streaming, function() {
 				if (counter === 0) {
 					document.getElementById('text').innerHTML = 'Playing Boogie (2/2)';
-					TVB.player.config.currentUri = 'http://s3.amazonaws.com/Tvblob-test/boogie.m4v';
+					TVB.player.setContent('http://s3.amazonaws.com/Tvblob-test/boogie.m4v');
 					TVB.player.play();
 					counter++; 
 				}
