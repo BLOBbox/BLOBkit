@@ -220,6 +220,9 @@ TVB.menu.prototype = {
 	 */
 	onSelectCB: undefined,
 	/**
+	 * This callback is called when the menu reaches the very first element or the last one.
+	 * It should do anything the programmer wants to do, like loading more data or updating the menu.
+	 * It must return false if the update fail.
 	 * @config onRemoteUpdateCB
 	 * @type Function
 	 */
@@ -625,14 +628,17 @@ TVB.menu.prototype = {
 					if (this.disableChannelDown === true) {
 						break;
 					}
-					TVB.warning("Menu: working on pagination");
+					TVB.log("Menu: working on pagination");
 					// go to next page
 					nextElement = (this.currentPage + 1) * this.visibleElements;
 					if (nextElement >= this.numElements) {
 						TVB.log("Menu: this is the last page");
 						if (this.menuType == 'dynamic' && this.onRemoteUpdateCB !== undefined) {
 							this.currentPage = 0;
-							this.onRemoteUpdateCB(0);
+							var updateResult = this.onRemoteUpdateCB(0);
+							if (updateResult === false) {
+								this.setFocus(0);
+							}
 						} else if (this.currentPage > 0) {
 							TVB.log("Menu: back to page 0");
 							TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});						
@@ -663,7 +669,11 @@ TVB.menu.prototype = {
 
 						if (this.menuType == 'dynamic' && this.onRemoteUpdateCB !== undefined) {
 							this.currentPage = lastPage;
-							this.onRemoteUpdateCB(1);
+							var updateResult = this.onRemoteUpdateCB(1);
+							if (updateResult === false) {
+								this.currentPage = 0;
+								this.setFocus(0);
+							}
 							//this.setFocus((lastPage * this.visibleElements) -1);
 						}
 						else {
@@ -722,7 +732,11 @@ TVB.menu.prototype = {
 						if (this.onRemoteUpdateCB !== undefined)
 						{
 							this.currentPage = lastPage;
-							this.onRemoteUpdateCB(1);
+							var updateResult = this.onRemoteUpdateCB(1);
+							if (updateResult === false) {
+								this.currentPage = 0;
+								this.setFocus(0);
+							}
 						}
 					}
 					else
@@ -786,7 +800,11 @@ TVB.menu.prototype = {
 							if (this.onRemoteUpdateCB !== undefined)
 							{
 								this.currentPage = 0;
-								this.onRemoteUpdateCB(0);
+								var updateResult = this.onRemoteUpdateCB(0);
+								if (updateResult === false) {
+									this.currentPage = 0;
+									this.setFocus(0);
+								}
 							}
 						} else {
 							TVB.log("Menu: back to page 0");
@@ -801,7 +819,11 @@ TVB.menu.prototype = {
 					} else {
 						if (this.menuType == 'dynamic') {
 							if (this.onRemoteUpdateCB !== undefined) {
-								this.onRemoteUpdateCB(0);
+								var updateResult = this.onRemoteUpdateCB(1);
+								if (updateResult === false) {
+									this.currentPage = 0;
+									this.setFocus(0);
+								}
 							}
 						} else {
 							this.setFocus(start);
