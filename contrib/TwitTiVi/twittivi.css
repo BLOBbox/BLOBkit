@@ -1,0 +1,87 @@
+body {
+	color: #ccc;
+	background: black url('') center center no-repeat;
+}
+
+#digilogo {
+	position: fixed;
+	width: 283px;
+	height: 286px;
+	left: 40px;
+	top: 120px;
+	background: transparent url('') top left no-repeat;
+	border: 0px solid red;
+}
+
+#next_show {
+	position: fixed;
+	width: 283px;
+	height: 286px;
+	left: 40px;
+	top: 426px;
+	color: #7eaa1b;
+	text-align: center;
+}
+
+#container {
+	border: 0px solid red;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	width: expression(document.body.offsetWidth - 363 + "px");
+	left: 363px;
+	top: 92px;
+	position: absolute;
+}
+
+#loadingData {
+	width: 100%;
+	height: 35px; /*25*/
+	background: transparent url('') top center no-repeat;
+	margin-top: 160px;
+}
+
+#message {
+	width: expression(document.body.offsetWidth - 80 + "px");
+	margin-top: 160px;
+	text-align: center;
+	padding-left: 40px;
+	padding-right: 40px;
+}
+
+.tweet {
+	border: 0px solid red;
+	font-size: 18px;
+	padding: 0;
+	margin: 5px 0px 0px 0px;
+	text-align: left;
+	clear: both;
+	display: block;
+	/*background-color: #1c2902; NEW */
+	/*background-color: #111a00; */
+	background-color: #0b1000;
+}
+
+.tweet img {
+	width: 48px;
+	height: 48px;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	/*float: left;*/
+}
+
+.tweet .from {
+	color: #7eaa1b;
+}
+
+.tweet .pubdate {
+	color: #ab6f10;
+}
+
+.tweet table tr td {
+	vertical-align: top;
+	border: 0px solid red;
+	margin: 0;
+	padding: 5px;
+}
