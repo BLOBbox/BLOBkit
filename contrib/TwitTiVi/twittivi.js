@@ -7,7 +7,7 @@
 /* CONFIGURATION AREA - EDIT IF YOU NEED TO */
 var startingTweets = 20;
 var maxTweets = 50;
-var applicationTitle = "Ballarò"; // string; used by title bar and favorite handler
+var applicationTitle = "My Application Name"; // string; used by title bar and favorite handler
 var hashtag = "#ballaro"; // hash tag or search query for Twitter
 var dttChannelName = "RaiTre"; // exact match with channel name declared by broadcaster in DVB stream
 var themeColor = "#0b1000"; // update this also in css file
@@ -29,24 +29,19 @@ var init = function() {
 		try {
 			var SMOJVersion = TVB.system.getSMOJVersion().split('.');
 		} catch (e) {
-			//TVB.log(e.message);
 			vasr SMOJVersion = "1.49.8".split('.');
 		}
 		
 		try {
 			if (parseInt(SMOJVersion[0] > 1, 10)) {
-				//TVB.log("SMOJVersion > 1.X");
 				isTitleEditable = true;
 			} else {
 				if (parseInt(SMOJVersion[0], 10) === 1 && parseInt(SMOJVersion[1], 10) > 49) {
-					//TVB.log("SMOJVersion > 1.49.X");
 					isTitleEditable = true;
 				} else {
 					if (parseInt(SMOJVersion[0], 10) === 1 && parseInt(SMOJVersion[1], 10) === 49 && parseInt(SMOJVersion[2], 10) > 7) {
-						//TVB.log("SMOJVersion > 1.49.7");
 						isTitleEditable = true;
 					} else {
-						//TVB.log("SMOJVersion < 1.49.8");
 						isTitleEditable = false;
 					}
 				}
@@ -93,8 +88,7 @@ var init = function() {
 		
 		for (var i = 0; i < channels.length; i++) {
 			if (channels[i].name == dttChannelName) {
-				var raitre = channels[i].uri;
-				//TVB.log("Found " + dttChannelName + ": " + channels[i].uri);
+				var channelTripletDecoded = channels[i].uri;
 			}
 		}
 		
@@ -121,7 +115,7 @@ var init = function() {
 			width: 283,
 			height: 286,
 			switchKey: null,
-			uri: raitre,
+			uri: channelTripletDecoded,
 			autoplay: true,
 			fullscreen: false,
 			noLittleHole: false
