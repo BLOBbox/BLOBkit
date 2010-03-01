@@ -637,7 +637,6 @@ TVB.widget.titleBarHandler = function() {
 		 * Changes the logo on the left side of the title bar from "for BLOBbox" to "BLOBbox" only.
 		 * @method titleBar.setLogo
 		 * @param {Boolean} isTVBLOB true if the web site is developed by TVBLOB, false if the application is build for BLOBbox by third party developers
-		 * @private
 		 */
 		this.setLogo = function(isTVBLOB) {
 			try {
@@ -697,6 +696,7 @@ TVB.widget.titleBarHandler = function() {
 		/**
 		 * Changes the background color of the title bar
 		 * @method titleBar.setBackgroundColor
+		 * @param {String} color RGB color 
 		 */
 		this.setBackgroundColor = function(color) {
 			try {
@@ -711,6 +711,7 @@ TVB.widget.titleBarHandler = function() {
 		/**
 		 * Changes the color of the text of title bar
 		 * @method titleBar.setColor
+		 * @param {String} color RGB color
 		 */
 		this.setColor = function(color) {
 			try {

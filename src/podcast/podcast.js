@@ -509,22 +509,22 @@ TVB.podcast.formatContentObject = function(contentHandler) {
 			chd.downloadPercentage = 100;
 		} else {
 			chd.isPlayable = false;
-			chd.downloadStatus = 'ERROR';
+			chd.downloadStatus = 'STARTING';
 			chd.downloadStatusCode = 5;
 		}
 		
 		var di = contentHandler.getDownloadInfo();
 		if (di === null) {
-			isDownloading = false;
+			chd.isDownloading = false;
 		} else {
-			isDownloading = true;
-			downloadPercentage = di.getDownloadPercentage();
-			downloadStatus = di.getDownloadStatus();
-			downloadStatusCode = di.getDownloadStatusCode();
-			downloadedBytes = di.getDownloadedBytes();
-			downloadRate = di.getDownloadRate();
-			remainingDownloadTimeSeconds = di.getRemainingDownloadTimeSeconds();
-			remainingDownloadTime = di.getRemainingDownloadTime();
+			chd.isDownloading = true;
+			chd.downloadPercentage = di.getDownloadPercentage();
+			chd.downloadStatus = di.getDownloadStatus();
+			chd.downloadStatusCode = di.getDownloadStatusCode();
+			chd.downloadedBytes = di.getDownloadedBytes();
+			chd.downloadRate = di.getDownloadRate();
+			chd.remainingDownloadTimeSeconds = di.getRemainingDownloadTimeSeconds();
+			chd.remainingDownloadTime = di.getRemainingDownloadTime();
 		}
 		return chd;
 	} catch (e) {
@@ -541,7 +541,7 @@ TVB.podcast.formatContentObject = function(contentHandler) {
  */
 TVB.podcast.getFeedContentByID = function(feedID) {
 	try {
-		TVB.log("Podcast: getFeedContentByID(" + feed_id + ")");
+		TVB.log("Podcast: getFeedContentByID(" + feedID + ")");
 		if (TVB.podcast.mgr === null) {
 			TVB.podcast.init();
 		}
@@ -747,15 +747,15 @@ if (TVB.podcast.version_integer < 101) {
 		}
 	};
 	
-	TVB.podcast.feedExist = function(feed_id) {
+	TVB.podcast.feedExist = function(feedID) {
 		try {
-			TVB.log("Podcast: feed exist " + feed_id);
+			TVB.log("Podcast: feed exist " + feedID);
 			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			TVB.podcast.refresh();
 			for (var i in TVB.podcast.feeds) {
-				if (TVB.podcast.feeds[i].ID == feed_id) {
+				if (TVB.podcast.feeds[i].ID == feedID) {
 					return true;
 				}
 			}
@@ -766,16 +766,16 @@ if (TVB.podcast.version_integer < 101) {
 		}
 	};
 	
-	TVB.podcast.getFeedContentByID = function(feed_id) {
+	TVB.podcast.getFeedContentByID = function(feedID) {
 		try {
-			TVB.log("Podcast: get feed content by id " + feed_id);
+			TVB.log("Podcast: get feed content by id " + feedID);
 			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
 			TVB.podcast.fh = TVB.podcast.mgr.getAllFeeds();
 			var content = [];
 			for (var i in TVB.podcast.fh) {
-				if (TVB.podcast.fh[i].getID() == feed_id) {
+				if (TVB.podcast.fh[i].getID() == feedID) {
 					var ch = TVB.podcast.fh[i].getAllContent();
 					for (var j in ch) {
 						var co = {};
@@ -809,9 +809,9 @@ if (TVB.podcast.version_integer < 101) {
 		}
 	};
 	
-	TVB.podcast.countFeedContentByID = function(feed_id) {
+	TVB.podcast.countFeedContentByID = function(feedID) {
 		try {
-			TVB.log("Podcast: count feed content by id " + feed_id);
+			TVB.log("Podcast: count feed content by id " + feedID);
 			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
@@ -822,7 +822,7 @@ if (TVB.podcast.version_integer < 101) {
 			content.downloading = 0;
 			
 			for (var i in TVB.podcast.fh) {
-				if (TVB.podcast.fh[i].getID() == feed_id) {
+				if (TVB.podcast.fh[i].getID() == feedID) {
 					var ch = TVB.podcast.fh[i].getAllContent();
 					for (var j in ch) {
 						content.count++;
@@ -842,13 +842,13 @@ if (TVB.podcast.version_integer < 101) {
 		}
 	};
 	
-	TVB.podcast.getUriByID = function(feed_id, id) {
+	TVB.podcast.getUriByID = function(feedID, id) {
 		try {
 			TVB.log("Podcast: get uri by id " + id);
 			if (TVB.podcast.mgr === null) {
 				throw {message: "Not inited"};
 			}
-			var data = TVB.podcast.getFeedContentByID(feed_id);
+			var data = TVB.podcast.getFeedContentByID(feedID);
 			for (var i in data) {
 				//TVB.log("Podcast: examinating " + data[i].ID + " = " + id + "...");
 				if (data[i].ID == id) {
