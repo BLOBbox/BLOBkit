@@ -261,6 +261,7 @@ TVB.widget.yesno = function(text, callback, default_value) {
 		var menu = document.createElement('div');
 		menu.style.textAlign = 'center';
 		menu.style.width = '300px';
+		menu.className = "TVB_yesno_choose";
 		yesno.appendChild(menu);
 
 		var myMenuData = [
