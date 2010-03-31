@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type='text/javascript' src='http://www.blobforge.com/static/lib/tvb-min.js'></script>
+		<script type="text/javascript" src='../../src/cdn/cdn.js'></script>
+		<script type="text/javascript" src='sample.js'></script>
+	</head>
+	<body>
+		
+		<div style="padding:20px;margin-top:60px;";>
+		
+			Level3: url = lv3:/newdealfs.fplive.net/newdeal/district9.mp4 <br/>
+			getRtmpUrl(url) = <a id="lv3" href="#" onclick="playContent('lv3')"></a><br/>
+		
+		</div> 
+		
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("CDN Manager");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+			init();
+			var url = TVB.cdn.getRtmpUrl("lv3:/newdealfs.fplive.net/newdeal/district9.mp4");
+			TVB.log(url);
+			document.getElementById("lv3").innerHTML = url;
+		</script>
+	</body>
+</html>
