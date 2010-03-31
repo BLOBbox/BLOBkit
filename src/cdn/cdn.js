@@ -136,7 +136,7 @@ TVB.cdn.level3Connector = {
 		
 	getUrl:function(url){		
 		try{
-			TVB.log(url);
+			
 			var start = url.indexOf("/") + 1;
 			var med = url.indexOf("/", start) + 1;
 			var end = url.indexOf("/", med);
@@ -147,7 +147,7 @@ TVB.cdn.level3Connector = {
 			else  
 				serverUrl = start == 0 ? "" :  "rtmp://" + url.substring(start, med);
 			
-			TVB.log(serverUrl);
+			
 			
 			start = url.indexOf("/") + 1;
 			med  = url.indexOf("/", start) + 1;
@@ -161,7 +161,7 @@ TVB.cdn.level3Connector = {
 					file.indexOf(".m4v") != -1 )) {
 					file = "mp4:" + file;
 			}
-			TVB.log(file);
+			//TVB.log(file);
 			return serverUrl + "/" + file;
 		}catch(e){
 			TVB.error(e);
@@ -185,23 +185,22 @@ TVB.cdn.smilConnector = {
 	getUrl: function(url){
 		try{
 			var req = new HTTPRelay();
-			//url = "http://" + escape(url) + "?format=xml2";
-			//TVB.log("GET " + url);
+			
 			var res = req.get(url);
-			TVB.log(res);
+			//TVB.log(res);
 			var xml = tvblob.parseXml(res);
 			var server = "";
 			var file = "";
 			var nodeList = xml.getAllChildNodes();			
 			for(var el in nodeList){
-				TVB.log(nodeList[el].getName());
+				
 				if(nodeList[el].getName() == "body"){
 					var sub = nodeList[el].getAllChildNodes();	
 					for(var s in sub){
-						TVB.log(sub[s].getName());
+						
 						if(sub[s].getName() == "video"){
 							file = sub[s].getAttributeValue("src");
-							TVB.log("File: " + file);
+							//TVB.log("File: " + file);
 						}
 					}
 					
@@ -211,7 +210,7 @@ TVB.cdn.smilConnector = {
 					for(var s in sub){
 						if(sub[s].getName() == "meta"){
 							server = sub[s].getAttributeValue("base");
-							TVB.log("Server: " + server);
+							//TVB.log("Server: " + server);
 						}
 					}
 				}
@@ -228,36 +227,51 @@ TVB.cdn.smilConnector = {
 	
 }
 
+/**
+ * 
+ * <playlist version="1">
+
+	<trackList>
+
+		<track>
+			<title/>
+			<creator/>
+			<location>vdoxadmin/ws-tvblob/ratatouille_480p.mov</location>
+			<meta rel="streamer">rtmp://fl9.maelstrom.jet-stream.nl:1935/vod/</meta>
+			<meta rel="type">rtmp</meta>
+		</track>
+	</trackList>
+	</playlist>
+ */
 TVB.cdn.xspfConnector = {
 		getUrl: function(url){
 			try{
 				var req = new HTTPRelay();
-				//url = "http://" + escape(url) + "?format=xml2";
-				//TVB.log("GET " + url);
+				
 				var res = req.get(url);
-				TVB.log(res);
+				//TVB.log(res);
 				var xml = tvblob.parseXml(res);
 				var server = new Array();
 				var file = new Array();
-				//TVB.log(xml.getName());
+				
 				var nodeList = xml.getChildNode("trackList").getAllChildNodes();
-				//.getChildNode("trackList").getAllChildNodes();		//playlist-->tracklist	
+				//playlist-->tracklist	
 				var cont = 0;
 				for(var el in nodeList){ //el = track
-					//TVB.log(nodeList[el].getName());
+					
 					if(nodeList[el].getName() == "track"){
 						var sub = nodeList[el].getAllChildNodes();	
 						for(var s in sub){
-							TVB.log(sub[s].getName());
+							
 							if(sub[s].getName() == "location"){
 								file[cont] = sub[s].getValue();
-								TVB.log("File 0: " + file[cont]);
+								//TVB.log("File 0: " + file[cont]);
 							}
 							else if(sub[s].getName() == "meta"){
 								if(sub[s].getAttributeValue("rel") == "streamer"){
 									server[cont] = sub[s].getValue();
 								}
-								TVB.log("Server 0: " + server[cont]);
+								//TVB.log("Server 0: " + server[cont]);
 							}
 						}
 						cont++;
