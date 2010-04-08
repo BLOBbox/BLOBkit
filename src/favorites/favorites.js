@@ -30,7 +30,12 @@ TVB.favorites.set = function(uri) {
 			throw TypeError;
 		}
 		if (TVB.favorites.handler === null) {
-			throw InitError;
+			if (typeof BlobFavoritesHandler == 'function') {
+				TVB.favorites.handler = new BlobFavoritesHandler();
+				TVB.favorites.set(location.href);
+			} else {
+				throw InitError;
+			}
 		}
 		TVB.favorites.handler.setURI(encodeURI(uri));
 	} catch (e) {
@@ -54,7 +59,12 @@ TVB.favorites.setProducer = function(functionName) {
 			throw TypeError;
 		}
 		if (TVB.favorites.handler === null) {
-			throw InitError;
+			if (typeof BlobFavoritesHandler == 'function') {
+				TVB.favorites.handler = new BlobFavoritesHandler();
+				TVB.favorites.set(location.href);
+			} else {
+				throw InitError;
+			}
 		}
 		TVB.favorites.handler.setProducer(functionName);
 	} catch (e) {
@@ -63,21 +73,9 @@ TVB.favorites.setProducer = function(functionName) {
 	}
 };
 
-/*
- * Initialization of the favorites module
- */
-try {
-	/**
-	 * Hander for favorites events
-	 * @private
-	 */
-	if (typeof BlobFavoritesHandler == 'function') {
-		TVB.favorites.handler = new BlobFavoritesHandler();
-		TVB.favorites.set(location.href);
-	} else {
-		TVB.favorites.handler = null;
-	}
-} catch (e) {
-	TVB.warning("Favorites: " + e.message);
-}
+TVB.favorites.handler = null;
 
+tvblob.logWarning('Ending BLOBkit');
+var blobkitEndTime = new Date();
+var blobkitExecTime = blobkitEndTime - blobkitStartTime;
+tvblob.logWarning("Exec time: " + blobkitExecTime);
