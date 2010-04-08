@@ -561,7 +561,15 @@ TVB.widget.titleBarHandler = function() {
 					}
 				}
 				YAHOO.util.Event.onDOMReady(function(){
-					document.body.style.paddingTop = "72px";
+					try {
+						document.body.style.paddingTop = "72px";
+						setTimeout(function() {
+							document.body.style.paddingTop = "72px";
+						}, 125);
+					} catch (e) {
+						TVB.error(e.message);
+						throw e;
+					}
 				});
 			} catch (e) {
 				TVB.warning("Widget: titleBar: render: " + e.message);
@@ -623,6 +631,13 @@ TVB.widget.titleBarHandler = function() {
 						var tw = window.innerWidth - 179 - parseInt(iw, 10);
 						TVB.widget.titleBar.title.style.left = parseInt(tl, 10) + "px";
 						TVB.widget.titleBar.title.style.width = parseInt(tw, 10) + "px";
+						setTimeout( function() {
+							var iw = TVB.widget.titleBar.icon.firstChild.offsetWidth;
+							var tl = parseInt(iw, 10) + 50;
+							var tw = window.innerWidth - 179 - parseInt(iw, 10);
+							TVB.widget.titleBar.title.style.left = parseInt(tl, 10) + "px";
+							TVB.widget.titleBar.title.style.width = parseInt(tw, 10) + "px";
+						}, 125);
 					} catch (e) {
 						TVB.warning(e.message);
 					}

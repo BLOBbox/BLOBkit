@@ -789,7 +789,6 @@ TVB.menu.prototype = {
 			var nextElement = this.currentElement + 1;
 			if (nextElement > end) 
 			{
-				TVB.warning("Menu: working on pagination");
 				// go to next page
 				if (nextElement >= this.numElements) 
 				{
