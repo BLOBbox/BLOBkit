@@ -17,6 +17,7 @@
 TVB.remote = function() {
 	try {
 		TVB.log("Remote: __constructor__()");
+		/*
 		if (typeof BlobRemoteControl == 'undefined') {
 			throw {message: "BlobRemoteControl is not available on this browser"};
 		} else {
@@ -26,6 +27,7 @@ TVB.remote = function() {
 				TVB.remote.rc.setKeyHandler(TVB.remote.btns[i], "TVB.remote.handler");
 			}
 		}
+		*/
 		return;
 	} catch (e) {
 		TVB.warning("Remote: __constructor__: " + e.message);
@@ -793,6 +795,16 @@ TVB.remoteInit = function()
 		};
 		
 		return;
+	}
+	
+	if (typeof BlobRemoteControl == 'undefined') {
+		throw {message: "BlobRemoteControl is not available on this browser"};
+	} else {
+		TVB.remote.rc = new BlobRemoteControl();
+		
+		for (var i = 0; i < TVB.remote.btns.length; i++) {
+			TVB.remote.rc.setKeyHandler(TVB.remote.btns[i], "TVB.remote.handler");
+		}
 	}
 
 	try 
