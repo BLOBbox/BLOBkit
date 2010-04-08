@@ -74,8 +74,3 @@ TVB.favorites.setProducer = function(functionName) {
 };
 
 TVB.favorites.handler = null;
-
-tvblob.logWarning('Ending BLOBkit');
-var blobkitEndTime = new Date();
-var blobkitExecTime = blobkitEndTime - blobkitStartTime;
-tvblob.logWarning("Exec time: " + blobkitExecTime);
