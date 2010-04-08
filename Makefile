@@ -6,13 +6,12 @@ YUIDOC_VERSION = 1.0.0b1
 INTEGRATION_PACKAGE_NAME = Web-BLOBkit
 
 YUI_URL = "http://yui.yahooapis.com/combo?$(YUI_VERSION)/build/yahoo-dom-event/yahoo-dom-event.js&$(YUI_VERSION)/build/connection/connection-min.js&$(YUI_VERSION)/build/json/json-min.js"
-#YUI_DOWNLOAD = "http://ovh.dl.sourceforge.net/sourceforge/yui/yui_$(YUI_VERSION).zip"
 YUI_DOWNLOAD = "http://yuilibrary.com/downloads/yui2/yui_$(YUI_VERSION).zip"
 COMP_DOWNLOAD = "http://www.julienlecomte.net/yuicompressor/yuicompressor-$(COMP_VERSION).zip"
 YUIDOC_DOWNLOAD = "http://yuilibrary.com/downloads/yuidoc/yuidoc_$(YUIDOC_VERSION).zip"
 
 YUI_SOURCES = yui-$(YUI_VERSION)/build/yahoo/yahoo.js yui-$(YUI_VERSION)/build/dom/dom.js yui-$(YUI_VERSION)/build/event/event.js yui-$(YUI_VERSION)/build/connection/connection.js yui-$(YUI_VERSION)/build/json/json.js
-TVB_SOURCES = src/exceptions/exceptions.js src/extensions/extensions.js src/system/system.js src/json/json.js src/event/event.js src/connection/connection.js src/remote/remote.js src/player/player.js src/ad/ad.js src/podcast/podcast.js src/widgets/widgets.js src/menu/menu.js src/i18n/i18n.js src/vfs/vfs.js src/tuner/tuner.js src/favorites/favorites.js
+TVB_SOURCES = src/exceptions/exceptions.js src/extensions/extensions.js src/system/system.js src/json/json.js src/event/event.js src/connection/connection.js src/remote/remote.js src/player/player.js src/ad/ad.js src/podcast/podcast.js src/widgets/widgets.js src/menu/menu.js src/i18n/i18n.js src/vfs/vfs.js src/tuner/tuner.js src/favorites/favorites.js src/done/done.js
 DEB_YUI = yui-$(YUI_VERSION)/build/profiler/profiler.js 
 DEB_TVB = src/profiler/profiler.js
 NON_DEB = 
@@ -48,22 +47,28 @@ APTANA_FEATURE = $(APTANA_FEATURE_ID)_$(APTANA_VERSION)
 DESTDIR = $(INTEGRATION_PACKAGE_NAME)-$(VERSION)b$(BUILD)
 
 lib: yui-$(YUI_VERSION) yuicompressor-$(COMP_VERSION) $(LIB_NAME) $(LIB_MIN) $(LIB_DEB)
+	echo "Target lib done"
 	# Build done  
 
 doc: yuidoc-$(YUIDOC_VERSION) $(LIB_DOC)
+	echo "Target doc done"
 
 all: lib doc $(LIB_ZIP) aptana
+	echo "Target all done"
 	# Build done
 
 fix: lib installfix
+	echo "Target fix done"
 
 yuidoc-$(YUIDOC_VERSION):
+	echo "yuidoc-$(YUIDOC_VERSION)"
 	wget $(YUIDOC_DOWNLOAD)
 	unzip yuidoc_$(YUIDOC_VERSION).zip
 	if [ -e "yuidoc_$(YUIDOC_VERSION).zip" ]; then rm yuidoc_$(YUIDOC_VERSION).zip; fi
 	mv yuidoc yuidoc-$(YUIDOC_VERSION)
 
 yui-$(YUI_VERSION):
+	echo "yui-$(YUI_VERSION)"
 	wget $(YUI_DOWNLOAD)
 	unzip yui_$(YUI_VERSION).zip
 	-rm yui_$(YUI_VERSION).zip
@@ -83,13 +88,14 @@ yui-$(YUI_VERSION):
 	mv yui yui-$(YUI_VERSION)
 
 yuicompressor-$(COMP_VERSION):
+	echo "yuicompressor-$(COMP_VERSION)"
 	wget $(COMP_DOWNLOAD)
 	unzip yuicompressor-$(COMP_VERSION)
 	#mv yuicompressor-$(COMP_VERSION) yuicompressor
 	if [ -e "yuicompressor-$(COMP_VERSION).zip" ]; then rm yuicompressor-$(COMP_VERSION).zip; fi
 
 $(LIB_NAME):
-	# Building $(LIB_NAME)...
+	echo "$(LIB_NAME)"
 	# svn update
 	mkdir -p $(OUTDIR)
 	$(CAT) $(SOURCES) > $(OUTDIR)/$(LIB_NAME)
@@ -99,7 +105,7 @@ $(LIB_NAME):
 	cd $(OUTDIR) && cp $(LIB_NAME) $(LIB_BASENAME).js 
 
 $(LIB_DOC):
-	# Building $(LIB_DOC)...
+	echo "$(LIB_DOC)"
 	mkdir -p $(OUTDIR)
 	$(CAT) $(DOC_SOURCES) > $(OUTDIR)/$(LIB_DOC)
 	sed -i    -e "s/TVB.log *(/\/\/TVB.log(/g" $(OUTDIR)/$(LIB_DOC)
@@ -125,7 +131,7 @@ $(LIB_DOC):
 	#if [ -d "$(OUTDIR)/docparse" ]; then rm -rf $(OUTDIR)/docparse; fi
 
 $(LIB_DEB):
-	# Building $(LIB_DEB)...
+	echo "$(LIB_DEB)"
 	mkdir -p $(OUTDIR)
 	$(CAT) $(DEBUG_SOURCES) > $(OUTDIR)/$(LIB_DEB)
 	sed -i    -e "s/%%VERSION%%/$(VERSION)-debug rev $(BUILD) build by $(LAST_CHANGE_AUTHOR) on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/$(LIB_DEB)
@@ -134,14 +140,14 @@ $(LIB_DEB):
 	cd $(OUTDIR) && cp $(LIB_DEB) ../samples/$(LIB_BASENAME)-debug.js
 
 $(LIB_MIN):
-	# Building $(LIB_MIN)...
+	echo "$(LIB_MIN)" 
 	mkdir -p $(OUTDIR)
 	$(YUICOMP) -o $(OUTDIR)/$(LIB_MIN) $(OUTDIR)/$(LIB_NAME)
 	cd $(OUTDIR) && cp $(LIB_MIN) $(LIB_BASENAME)-min.js
 	cd $(OUTDIR) && cp $(LIB_MIN) ../samples/$(LIB_BASENAME)-min.js
 
 $(LIB_ZIP):
-	# Building $(LIB_ZIP)...
+	echo "$(LIB_ZIP)"
 	mkdir -p $(OUTDIR)/zip
 	mkdir -p $(OUTDIR)/zip/samples
 	mkdir -p $(OUTDIR)/zip/snippets
@@ -159,7 +165,7 @@ $(LIB_ZIP):
 	cd $(OUTDIR) && cp $(LIB_ZIP) $(LIB_BASENAME).zip
 	
 clean:
-	# Cleaning folders...
+	echo "Cleaning folders"
 	if [ -d "$(OUTDIR)" ]; then rm -rf $(OUTDIR); fi
 	if [ -e "samples/$(LIB_BASENAME)-min.js" ]; then rm samples/$(LIB_BASENAME)-min.js; fi
 	if [ -e "samples/$(LIB_BASENAME)-debug.js" ]; then rm samples/$(LIB_BASENAME)-debug.js; fi
@@ -169,15 +175,17 @@ clean:
 	# Use make cleanall to clean everything
 
 cleanall: clean
-	# Cleaning libraries...
+	echo "Cleaning libraries"
 	if [ -d "yui-*" ]; then rm -r yui-*; fi
 	if [ -d "yuicompressor-*" ]; then rm -r yuicompressor-*; fi
 	if [ -d "yuidoc-*" ]; then rm -r yuidoc-*; fi
 
 aptana: $(APTANA_COMPONENT).jar
+	echo "Target aptana done"
 
 $(APTANA_COMPONENT).jar:
-	# Building Aptana/Eclipse plugin...
+	echo "Building Aptana/Eclipse plugin"
+	echo "$(APTANA_COMPONENT).jar"
 	mkdir -p $(APTANA_COMPONENT)
 	mkdir -p $(APTANA_COMPONENT)/docs
 	mkdir -p $(APTANA_COMPONENT)/icons
@@ -263,7 +271,7 @@ $(APTANA_COMPONENT).jar:
 	if [ -d "$(APTANA_FEATURE)" ]; then rm -r $(APTANA_FEATURE); fi
 	
 release: all
-	# Building release package
+	echo "Building release package"
 	if [ -d "$(DESTDIR)" ]; then rm -r $(DESTDIR); fi
 	mkdir $(DESTDIR) 
 	cp $(OUTDIR)/$(LIB_NAME) $(DESTDIR)/$(LIB_NAME)
