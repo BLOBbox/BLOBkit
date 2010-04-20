@@ -117,9 +117,9 @@ TVB.player.init = function(config){
 			try {
 				var temp_ver = TVB.system.getSMOJVersion();
 				temp_ver = temp_ver.split('.'); 
-				if (parseInt(temp_ver[0]) > 1) {
+				if (parseInt(temp_ver[0], 10) > 1) {
 					TVB.player.config.geometryAllowed = true;
-				} else if (parseInt(temp_ver[1]) > 49) {
+				} else if (parseInt(temp_ver[1], 10) > 49) {
 					TVB.player.config.geometryAllowed = true;
 				}
 			} catch (e) {}
