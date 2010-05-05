@@ -34,8 +34,12 @@ TVB.tuner = {};
 TVB.tuner.countDvbChannels = function() {
 	try {
 		TVB.log("Tuner: countDvbChannels()");
-		var tuner = BlobTunerManager();
-		return tuner.getAllTunerChannels().length;
+		var tuner = new BlobTunerManager();
+		if (parseFloat(tvblob.getFeatureVersion('BlobTunerManager')).toFixed(1) < 0.2) {
+			return tuner.getAllTunerChannels().length;
+		} else {
+			return tuner.getNumTunerChannels();
+		}
 	} catch (e) {
 		TVB.warning("Tuner: countDvbChannels:" + e.message);
 		return null;
@@ -51,17 +55,30 @@ TVB.tuner.countDvbChannels = function() {
 TVB.tuner.getDvbChannelsList = function() {
 	try {
 		TVB.log("Tuner: getDvbChannelsList()");
-		var tuner = BlobTunerManager();
+		var tuner = new BlobTunerManager();
 		var list = tuner.getAllTunerChannels();
+		delete tuner;
 		var data = [];
-		for (var i in list) {
-			var co = {};
-			co.ID = list[i].getID();
-			co.name = list[i].getName();
-			co.uri = list[i].getURI();
-			co.number = i; // will be replaced with the LCN
-			data.push(co);
+		if (parseFloat(tvblob.getFeatureVersion('BlobTunerManager')).toFixed(1) < 0.2) {
+			for (var i in list) {
+				var co = {};
+				co.ID = list[i].getID();
+				co.name = list[i].getName();
+				co.uri = list[i].getURI();
+				co.number = i; // will be replaced with the LCN
+				data.push(co);
+			}
+		} else {
+			for (var i in list) {
+				var co = {};
+				co.ID = list[i].getID();
+				co.name = list[i].getName();
+				co.uri = list[i].getURI();
+				co.number = list[i].getLCN();
+				data.push(co);
+			}
 		}
+		delete list;
 		return data;
 	} catch (e) {
 		TVB.warning("Tuner: getDvbChannelsList:" + e.message);
