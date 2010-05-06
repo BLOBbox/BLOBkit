@@ -85,3 +85,37 @@ TVB.tuner.getDvbChannelsList = function() {
 		return null;
 	}
 };
+
+/**
+ * Get all "scanned" DVB channels available to the user.<br />
+ * This function requires that the user authorize the use in current application (a popup screen is displayed)<br />
+ * This version of the function returns the list ordered by mux's frequency and not by LCN
+ * @method getDvbChannelsListOrderedByMux
+ * @return {Object} channelObject[]
+ */
+TVB.tuner.getDvbChannelsListOrderedByMux = function() {
+	try {
+		TVB.log("Tuner: getDvbChannelsListOrderedByMux()");
+		if (parseFloat(tvblob.getFeatureVersion('BlobTunerManager')).toFixed(1) < 0.2) {
+			return TVB.tuner.getDvbChannelsList();
+		} else {
+			var tuner = new BlobTunerManager();
+			var list = tuner.getAllTunerChannelsMuxOrder();
+			delete tuner;
+			var data = [];
+			for (var i in list) {
+				var co = {};
+				co.ID = list[i].getID();
+				co.name = list[i].getName();
+				co.uri = list[i].getURI();
+				co.number = list[i].getLCN();
+				data.push(co);
+			}
+		}
+		delete list;
+		return data;
+	} catch (e) {
+		TVB.warning("Tuner: getDvbChannelsListOrderedByMux:" + e.message);
+		return null;
+	}
+};
