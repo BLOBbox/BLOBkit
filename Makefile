@@ -294,6 +294,9 @@ release: all
 	
 	mkdir -p $(DESTDIR)/samples
 	cp -r samples/* $(DESTDIR)/samples/
+	
+	mkdir -p $(DESTDIR)/contrib
+	cp -r contrib/* $(DESTDIR)/contrib/
 
 	find $(DESTDIR)/samples -name \*.html | xargs sed -i -e "s/src='..\/tvb/src='http:\/\/www.blobforge.com\/static\/lib\/tvb/g"
 	find $(DESTDIR)/samples -name \*.html | xargs sed -i -e "s/href='..\/tvb.css/href='http:\/\/www.blobforge.com\/static\/lib\/samples\/tvb.css/g"
