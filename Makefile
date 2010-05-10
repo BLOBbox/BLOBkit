@@ -1,25 +1,24 @@
-VERSION = 1.4.2
-YUI_VERSION = 2.7.0b
+VERSION = 1.5.0
+YUI_VERSION = 2.8.0r4
 COMP_VERSION = 2.4.2
 YUIDOC_VERSION = 1.0.0b1
 
 INTEGRATION_PACKAGE_NAME = Web-BLOBkit
 
 YUI_URL = "http://yui.yahooapis.com/combo?$(YUI_VERSION)/build/yahoo-dom-event/yahoo-dom-event.js&$(YUI_VERSION)/build/connection/connection-min.js&$(YUI_VERSION)/build/json/json-min.js"
-#YUI_DOWNLOAD = "http://ovh.dl.sourceforge.net/sourceforge/yui/yui_$(YUI_VERSION).zip"
 YUI_DOWNLOAD = "http://yuilibrary.com/downloads/yui2/yui_$(YUI_VERSION).zip"
 COMP_DOWNLOAD = "http://www.julienlecomte.net/yuicompressor/yuicompressor-$(COMP_VERSION).zip"
 YUIDOC_DOWNLOAD = "http://yuilibrary.com/downloads/yuidoc/yuidoc_$(YUIDOC_VERSION).zip"
 
 YUI_SOURCES = yui-$(YUI_VERSION)/build/yahoo/yahoo.js yui-$(YUI_VERSION)/build/dom/dom.js yui-$(YUI_VERSION)/build/event/event.js yui-$(YUI_VERSION)/build/connection/connection.js yui-$(YUI_VERSION)/build/json/json.js
-TVB_SOURCES = src/exceptions.js src/extensions.js src/system.js src/json.js src/event.js src/connection.js src/remote.js src/player.js src/ad.js src/podcast.js src/podcast100.js src/widgets.js src/menu.js src/i18n.js src/vfs.js src/tuner.js src/favorites.js
+TVB_SOURCES = src/exceptions/exceptions.js src/extensions/extensions.js src/system/system.js src/json/json.js src/event/event.js src/connection/connection.js src/remote/remote.js src/player/player.js src/ad/ad.js src/podcast/podcast.js src/widgets/widgets.js src/menu/menu.js src/i18n/i18n.js src/vfs/vfs.js src/tuner/tuner.js src/favorites/favorites.js src/done/done.js
 DEB_YUI = yui-$(YUI_VERSION)/build/profiler/profiler.js 
-DEB_TVB = src/profiler.js
+DEB_TVB = src/profiler/profiler.js
 NON_DEB = 
 
-SOURCES =  src/tvblob.js $(NON_DEB) $(YUI_SOURCES) $(TVB_SOURCES)
-DEBUG_SOURCES = src/tvblob.js $(DEB_TVB) $(YUI_SOURCES) $(DEB_YUI) $(TVB_SOURCES)
-DOC_SOURCES = src/tvblob.js $(DEB_TVB) $(TVB_SOURCES)
+SOURCES =  src/tvblob/tvblob.js $(NON_DEB) $(YUI_SOURCES) $(TVB_SOURCES)
+DEBUG_SOURCES = src/tvblob/tvblob.js $(DEB_TVB) $(YUI_SOURCES) $(DEB_YUI) $(TVB_SOURCES)
+DOC_SOURCES = src/tvblob/tvblob.js $(DEB_TVB) $(TVB_SOURCES)
 
 LIB_BASENAME = tvb
 LIB_NAME = $(LIB_BASENAME)-$(VERSION).js
@@ -48,22 +47,28 @@ APTANA_FEATURE = $(APTANA_FEATURE_ID)_$(APTANA_VERSION)
 DESTDIR = $(INTEGRATION_PACKAGE_NAME)-$(VERSION)b$(BUILD)
 
 lib: yui-$(YUI_VERSION) yuicompressor-$(COMP_VERSION) $(LIB_NAME) $(LIB_MIN) $(LIB_DEB)
+	echo "Target lib done"
 	# Build done  
 
 doc: yuidoc-$(YUIDOC_VERSION) $(LIB_DOC)
+	echo "Target doc done"
 
 all: lib doc $(LIB_ZIP) aptana
+	echo "Target all done"
 	# Build done
 
 fix: lib installfix
+	echo "Target fix done"
 
 yuidoc-$(YUIDOC_VERSION):
+	echo "yuidoc-$(YUIDOC_VERSION)"
 	wget $(YUIDOC_DOWNLOAD)
 	unzip yuidoc_$(YUIDOC_VERSION).zip
 	if [ -e "yuidoc_$(YUIDOC_VERSION).zip" ]; then rm yuidoc_$(YUIDOC_VERSION).zip; fi
 	mv yuidoc yuidoc-$(YUIDOC_VERSION)
 
 yui-$(YUI_VERSION):
+	echo "yui-$(YUI_VERSION)"
 	wget $(YUI_DOWNLOAD)
 	unzip yui_$(YUI_VERSION).zip
 	-rm yui_$(YUI_VERSION).zip
@@ -77,17 +82,20 @@ yui-$(YUI_VERSION):
 	#2.6.0 only
 	#patch -p0 yui/build/yahoo/yahoo.js < patch/yahoo.diff
 	#2.7.0b only
-	patch -p0 yui/build/event/event.js < patch/event.js.diff
+	#patch -p0 yui/build/event/event.js < patch/event.js.diff
+	#2.8.0r4 only
+	patch -p0 yui/build/event/event.js < patch/event_2.8.0r4.js.diff
 	mv yui yui-$(YUI_VERSION)
 
 yuicompressor-$(COMP_VERSION):
+	echo "yuicompressor-$(COMP_VERSION)"
 	wget $(COMP_DOWNLOAD)
 	unzip yuicompressor-$(COMP_VERSION)
 	#mv yuicompressor-$(COMP_VERSION) yuicompressor
 	if [ -e "yuicompressor-$(COMP_VERSION).zip" ]; then rm yuicompressor-$(COMP_VERSION).zip; fi
 
 $(LIB_NAME):
-	# Building $(LIB_NAME)...
+	echo "$(LIB_NAME)"
 	# svn update
 	mkdir -p $(OUTDIR)
 	$(CAT) $(SOURCES) > $(OUTDIR)/$(LIB_NAME)
@@ -97,7 +105,7 @@ $(LIB_NAME):
 	cd $(OUTDIR) && cp $(LIB_NAME) $(LIB_BASENAME).js 
 
 $(LIB_DOC):
-	# Building $(LIB_DOC)...
+	echo "$(LIB_DOC)"
 	mkdir -p $(OUTDIR)
 	$(CAT) $(DOC_SOURCES) > $(OUTDIR)/$(LIB_DOC)
 	sed -i    -e "s/TVB.log *(/\/\/TVB.log(/g" $(OUTDIR)/$(LIB_DOC)
@@ -112,15 +120,18 @@ $(LIB_DOC):
 	mkdir -p $(OUTDIR)/doc
 	mkdir -p $(OUTDIR)/docparse
 	#cd $(OUTDIR) && cp $(LIB_BASENAME)-doc.js docsrc
-	cp $(DOC_SOURCES) $(OUTDIR)/docsrc
-	sed -i    -e "s/%%VERSION%%/$(VERSION) rev $(BUILD) build on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/docsrc/*.js
-	if [ -e "$(OUTDIR)/docsrc/*.js-e" ]; then rm $(OUTDIR)/docsrc/*.js-e; fi
-	python yuidoc-$(YUIDOC_VERSION)/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc --template=$(PWD)doc_tpl --version=$(VERSION) --yuiversion=2 --project="BLOBkit Library" --projecturl=http://www.blobforge.com
-	if [ -d "$(OUTDIR)/docsrc" ]; then rm -r $(OUTDIR)/docsrc; fi
-	if [ -d "$(OUTDIR)/docparse" ]; then rm -r $(OUTDIR)/docparse; fi
+	##cp -r $(DOC_SOURCES) $(OUTDIR)/docsrc
+	cp -r src/* $(OUTDIR)/docsrc/
+	sed -i    -e "s/%%VERSION%%/$(VERSION) rev $(BUILD) build on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/docsrc/tvblob/tvblob.js
+	if [ -e "$(OUTDIR)/docsrc/tvblob/tvblob.js-e" ]; then rm $(OUTDIR)/docsrc/tvblob/tvblob.js-e; fi
+	find $(OUTDIR)/docsrc -name .svn | xargs rm -rf
+	python yuidoc-$(YUIDOC_VERSION)/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc --template=$(PWD)doc_tpl --version=$(VERSION) --yuiversion=2 --project="BLOBkit Javascript Library" --projecturl=http://www.blobforge.com
+	#python yuidoc-e8b2adb/bin/yuidoc.py $(PWD)$(OUTDIR)/docsrc -p $(PWD)$(OUTDIR)/docparse -o $(PWD)$(OUTDIR)/doc -t $(PWD)doc_tpl -v $(VERSION) -Y 2 --project="BLOBkit Javascript Library" --projecturl=http://www.blobforge.com
+	if [ -d "$(OUTDIR)/docsrc" ]; then rm -rf $(OUTDIR)/docsrc; fi
+	#if [ -d "$(OUTDIR)/docparse" ]; then rm -rf $(OUTDIR)/docparse; fi
 
 $(LIB_DEB):
-	# Building $(LIB_DEB)...
+	echo "$(LIB_DEB)"
 	mkdir -p $(OUTDIR)
 	$(CAT) $(DEBUG_SOURCES) > $(OUTDIR)/$(LIB_DEB)
 	sed -i    -e "s/%%VERSION%%/$(VERSION)-debug rev $(BUILD) build by $(LAST_CHANGE_AUTHOR) on $(LAST_CHANGE_DATE)/g" $(OUTDIR)/$(LIB_DEB)
@@ -129,14 +140,14 @@ $(LIB_DEB):
 	cd $(OUTDIR) && cp $(LIB_DEB) ../samples/$(LIB_BASENAME)-debug.js
 
 $(LIB_MIN):
-	# Building $(LIB_MIN)...
+	echo "$(LIB_MIN)" 
 	mkdir -p $(OUTDIR)
 	$(YUICOMP) -o $(OUTDIR)/$(LIB_MIN) $(OUTDIR)/$(LIB_NAME)
 	cd $(OUTDIR) && cp $(LIB_MIN) $(LIB_BASENAME)-min.js
 	cd $(OUTDIR) && cp $(LIB_MIN) ../samples/$(LIB_BASENAME)-min.js
 
 $(LIB_ZIP):
-	# Building $(LIB_ZIP)...
+	echo "$(LIB_ZIP)"
 	mkdir -p $(OUTDIR)/zip
 	mkdir -p $(OUTDIR)/zip/samples
 	mkdir -p $(OUTDIR)/zip/snippets
@@ -154,8 +165,8 @@ $(LIB_ZIP):
 	cd $(OUTDIR) && cp $(LIB_ZIP) $(LIB_BASENAME).zip
 	
 clean:
-	# Cleaning folders...
-	if [ -d "$(OUTDIR)" ]; then rm -r $(OUTDIR); fi
+	echo "Cleaning folders"
+	if [ -d "$(OUTDIR)" ]; then rm -rf $(OUTDIR); fi
 	if [ -e "samples/$(LIB_BASENAME)-min.js" ]; then rm samples/$(LIB_BASENAME)-min.js; fi
 	if [ -e "samples/$(LIB_BASENAME)-debug.js" ]; then rm samples/$(LIB_BASENAME)-debug.js; fi
 	if [ -d "$(INTEGRATION_PACKAGE_NAME)*" ]; then rm -r $(INTEGRATION_PACKAGE_NAME)*; fi
@@ -164,15 +175,17 @@ clean:
 	# Use make cleanall to clean everything
 
 cleanall: clean
-	# Cleaning libraries...
+	echo "Cleaning libraries"
 	if [ -d "yui-*" ]; then rm -r yui-*; fi
 	if [ -d "yuicompressor-*" ]; then rm -r yuicompressor-*; fi
 	if [ -d "yuidoc-*" ]; then rm -r yuidoc-*; fi
 
 aptana: $(APTANA_COMPONENT).jar
+	echo "Target aptana done"
 
 $(APTANA_COMPONENT).jar:
-	# Building Aptana/Eclipse plugin...
+	echo "Building Aptana/Eclipse plugin"
+	echo "$(APTANA_COMPONENT).jar"
 	mkdir -p $(APTANA_COMPONENT)
 	mkdir -p $(APTANA_COMPONENT)/docs
 	mkdir -p $(APTANA_COMPONENT)/icons
@@ -258,7 +271,7 @@ $(APTANA_COMPONENT).jar:
 	if [ -d "$(APTANA_FEATURE)" ]; then rm -r $(APTANA_FEATURE); fi
 	
 release: all
-	# Building release package
+	echo "Building release package"
 	if [ -d "$(DESTDIR)" ]; then rm -r $(DESTDIR); fi
 	mkdir $(DESTDIR) 
 	cp $(OUTDIR)/$(LIB_NAME) $(DESTDIR)/$(LIB_NAME)
@@ -281,6 +294,9 @@ release: all
 	
 	mkdir -p $(DESTDIR)/samples
 	cp -r samples/* $(DESTDIR)/samples/
+	
+	mkdir -p $(DESTDIR)/contrib
+	cp -r contrib/* $(DESTDIR)/contrib/
 
 	find $(DESTDIR)/samples -name \*.html | xargs sed -i -e "s/src='..\/tvb/src='http:\/\/www.blobforge.com\/static\/lib\/tvb/g"
 	find $(DESTDIR)/samples -name \*.html | xargs sed -i -e "s/href='..\/tvb.css/href='http:\/\/www.blobforge.com\/static\/lib\/samples\/tvb.css/g"

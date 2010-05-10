@@ -6,6 +6,8 @@
  * @author Edoardo Esposito   edoardo.esposito@tvblob.com
  */
 
+var blobkitStartTime = new Date();
+
 /**
  * Create a new instance of TVB.
  * @class TVB
@@ -290,13 +292,6 @@ TVB.exception = function(exceptionObject, functionName) {
 		throw e;
 	}	
 };
-
-
-try {
-	tvblob.logInfo("BLOBkit version %%VERSION%%");
-} catch (e) {
-	TVB.log("BLOBkit version %%VERSION%%");
-}
 
 /**
  * BLOBkit's configuration class

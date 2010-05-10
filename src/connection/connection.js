@@ -1,5 +1,16 @@
 /**
- * The connection module provides syncronous and asyncronous connection tools.
+ * <h1>Connection Manager</h1>
+ * 
+ * <p>The connection module provides syncronous and asyncronous connection tools.</p>
+ * 
+ * <h2>List of events</h2>
+ * <dl>
+ * 		<dt>TVB.Connection.events.loadingstart:</dt><dd></dd>
+ * 		<dt>TVB.Connection.events.loadingstop:</dt><dd></dd>
+ * 		<dt>TVB.Connection.events.failureevent:</dt><dd></dd>
+ * 		<dt>TVB.Connection.events.timeoutevent:</dt><dd></dd>
+ * </dl>
+ * 
  * @module connection
  * @namespace TVB
  * @title Connection Manager
@@ -22,9 +33,25 @@ TVB.Connection = {
 };
 
 TVB.Connection.events = {
+	/**
+	 * Fires when the loading starts
+	 * @event TVB.Connection.events.loadingstart
+	 */
 	loadingstart : $CE.createEvent("loadingstart"),
+	/**
+	 * Fires when the loading stops
+	 * @event TVB.Connection.events.loadingstop
+	 */
 	loadingstop  : $CE.createEvent("loadingstop"),
+	/**
+	 * Fires when a failure happens
+	 * @event TVB.Connection.events.failureevent
+	 */
 	failureevent : $CE.createEvent("failureevent"),
+	/**
+	 * Fires when a timeout happens
+	 * @event TVB.Connection.events.timeoutevent
+	 */
 	timeoutevent : $CE.createEvent("timeoutevent")
 };
 

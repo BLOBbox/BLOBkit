@@ -10,21 +10,38 @@
 	</head>
 	<body bgcolor="#00ff00">
 		<script type="text/javascript">
-			TVB.widget.titleBar.setTitle("Video Player - Easy Version");
-			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
-			TVB.widget.titleBar.render();
-			TVB.widget.colorButtonsBar('', '', '', '');
-		</script>
-		
-		<script type="text/javascript">
-			// The following is a movie from TVBLOB's CDN (provided by Amazon) 
-			TVB.player.init({ uri: "http://cdn-0.tvblob.com/hdtv/ratatouille_720p.mov?bitrate=1000" });
-			
-			// The following is a web radio, 128 kbit/second
-			//TVB.player.init({ uri: "http://91.121.154.211:8080/?bitrate=128" });
-			
-			// This is an HD file
-			//TVB.player.init({ uri: "http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/hak5/0509/hak5--0509--lounge-edition--hd.h264.mp4" });
+			try {
+				// Initialize the Title bar
+				TVB.widget.titleBar.setTitle("Video Player - Easy Version");
+				TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+				TVB.widget.titleBar.render();
+				
+				// Initialize an empty color buttons bar
+				TVB.widget.colorButtonsBar('', '', '', '');
+				
+				// The following is a movie from TVBLOB's CDN (provided by Amazon)
+				var ev = function(a, b){
+					TVB.log(b);
+				}
+				
+				// This is Ratatouille Trailer with a bitrate of 1000 kbit/s
+				var movie = "http://cdn-0.tvblob.com/hdtv/ratatouille_720p.mov?bitrate=1000";
+				
+				// This is a webradio, 128 kbit/second
+				// var movie =  "http://91.121.154.211:8080/?bitrate=128";
+				
+				// This is an HD file
+				// var movie = "http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/hak5/0509/hak5--0509--lounge-edition--hd.h264.mp4";
+				
+				TVB.player.init({
+					uri: movie,
+					autoplay: false
+				});
+				TVB.CustomEvent.subscribeEvent(TVB.player.events.player, ev);
+				TVB.player.play();
+			} catch (e) {
+				TVB.error(e.message);
+			}
 		</script>
 	</body>
 </html>

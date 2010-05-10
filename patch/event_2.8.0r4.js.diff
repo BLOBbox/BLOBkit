@@ -1,0 +1,29 @@
+--- event.js	2009-09-14 13:22:32.000000000 +0200
++++ event_patched.js	2010-01-07 17:27:15.000000000 +0100
+@@ -768,7 +768,7 @@
+              * @private
+              */
+             startInterval: function() {
+-                if (!this._interval) {
++                if (this._interval == null) {
+                     // var self = this;
+                     // var callback = function() { self._tryPreloadAttach(); };
+                     // this._interval = setInterval(callback, this.POLL_INTERVAL);
+@@ -1616,7 +1616,7 @@
+ 
+                 if (onAvailStack.length === 0) {
+                     retryCount = 0;
+-                    if (this._interval) {
++                    if (this._interval != null) {
+                         // clearInterval(this._interval);
+                         this._interval.cancel();
+                         this._interval = null;
+@@ -1707,7 +1707,7 @@
+ 
+                     this.startInterval();
+                 } else {
+-                    if (this._interval) {
++                    if (this._interval != null) {
+                         // clearInterval(this._interval);
+                         this._interval.cancel();
+                         this._interval = null;

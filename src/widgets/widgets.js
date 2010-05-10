@@ -261,6 +261,7 @@ TVB.widget.yesno = function(text, callback, default_value) {
 		var menu = document.createElement('div');
 		menu.style.textAlign = 'center';
 		menu.style.width = '300px';
+		menu.className = "TVB_yesno_choose";
 		yesno.appendChild(menu);
 
 		var myMenuData = [
@@ -560,7 +561,15 @@ TVB.widget.titleBarHandler = function() {
 					}
 				}
 				YAHOO.util.Event.onDOMReady(function(){
-					document.body.style.paddingTop = "72px";
+					try {
+						document.body.style.paddingTop = "72px";
+						setTimeout(function() {
+							document.body.style.paddingTop = "72px";
+						}, 125);
+					} catch (e) {
+						TVB.error(e.message);
+						throw e;
+					}
 				});
 			} catch (e) {
 				TVB.warning("Widget: titleBar: render: " + e.message);
@@ -622,6 +631,13 @@ TVB.widget.titleBarHandler = function() {
 						var tw = window.innerWidth - 179 - parseInt(iw, 10);
 						TVB.widget.titleBar.title.style.left = parseInt(tl, 10) + "px";
 						TVB.widget.titleBar.title.style.width = parseInt(tw, 10) + "px";
+						setTimeout( function() {
+							var iw = TVB.widget.titleBar.icon.firstChild.offsetWidth;
+							var tl = parseInt(iw, 10) + 50;
+							var tw = window.innerWidth - 179 - parseInt(iw, 10);
+							TVB.widget.titleBar.title.style.left = parseInt(tl, 10) + "px";
+							TVB.widget.titleBar.title.style.width = parseInt(tw, 10) + "px";
+						}, 125);
 					} catch (e) {
 						TVB.warning(e.message);
 					}
@@ -637,7 +653,6 @@ TVB.widget.titleBarHandler = function() {
 		 * Changes the logo on the left side of the title bar from "for BLOBbox" to "BLOBbox" only.
 		 * @method titleBar.setLogo
 		 * @param {Boolean} isTVBLOB true if the web site is developed by TVBLOB, false if the application is build for BLOBbox by third party developers
-		 * @private
 		 */
 		this.setLogo = function(isTVBLOB) {
 			try {
@@ -697,6 +712,7 @@ TVB.widget.titleBarHandler = function() {
 		/**
 		 * Changes the background color of the title bar
 		 * @method titleBar.setBackgroundColor
+		 * @param {String} color RGB color 
 		 */
 		this.setBackgroundColor = function(color) {
 			try {
@@ -711,6 +727,7 @@ TVB.widget.titleBarHandler = function() {
 		/**
 		 * Changes the color of the text of title bar
 		 * @method titleBar.setColor
+		 * @param {String} color RGB color
 		 */
 		this.setColor = function(color) {
 			try {

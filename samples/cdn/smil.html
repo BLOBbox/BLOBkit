@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type='text/javascript' src='http://www.blobforge.com/static/lib/tvb-min.js'></script>
+		<script type="text/javascript" src='../../src/cdn/cdn.js'></script>
+		<script type="text/javascript" src='sample.js'></script>
+	</head>
+	<body>
+		
+		<div style="padding:20px;margin-top:60px;";>
+		
+			SMIL: url = http://vdox1.test.jet-stream.nl/daemon/rediraptor.php?account=ws-tvblob&file=ratatouille_480p.mov&type=streaming&service=wowza&protocol=rtmp&port=1935&output=smil <br/>
+			getRtmpUrl(url) = <a id="smil" href="#" onclick="playContent('smil')"></a><br/>
+		
+		</div> 
+		
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Smil");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+			init();
+			var url = TVB.cdn.getRtmpUrl("http://vdox1.test.jet-stream.nl/daemon/rediraptor.php?account=ws-tvblob&file=ratatouille_480p.mov&type=streaming&service=wowza&protocol=rtmp&port=1935&output=smil", "smil");
+			TVB.log(url);
+			document.getElementById("smil").innerHTML = url;
+		</script>
+	</body>
+</html>
