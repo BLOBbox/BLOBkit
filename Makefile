@@ -53,7 +53,7 @@ lib: yui-$(YUI_VERSION) yuicompressor-$(COMP_VERSION) $(LIB_NAME) $(LIB_MIN) $(L
 doc: yuidoc-$(YUIDOC_VERSION) $(LIB_DOC)
 	echo "Target doc done"
 
-all: lib doc $(LIB_ZIP) aptana
+all: lib doc aptana $(LIB_ZIP)
 	echo "Target all done"
 	# Build done
 
