@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>BLOBkit Samples</title>
+		<link rel='stylesheet' type='text/css' href='../tvb.css' />
+		<script type="text/javascript" src='../tvb-min.js'></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			TVB.widget.titleBar.setTitle("Video Player - show current playing position");
+			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
+			TVB.widget.titleBar.render();
+		</script>
+
+		<div id="position" style="z-index: 9000000;position:fixed;top:50px;left:50px;"></div>
+		<script type="text/javascript">
+			function setPosition(event){
+				TVB.log(event.duration);
+				var sec = Math.floor((event.position/1000)%60);
+				if(sec < 10)
+					sec = "0" + sec;
+				var min = Math.floor(event.position/60000);
+				
+				var time_parsed = min + ":" + sec;
+				document.getElementById('position').innerHTML = time_parsed;
+				
+			}
+		
+			var playerConfig = {
+				top: 160,
+				left: 60,
+				switchKey: 'OK',
+				uri: "http://s3.amazonaws.com/Tvblob-test/boogie.m4v",
+				autoplay: true,
+				fullscreen: true
+			};
+			
+			TVB.player.init(playerConfig);
+			
+
+			try{
+				TVB.player.setFileProgressListener("setPosition", 1000);
+			}catch(e){
+				TVB.log(e);
+			}
+			TVB.CustomEvent.subscribeEvent(TVB.remote.button.RED, getPosition);
+
+			function getPosition(){
+				var pos = TVB.player.getCurrentPosition();
+				var sec = Math.floor((pos/1000)%60);
+				if(sec < 10)
+					sec = "0" + sec;
+				var min = Math.floor(pos/60000);
+				var time_parsed = min + ":" + sec;
+				document.getElementById('position').innerHTML = time_parsed;
+			}
+
+			
+		</script>
+	</body>
+</html>

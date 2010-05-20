@@ -63,7 +63,7 @@ TVB.scroller = function(config){
 	}catch(e){
 		TVB.log(e);
 	}
-}
+};
 
 TVB.scroller.prototype = {
 		name: "default",
@@ -496,4 +496,4 @@ TVB.scroller.prototype = {
 				
 			}
 		}
-}
+};

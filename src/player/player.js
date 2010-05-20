@@ -1334,3 +1334,60 @@ TVB.player.restartCurrentVideo = function() {
 		throw e;
 	}
 };
+
+
+/**
+ * Return current streaming position
+ * @method getCurrentPosition
+ * @return {Integer} position in milliseconds
+ * @exception TypeError
+ */
+TVB.player.getCurrentPosition = function() {
+	try {
+		if (TVB.player.config.isPlaying === true) {
+			return TVB.player.p.getCurrentFilePositionMS();
+		}
+		else{
+			return null;
+		}
+	} catch (e) {
+		TVB.error("Player: getCurrentPosition: " + e.message);
+		throw e;
+	}
+};
+
+/**
+ * Set a listener for playing position. The listener will call the {callback} function every {timestep} 
+ * passing an object with position and duration of the file in play
+ * @method setFileProgressListner
+ * @param {Function} callback
+ * @param {Integer} timestep
+ * @exception TypeError
+ */
+TVB.player.setFileProgressListener = function(callback, timestep){
+	try {
+		TVB.player.p.setFileProgressListener(callback,timestep);
+	} catch (e) {
+		TVB.error("Player: setFileProgressListener: " + e.message);
+		throw e;
+	}
+};
+
+/**
+ * Return current file duration
+ * @method getDuration
+ * @return {Integer} duration in milliseconds
+ * @exception TypeError
+ */
+TVB.player.getDuration = function() {
+	try {
+		if (TVB.player.config.isPlaying === true) {
+			return TVB.player.p.getCurrentFileDurationMS();
+		}else{
+			return null;
+		}
+	} catch (e) {
+		TVB.error("Player: getDuration: " + e.message);
+		throw e;
+	}
+};
