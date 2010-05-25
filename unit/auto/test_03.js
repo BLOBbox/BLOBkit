@@ -78,6 +78,7 @@ setTimeout(function() {
 		test: function() {
 			appendMessage("Insert one row into test_table_02");
 			var db = new BlobDatabase("test_emilio");
+			db.modify("DROP TABLE IF EXISTS test_table_02");
 			var rows = db.modify("CREATE TABLE IF NOT EXISTS test_table_02 ( name VARCHAR(128), value INTEGER, thetime TIMESTAMP)");
 			rows = db.modify('INSERT INTO test_table_02 VALUES ("test",1,  datetime("now") )');
 			appendMessage("Row inserted: " + rows);
@@ -98,11 +99,11 @@ setTimeout(function() {
 			var results = db.query("SELECT * FROM test_table_02");
 	        var count=0;
 	        while(results.next()) {
-	                var name=results.getStringByName("name");
+	                /*var name=results.getStringByName("name");
 	                var val=results.getIntByName("value");
-	                var thetime=results.getStringByName("thetime");
+	                var thetime=results.getStringByName("thetime");*/
 	                // do something useful with name, val, thetime...
-	                appendMessage("Row " + count + ": "+ name + "," + val + "," + thetime);
+	                //appendMessage("Row " + count + ": "+ name + "," + val + "," + thetime);
 	                count++;
 	        }
 	        appendMessage("Rows count: " + count);
@@ -159,7 +160,7 @@ setTimeout(function() {
 			}
 			query += "COMMIT;"
 			
-			appendMessage("Insert one million of rows into test_table_02");
+			appendMessage("Insert one hundred of rows into test_table_02");
 			rows = db.modify(query);
 			appendMessage("added " + max + " rows, result: " + rows);	
 			
@@ -175,8 +176,7 @@ setTimeout(function() {
 				return true;
 			else
 				return false;
-				
-			return true;
+			
 		}
 	});
 	
@@ -202,7 +202,7 @@ setTimeout(function() {
 				query += tmp;
 			}
 			
-			appendMessage("Insert one million of rows into test_table_02");
+			appendMessage("Insert one hundred of rows into test_table_02");
 			rows = db.modify(query);
 			appendMessage("added " + max + " rows, result: " + rows);	
 			
@@ -218,8 +218,7 @@ setTimeout(function() {
 				return true;
 			else
 				return false;
-				
-			return true;
+			
 		}
 	});
 	
@@ -239,7 +238,7 @@ setTimeout(function() {
 			appendMessage("created table: rows: " + rows);
 			
 			for(var a = 0; a < max; a++){
-				db.modify('INSERT INTO test_table_02 VALUES ("test",1,  datetime("now") )');
+				db.modify('INSERT INTO test_table_02 VALUES ("test",' + a + ',  datetime("now") )');
 			}
 			
 			var results = db.query("SELECT * FROM test_table_02");
@@ -254,8 +253,109 @@ setTimeout(function() {
 				return true;
 			else
 				return false;
-				
-			return true;
+			
+		}
+	});
+	
+	doTest({
+		name: "Sql: delete rows",
+		expectedException: false,
+		expectedValue: true,
+		reference: "",
+		test: function() {
+			appendMessage("delete odd rows");
+			var db = new BlobDatabase("test_emilio");
+			var results = db.query("SELECT * FROM test_table_02");
+	        var count=0;
+	        while(results.next()) {
+	                count++;
+	        } 
+	        appendMessage("total rows: " + count);
+			db.modify("DELETE from test_table_02 where value % 2 <> 0");
+			
+			results = db.query("SELECT * FROM test_table_02");
+	        count=0;
+	        while(results.next()) {
+	                count++;
+	        }
+	        appendMessage("Final rows count: " + count);
+	        
+			db.close();
+			if(count === 50)
+				return true;
+			else
+				return false;
+			
+		}
+	});
+	
+	doTest({
+		name: "Sql: truncate",
+		expectedException: false,
+		expectedValue: true,
+		reference: "",
+		test: function() {
+			appendMessage("delete all rows");
+			var db = new BlobDatabase("test_emilio");
+			var results = db.query("SELECT * FROM test_table_02");
+	        var count=0;
+	        while(results.next()) {
+	                count++;
+	        } 
+	        appendMessage("total rows: " + count);
+			db.modify("DELETE from test_table_02");
+			
+			results = db.query("SELECT * FROM test_table_02");
+	        count=0;
+	        while(results.next()) {
+	                count++;
+	        }
+	        appendMessage("Final rows count: " + count);
+	        
+			db.close();
+			if(count === 0)
+				return true;
+			else
+				return false;
+			
+		}
+	});
+	
+	/**
+	 * The memory test fails for rows > 5000 (about)
+	 */
+	doTest({
+		name: "Sql: memory test, 1.000 rows",
+		expectedException: false,
+		expectedValue: true,
+		reference: "",
+		test: function() {
+			appendMessage("multiple insert with separate transactions");
+			var max = 1000; 
+			
+			var db = new BlobDatabase("test_emilio");
+			//var rows = 0;
+			var rows = db.modify("DROP TABLE IF EXISTS test_table_02");
+			var rows = db.modify("CREATE TABLE IF NOT EXISTS test_table_02 ( name VARCHAR(128), value INTEGER, thetime TIMESTAMP)");
+			appendMessage("created table: rows: " + rows);
+			
+			for(var a = 0; a < max; a++){
+				db.modify('INSERT INTO test_table_02 VALUES ("test",' + a + ',  datetime("now") )');
+			}
+			
+			var results = db.query("SELECT * FROM test_table_02");
+	        var count=0;
+	        while(results.next()) {
+	                count++;
+	        }
+	        appendMessage("Rows count: " + count);
+	        
+			db.close();
+			if(max === count)
+				return true;
+			else
+				return false;
+			
 		}
 	});
 	
