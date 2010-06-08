@@ -18,15 +18,16 @@
 			function setPosition(event){
 				TVB.log(event.duration);
 				var sec = Math.floor((event.position/1000)%60);
-				if(sec < 10)
+				if(sec < 10) {
 					sec = "0" + sec;
+				}
 				var min = Math.floor(event.position/60000);
-				
+
 				var time_parsed = min + ":" + sec;
 				document.getElementById('position').innerHTML = time_parsed;
-				
+
 			}
-		
+
 			var playerConfig = {
 				top: 160,
 				left: 60,
@@ -35,9 +36,9 @@
 				autoplay: true,
 				fullscreen: true
 			};
-			
+
 			TVB.player.init(playerConfig);
-			
+
 
 			try{
 				TVB.player.setFileProgressListener("setPosition", 1000);
@@ -55,8 +56,6 @@
 				var time_parsed = min + ":" + sec;
 				document.getElementById('position').innerHTML = time_parsed;
 			}
-
-			
 		</script>
 	</body>
 </html>
