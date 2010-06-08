@@ -11,7 +11,7 @@ COMP_DOWNLOAD = "http://www.julienlecomte.net/yuicompressor/yuicompressor-$(COMP
 YUIDOC_DOWNLOAD = "http://yuilibrary.com/downloads/yuidoc/yuidoc_$(YUIDOC_VERSION).zip"
 
 YUI_SOURCES = yui-$(YUI_VERSION)/build/yahoo/yahoo.js yui-$(YUI_VERSION)/build/dom/dom.js yui-$(YUI_VERSION)/build/event/event.js yui-$(YUI_VERSION)/build/connection/connection.js yui-$(YUI_VERSION)/build/json/json.js
-TVB_SOURCES = src/exceptions/exceptions.js src/extensions/extensions.js src/system/system.js src/json/json.js src/event/event.js src/connection/connection.js src/remote/remote.js src/player/player.js src/ad/ad.js src/podcast/podcast.js src/widgets/widgets.js src/menu/menu.js src/i18n/i18n.js src/vfs/vfs.js src/tuner/tuner.js src/favorites/favorites.js src/done/done.js
+TVB_SOURCES = src/exceptions/exceptions.js src/extensions/extensions.js src/system/system.js src/json/json.js src/event/event.js src/connection/connection.js src/remote/remote.js src/player/player.js src/ad/ad.js src/podcast/podcast.js src/widgets/widgets.js src/menu/menu.js src/gridmenu/gridmenu.js src/scroller/scroller.js src/i18n/i18n.js src/vfs/vfs.js src/tuner/tuner.js src/favorites/favorites.js src/done/done.js
 DEB_YUI = yui-$(YUI_VERSION)/build/profiler/profiler.js 
 DEB_TVB = src/profiler/profiler.js
 NON_DEB = 
