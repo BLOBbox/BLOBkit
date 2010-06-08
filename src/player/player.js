@@ -1,6 +1,6 @@
 /**
  * <h1>Media Player for BLOBbox</h1>
- * 
+ *
  * <h2>configurationObject</h2>
  * <dl>
  * 		<dt>uri:</dt><dd>String, the uri to playback inside the player</dd>
@@ -14,7 +14,7 @@
  * 		<dt>width:</dt><dd>Integer, the width in pixels of the video player when not in full screen (default: half the width of the screen)</dd>
  * 		<dt>height:</dt><dd>Integer, the height in pixels of the video player when not in full screen (default: half the height of the screen)</dd>
  * </dl>
- * 
+ *
  * <h2>List of events</h2>
  * <dl>
  * 		<dt>TVB.player.events.player:</dt><dd></dd>
@@ -37,7 +37,7 @@
  *     <li>dvb://ONID.TSID.SID</li>
  *     <li>rtsp:// (only on hardware that supports rtsp)</li>
  * </ul>
- * 
+ *
  * @module player
  * @namespace TVB
  * @title Media Player
@@ -55,7 +55,7 @@
 TVB.player = {};
 
 /**
- * Default configuration for 
+ * Default configuration for
  * TVBLOB's media player
  * @method config
  * @private
@@ -103,20 +103,20 @@ TVB.player.p = {};
 TVB.player.init = function(config){
 	try {
 		TVB.log("Player: init(config)");
-			
+
 		if (TVB.player.config.isInit === false) {
 			TVB.player.p = new BlobPlayer();
-			
+
 			TVB.player.config.isInit = true;
 			TVB.player.config.isPlaying = false;
 			TVB.player.config.isFullScreen = false;
 			TVB.player.config.wasFullScreen = false;
 			TVB.player.config.isBuffering = false;
-			
+
 			TVB.player.config.geometryAllowed = false;
 			try {
 				var temp_ver = TVB.system.getSMOJVersion();
-				temp_ver = temp_ver.split('.'); 
+				temp_ver = temp_ver.split('.');
 				if (parseInt(temp_ver[0], 10) > 1) {
 					TVB.player.config.geometryAllowed = true;
 				} else if (parseInt(temp_ver[1], 10) > 49) {
@@ -124,9 +124,9 @@ TVB.player.init = function(config){
 				}
 			} catch (e) {}
 			TVB.log("Player: geometry allowed? " + TVB.player.config.geometryAllowed);
-			
+
 			var currentSMOJ = TVB.system.getSMOJVersion();
-			var currentSMOJarr = currentSMOJ.split('.'); 
+			var currentSMOJarr = currentSMOJ.split('.');
 			if (currentSMOJarr[0] < 2 && currentSMOJarr[1] < 47) {
 				TVB.player.config.deltaX = +25;
 				TVB.player.config.deltaY = -8;
@@ -134,7 +134,7 @@ TVB.player.init = function(config){
 				TVB.player.config.deltaX = 0; /* +63 */
 				TVB.player.config.deltaY = 0;
 			}
-			
+
 			TVB.player.p.setEventListener("TVB.player.events");
 
 			if (typeof config.noLittleHole != 'undefined' && config.noLittleHole === true) {
@@ -153,7 +153,7 @@ TVB.player.init = function(config){
 				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.VCR, TVB.player.handleRemote);
 				TVB.CustomEvent.subscribeEvent(TVB.remote.button.BACK, TVB.player.handleRemote);
 			}
-			
+
 			// configure auto switch full screen
 			if (typeof config.switchKey != 'undefined') {
 				TVB.player.config.keyForFullScreen = config.switchKey;
@@ -166,12 +166,12 @@ TVB.player.init = function(config){
 						} catch (e) {
 							TVB.error("Player events: " + e.message);
 						}
-					});				
+					});
 				}
 			} catch (e) {
-				TVB.player.config.keyForFullScreen = null;	
+				TVB.player.config.keyForFullScreen = null;
 			}
-			
+
 			// configure events
 			TVB.player.events.player = TVB.CustomEvent.createEvent('player');
 			TVB.player.events.play = TVB.CustomEvent.createEvent('play');
@@ -202,7 +202,7 @@ TVB.player.init = function(config){
 				TVB.player.config.leftCord = parseInt((window.innerWidth / 2) - (window.innerWidth / 4), 10);
 			}
 			TVB.log("Player: init: new player in coords(" + TVB.player.config.leftCord + ", " + TVB.player.config.topCord + ")");
-			
+
 			// configure size
 			TVB.player.config.useSIF = true;
 			if (typeof config.width != 'undefined') {
@@ -218,32 +218,32 @@ TVB.player.init = function(config){
 				TVB.player.config.height = parseInt(window.innerHeight / 2, 10) + 18;
 			}
 			TVB.log("Player: init: new player with size (" + TVB.player.config.width + ", " + TVB.player.config.height + ")");
-			
+
 			// configure fullscreen
 			if (typeof config.fullscreen != 'undefined' && config.fullscreen === true) {
-				TVB.player.config.autoFullScreen = true; 
+				TVB.player.config.autoFullScreen = true;
 			} else {
 				TVB.player.config.autoFullScreen = false;
 			}
 			TVB.log("Player: full screen mode configured to " + TVB.player.config.autoFullScreen);
-			
+
 			// configure autoplay
 			if (typeof config.autoplay != 'undefined' && config.autoplay === false) {
 				TVB.player.config.autoplay = false;
 			} else {
 				TVB.player.config.autoplay = true;
 			}
-			
+
 			TVB.player.addHole(0,0);
 			if (TVB.player.config.noLittleHole === false) {
 				TVB.player.config.littleHole.style.visibility = 'hidden';
 				TVB.player.config.littleHole.style.display = 'none';
 			}
-			
+
 			if (TVB.player.config.autoplay === true) {
 				TVB.player.play();
 			}
-			
+
 			return true;
 		} else {
 			TVB.log("Player: already inited (warning)");
@@ -323,7 +323,7 @@ TVB.player.play = function() {
 			TVB.warning("Player: play: please config a player uri before trying to play");
 			return false;
 		}
-		
+
 		try {
 			TVB.player.config.isPlaying = true;
 			if (TVB.player.p.getContent() != TVB.player.config.currentUri) {
@@ -356,7 +356,7 @@ TVB.player.play = function() {
 			TVB.player.config.isPlaying = false;
 			return false;
 		}
-		
+
 		if (TVB.player.config.isStartPlay === true) {
 			TVB.player.config.isStartPlay = false;
 			TVB.CustomEvent.fireEvent(TVB.player.events.starting_playback, {});
@@ -384,7 +384,7 @@ TVB.player.play = function() {
 		}
 		/*
 		TVB.log("Player: play: TVB.player.config.isFullScreen == " + TVB.player.config.isFullScreen);
-		
+
 		if (TVB.player.config.isFullScreen == true) {
 			TVB.player.enterFullScreen();
 		} else {
@@ -458,7 +458,7 @@ TVB.player.playpause = function() {
 					TVB.log("Player: playpause: pausing...");
 					TVB.player.pause();
 				}
-			} 
+			}
 		} else {
 			TVB.log("Player: playpause: playing...");
 			TVB.player.play();
@@ -617,14 +617,14 @@ TVB.player.enterFullScreen = function() {
 			TVB.player.config.littleHole.style.top = '0px';
 			TVB.player.config.littleHole.style.left = '0px';
 			TVB.log("Player: system width: " + window.innerWidth + " - height: " + window.innerHeight);
-			TVB.player.config.littleHole.style.width = window.innerWidth; /* 744px */
-			TVB.player.config.littleHole.style.height = window.innerHeight; /* 596px */
+			TVB.player.config.littleHole.style.width = parseInt(window.innerWidth, 10) + "px"; /* 744px */
+			TVB.player.config.littleHole.style.height = parseInt(window.innerHeight, 10) + "px"; /* 596px */
 			TVB.player.config.littleHole.style.visibility = 'visible';
 			TVB.player.config.littleHole.style.display = 'block';
 			TVB.player.config.littleHole.style.position = 'fixed';
 			TVB.player.config.littleHole.style.zIndex = '10000';
-		} 
-		
+		}
+
 		if (TVB.player.config.currentUri !== null) {
 			TVB.log("Player: enterFullScreen: before setPosition");
 			TVB.player.p.setPosition(0, 0);
@@ -643,7 +643,7 @@ TVB.player.enterFullScreen = function() {
 		} catch (e) {
 			TVB.log("Player: warning 591: " + e.message);
 		}
-		
+
 		try {
 			if (document.getElementById('TVB.widget.titleHandler') !== null) {
 				document.getElementById('TVB.widget.titleHandler').style.display = 'none';
@@ -693,7 +693,7 @@ TVB.player.addHole = function(width, height) {
 				TVB.player.config.littleHole.style.left = TVB.player.config.leftCord + 'px';
 				TVB.player.config.littleHole.style.width = width + 'px';
 				TVB.player.config.littleHole.style.height = height + 'px';
-			} 
+			}
 		}
 		return;
 	} catch (e) {
@@ -739,12 +739,12 @@ TVB.player.exitFullScreen = function() {
 				TVB.player.addHole(TVB.player.config.width, TVB.player.config.height);
 			}
 		}
-		
+
 		if (TVB.player.config.noLittleHole === false) {
 			TVB.player.config.littleHole.style.width = TVB.player.config.width + "px";
 			TVB.player.config.littleHole.style.height = TVB.player.config.height + "px";
 		}
-		
+
 		var newX = parseInt(TVB.player.config.leftCord, 10) + parseInt(TVB.player.config.deltaX, 10);
 		var newY = parseInt(TVB.player.config.topCord, 10) + parseInt(TVB.player.config.deltaY, 10);
 		if (newY < 0) {
@@ -755,16 +755,16 @@ TVB.player.exitFullScreen = function() {
 		}
 		TVB.log("Player: hole coords (" + TVB.player.config.leftCord + ", " + TVB.player.config.topCord + ")");
 		TVB.log("Player: coords (" + newX + ", " + newY + ")");
-		
+
 		if (TVB.player.config.noLittleHole === false) {
 			TVB.player.config.littleHole.style.top = TVB.player.config.topCord + 'px';
 			TVB.player.config.littleHole.style.left = TVB.player.config.leftCord + 'px';
-		} 
-		
+		}
+
 		TVB.log("Player: current URI = " + TVB.player.config.currentUri);
-		
+
 		if (TVB.player.config.currentUri !== null) {
-			
+
 			if (TVB.player.config.geometryAllowed === true) {
 				TVB.log("Player: setGeometry(" + newX + ", " + newY + ", " + TVB.player.config.width + ", " + TVB.player.config.height + ");");
 				TVB.player.p.setGeometry(newX, newY, TVB.player.config.width, TVB.player.config.height);
@@ -791,7 +791,7 @@ TVB.player.exitFullScreen = function() {
 		} catch (e) {
 			TVB.error("Player: warning 719: " + e.message);
 		}
-		
+
 		try {
 			if (document.getElementById('TVB.widget.colorButtonsBarHandler') !== null) {
 				document.getElementById('TVB.widget.colorButtonsBarHandler').style.display = 'block';
@@ -821,10 +821,10 @@ TVB.player.destroy = function() {
 		}
 		TVB.player.stop();
 		TVB.player.p.setScale("D1");
-		TVB.player.p.setPosition(0,0);		
+		TVB.player.p.setPosition(0,0);
 		TVB.log("Player: destroy: disposing");
 		TVB.player.p.dispose();
-		try {	
+		try {
 			TVB.CustomEvent.unsubscribeEvent(TVB.remote.buttons.VCR);
 			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.BACK);
 		} catch (e) {}
@@ -870,7 +870,7 @@ TVB.player.events = function(event) {
 				break;
 			case 'BUFFERING':
 				TVB.player.config.isBuffering = true;
-				TVB.player.showBufferingMessage();	
+				TVB.player.showBufferingMessage();
 				TVB.CustomEvent.fireEvent(TVB.player.events.buffering, params);
 				break;
 			case 'REWINDING':
@@ -1015,7 +1015,7 @@ TVB.player.showPausedMessage = function() {
 			div.style.left = '30px';
 			div.style.padding = 0;
 			div.style.margin = 0;
-			div.style.zIndex = '10004';			
+			div.style.zIndex = '10004';
 			document.body.appendChild(div);
 		}
 		var ico = null;
@@ -1060,7 +1060,7 @@ TVB.player.showBufferingMessage = function() {
 			div.style.left = '30px';
 			div.style.padding = 0;
 			div.style.margin = 0;
-			div.style.zIndex = '10001';			
+			div.style.zIndex = '10001';
 			document.body.appendChild(div);
 		}
 		var ico = null;
@@ -1095,7 +1095,7 @@ TVB.player.showStartingPlaybackMessage = function() {
 			div.style.left = '30px';
 			div.style.padding = 0;
 			div.style.margin = 0;
-			div.style.zIndex = '10002';			
+			div.style.zIndex = '10002';
 			document.body.appendChild(div);
 		}
 		var ico = null;
@@ -1139,7 +1139,7 @@ TVB.player.showUnableToPlayMessage = function() {
 			div.style.zIndex = '10004';
 
 			div.innerHTML = '';
-	
+
 			document.body.appendChild(div);
 		}
 
@@ -1256,9 +1256,9 @@ TVB.player.setPosition = function(x, y) {
 		if (typeof x != 'number' || typeof y != 'number') {
 			throw TypeError;
 		}
-		
+
 		TVB.log("Player: setPosition(" + x + ", " + y + ");");
-		TVB.player.p.setPosition(x, y);			
+		TVB.player.p.setPosition(x, y);
 
 		TVB.player.config.topCord = y;
 		TVB.player.config.leftCord = x;
@@ -1291,19 +1291,19 @@ TVB.player.setGeometry = function(x, y, w, h) {
 		if (w < 0 || h < 0) {
 			throw RangeError;
 		}
-		
+
 		TVB.player.config.useSIF = false;
-		
+
 		if (TVB.player.config.geometryAllowed === false) {
 			TVB.log("Player: setSize(" + w + ", " + h + ");");
 			TVB.player.p.setSize(w, h);
 			TVB.log("Player: setPosition(" + x + ", " + y + ");");
-			TVB.player.p.setPosition(x, y);			
+			TVB.player.p.setPosition(x, y);
 		} else {
 			TVB.log("Player: setGeometry(" + x + ", " + y + ", " + w + ", " + h + ");");
 			TVB.player.p.setGeometry(x, y, w, h);
 		}
-		
+
 		TVB.player.config.topCord = y;
 		TVB.player.config.leftCord = x;
 
@@ -1311,7 +1311,7 @@ TVB.player.setGeometry = function(x, y, w, h) {
 			TVB.player.config.littleHole.style.top = y + 'px';
 			TVB.player.config.littleHole.style.left = x + 'px';
 			TVB.player.config.littleHole.style.width = w + 'px';
-			TVB.player.config.littleHole.style.height = h + 'px';			
+			TVB.player.config.littleHole.style.height = h + 'px';
 		}
 	} catch (e) {
 		TVB.error("Player: setGeometry: " + e.message);
@@ -1340,14 +1340,12 @@ TVB.player.restartCurrentVideo = function() {
  * Return current streaming position
  * @method getCurrentPosition
  * @return {Integer} position in milliseconds
- * @exception TypeError
  */
 TVB.player.getCurrentPosition = function() {
 	try {
 		if (TVB.player.config.isPlaying === true) {
 			return TVB.player.p.getCurrentFilePositionMS();
-		}
-		else{
+		} else {
 			return null;
 		}
 	} catch (e) {
@@ -1357,7 +1355,7 @@ TVB.player.getCurrentPosition = function() {
 };
 
 /**
- * Set a listener for playing position. The listener will call the {callback} function every {timestep} 
+ * Set a listener for playing position. The listener will call the {callback} function every {timestep}
  * passing an object with position and duration of the file in play
  * @method setFileProgressListner
  * @param {Function} callback
@@ -1366,6 +1364,12 @@ TVB.player.getCurrentPosition = function() {
  */
 TVB.player.setFileProgressListener = function(callback, timestep){
 	try {
+		if (typeof timestep != 'number') {
+			throw TypeError;
+		}
+		if (typeof uri != 'function') {
+			throw TypeError;
+		}
 		TVB.player.p.setFileProgressListener(callback,timestep);
 	} catch (e) {
 		TVB.error("Player: setFileProgressListener: " + e.message);
@@ -1377,7 +1381,6 @@ TVB.player.setFileProgressListener = function(callback, timestep){
  * Return current file duration
  * @method getDuration
  * @return {Integer} duration in milliseconds
- * @exception TypeError
  */
 TVB.player.getDuration = function() {
 	try {
