@@ -1,6 +1,6 @@
 /**
  * Graphical Menu Manager
- * @module menu
+ * @module gridmenu
  * @namespace TVB
  * @title Graphical Grid Menu Manager
  * @requires tvblob, system, event, remote
@@ -11,7 +11,7 @@
 
 /**
  * Constructor for the Menu Widget
- * @class menu
+ * @class gridmenu
  * @param {Object} config Configuration object, see user manual for specifications
  * @return {Object}
  * @constructor
