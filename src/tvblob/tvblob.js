@@ -30,17 +30,17 @@ TVB.dump = function(obj, level) {
 		if (!level) {
 			level = 0;
 		}
-		
+
 		//The padding given at the beginning of the line.
 		var level_padding = "";
 		for (var j = 0; j < level; j++) {
 			level_padding += "    ";
 		}
-		
+
 		if (typeof(obj) == 'object') { // Array/Hashes/Objects
 			for (var item in obj) {
 				var value = obj[item];
-				
+
 				if (typeof(value) == 'object') { // If it is an array,
 					dumped_text += level_padding + item + " ...\n";
 					dumped_text += TVB.dump(value, level + 1);
@@ -82,7 +82,7 @@ TVB.dump = function(obj, level) {
  * @return {Object} Browser Information Object
  * @type Object
  */
-TVB.getBrowserAgent = function() 
+TVB.getBrowserAgent = function()
 {
 	var ua = navigator.userAgent.toLowerCase();
 	var opera = ((ua.indexOf('opera') != -1) ? true : false);
@@ -98,7 +98,7 @@ TVB.getBrowserAgent = function()
 	var version = false;
 	var mozilla = false;
 	var _tmp = null;
-	
+
 	if (!firefox && !safari && (ua.indexOf('gecko') != -1)) {
 		mozilla = true;
 		_tmp = ua.split('/');
@@ -109,7 +109,7 @@ TVB.getBrowserAgent = function()
 		_tmp = ua.split('/');
 		version = _tmp[_tmp.length - 1].split(' ')[0];
 	}
-	
+
 	if (msie) {
 		version = ua.substring((ua.indexOf('msie ') + 5)).split(';')[0];
 	}
@@ -124,7 +124,7 @@ TVB.getBrowserAgent = function()
 	if (opera) {
 		version = ua.substring((ua.indexOf('opera/') + 6)).split(' ')[0];
 	}
-	
+
 	/*
 	* Return the Browser Object
 	* @type Object
@@ -147,7 +147,7 @@ TVB.getBrowserAgent = function()
 };
 
 /**
- * Logs an object or a string to the console; works on 
+ * Logs an object or a string to the console; works on
  * Microsoft Internet Explorer, Mozilla Firefox,
  * Apple Safari and TVBLOB BLOBBOX.
  * @method TVB.log
@@ -160,7 +160,7 @@ TVB.log = function(message) {
 		if (message === null) {
 			message = 'null';
 		}
-		
+
 		var output = null;
 		if (typeof message == 'object' && message.name !== undefined && message.message !== undefined && message.fileName !== undefined && message.lineNumber !== undefined) {
 			output = "Error name: " + message.name + "\nError message: " + message.message + "\nFile name: " + message.fileName + "\nLine number: " + message.lineNumber;
@@ -173,7 +173,7 @@ TVB.log = function(message) {
 		if (typeof tvblob != 'undefined') {
 			tvblob.logInfo(output);
 		}
-		else 
+		else
 			if (window.console) {
 				window.console.log(output);
 			} else
@@ -185,7 +185,7 @@ TVB.log = function(message) {
 		return;
 	} catch (e) {
 		throw e;
-	}	
+	}
 };
 
 /**
@@ -200,7 +200,7 @@ TVB.error = function(message) {
 		if (message === null) {
 			message = 'null';
 		}
-		
+
 		var output = null;
 		if (typeof message == 'object' && message.name !== undefined && message.message !== undefined && message.fileName !== undefined && message.lineNumber !== undefined) {
 			output = "Error name: " + message.name + "\nError message: " + message.message + "\nFile name: " + message.fileName + "\nLine number: " + message.lineNumber;
@@ -213,7 +213,7 @@ TVB.error = function(message) {
 		if (typeof tvblob != 'undefined') {
 			tvblob.logError(output);
 		}
-		else 
+		else
 			if (window.console) {
 				window.console.error(message);
 			} else
@@ -225,7 +225,7 @@ TVB.error = function(message) {
 		return;
 	} catch (e) {
 		throw e;
-	}	
+	}
 };
 
 /**
@@ -240,7 +240,7 @@ TVB.warning = function(message) {
 		if (message === null) {
 			message = 'null';
 		}
-		
+
 		var output = null;
 		if (typeof message == 'object' && message.name !== undefined && message.message !== undefined && message.fileName !== undefined && message.lineNumber !== undefined) {
 			output = "Error name: " + message.name + "\nError message: " + message.message + "\nFile name: " + message.fileName + "\nLine number: " + message.lineNumber;
@@ -253,7 +253,7 @@ TVB.warning = function(message) {
 		if (typeof tvblob != 'undefined') {
 			tvblob.logWarning(output);
 		}
-		else 
+		else
 			if (window.console) {
 				window.console.warn(message);
 			} else
@@ -265,7 +265,7 @@ TVB.warning = function(message) {
 		return;
 	} catch (e) {
 		throw e;
-	}	
+	}
 };
 
 /**
@@ -290,7 +290,7 @@ TVB.exception = function(exceptionObject, functionName) {
 		return;
 	} catch (e) {
 		throw e;
-	}	
+	}
 };
 
 /**
