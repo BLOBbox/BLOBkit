@@ -3,9 +3,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>BLOBkit Samples</title>
-		
-		<script type='text/javascript' src='http://www.blobforge.com/static/lib/tvb-min.js'></script>
-		<script type='text/javascript' src='../../src/scroller/scroller.js'></script>
+
+		<script type='text/javascript' src='../tvb-min.js'></script>
 		<style>
 			.TVB_scroller_menu_container{
 				background-color: #cccccc;
@@ -21,9 +20,9 @@
 			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
 			TVB.widget.titleBar.render();
 		</script>
-		
+
 		<div id='container'></div>
-		
+
 		<script type="text/javascript">
 			var testMenu = {
 					cid : "container",
@@ -31,7 +30,7 @@
 					visible: 7,
 					total:16,
 					rowSelectedColor:"#373527",
-					
+
 					drawLineCB: function(line){
 						try{
 							return '<div class="menuItem">item ' + line + '</div>';
@@ -40,26 +39,26 @@
 							return "";
 						}
 					},
-					
+
 					navLeftCB: function(){
-						
+
 					},
-					
+
 					navRightCB: function(line){
-						
+
 					},
-					
+
 					selectLineCB: function(line){
 						TVB.log("Selected line: " + line);
 					}
 			}
-		
+
 			var scroller = new TVB.scroller(testMenu);
 			scroller.total = 20;
-			
+
 			scroller.draw();
 			scroller.enter();
-			
+
 		</script>
 	</body>
 </html>
