@@ -8,43 +8,43 @@
  */
 
 if (typeof TVB.widget == "undefined" || !TVB.widget) {
-  	/**
+	/**
 	 * TVBLOB's widget class
 	 * @class widget
 	 * @namespace TVB
 	 * @classDescription TVBLOB's widget class
 	 * @static
 	 */
-    TVB.widget = {};
+	TVB.widget = {};
 }
 
 
 /**
- * DOM object handlers 
+ * DOM object handlers
  * @method colorButtonsBarHandler
  * @private
  */
 TVB.widget.colorButtonsBarHandler = null;
 /**
- * DOM object handlers 
+ * DOM object handlers
  * @method colorButtonsBarB1Handler
  * @private
  */
 TVB.widget.colorButtonsBarB1Handler = null;
 /**
- * DOM object handlers 
+ * DOM object handlers
  * @method colorButtonsBarB2Handler
  * @private
  */
 TVB.widget.colorButtonsBarB2Handler = null;
 /**
- * DOM object handlers 
+ * DOM object handlers
  * @method colorButtonsBarB3Handler
  * @private
  */
 TVB.widget.colorButtonsBarB3Handler = null;
 /**
- * DOM object handlers 
+ * DOM object handlers
  * @method colorButtonsBarB4Handler
  * @private
  */
@@ -60,25 +60,25 @@ TVB.widget.colorButtonsBarB4Handler = null;
  * @param	{String}	butt4	Description for BLUE button
  */
 TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
-	try {		
+	try {
 		TVB.log("Widget: colorButtonsBar(" + butt1 + ", " + butt2 + ", " + butt3 + ", " + butt4 + ")");
 		if (document.getElementById('TVB.widget.colorButtonsBarHandler') === null) {
 			TVB.log("Widget: drawing new color button bar");
-			
+
 			//var configWidth = 600;
 			var configWidth = window.innerWidth - 80;
 			var singleWidth = parseInt(configWidth / 4, 10);
-			
+
 			var baseUri = null;
 			if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
 				baseUri = 'http://storage.tvblob.com/lib/resources/';
 			} else {
 				baseUri = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/platform/icons/';
 			}
-			
+
 			TVB.log("Widget: configWidth = " + configWidth);
 			TVB.log("Widget: singleWidth = " + singleWidth);
-			
+
 			TVB.widget.colorButtonsBarHandler = document.createElement('div');
 			TVB.widget.colorButtonsBarHandler.style.position = 'fixed';
 			TVB.widget.colorButtonsBarHandler.style.overflow = 'hidden';
@@ -95,7 +95,7 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 			TVB.widget.colorButtonsBarHandler.style.zIndex = '1000';
 			TVB.widget.colorButtonsBarHandler.id = 'TVB.widget.colorButtonsBarHandler';
 			document.body.appendChild(TVB.widget.colorButtonsBarHandler);
-			
+
 			TVB.widget.colorButtonsBarB1Handler = document.createElement('div');
 			TVB.widget.colorButtonsBarB1Handler.style.position = 'absolute';
 			TVB.widget.colorButtonsBarB1Handler.style.width = (singleWidth - 21) + 'px';
@@ -109,7 +109,7 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 			TVB.widget.colorButtonsBarB1Handler.style.paddingTop = '0px';
 			TVB.widget.colorButtonsBarB1Handler.style.fontSize = '19px';
 			TVB.widget.colorButtonsBarHandler.appendChild(TVB.widget.colorButtonsBarB1Handler);
-			
+
 			TVB.widget.colorButtonsBarB2Handler = document.createElement('div');
 			TVB.widget.colorButtonsBarB2Handler.style.position = 'absolute';
 			TVB.widget.colorButtonsBarB2Handler.style.width = (singleWidth - 21) + 'px';
@@ -121,9 +121,9 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 			TVB.widget.colorButtonsBarB2Handler.style.backgroundImage = 'url("' + baseUri + 'button_green.png")';
 			TVB.widget.colorButtonsBarB2Handler.style.paddingLeft = '21px';
 			TVB.widget.colorButtonsBarB2Handler.style.fontSize = '19px';
-			TVB.widget.colorButtonsBarB2Handler.style.paddingTop = '0px';			
+			TVB.widget.colorButtonsBarB2Handler.style.paddingTop = '0px';
 			TVB.widget.colorButtonsBarHandler.appendChild(TVB.widget.colorButtonsBarB2Handler);
-			
+
 			TVB.widget.colorButtonsBarB3Handler = document.createElement('div');
 			TVB.widget.colorButtonsBarB3Handler.style.position = 'absolute';
 			TVB.widget.colorButtonsBarB3Handler.style.width = (singleWidth - 21) + 'px';
@@ -137,7 +137,7 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 			TVB.widget.colorButtonsBarB3Handler.style.paddingTop = '0px';
 			TVB.widget.colorButtonsBarB3Handler.style.fontSize = '19px';
 			TVB.widget.colorButtonsBarHandler.appendChild(TVB.widget.colorButtonsBarB3Handler);
-			
+
 			TVB.widget.colorButtonsBarB4Handler = document.createElement('div');
 			TVB.widget.colorButtonsBarB4Handler.style.position = 'absolute';
 			TVB.widget.colorButtonsBarB4Handler.style.width = (singleWidth - 21) + 'px';
@@ -152,7 +152,7 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 			TVB.widget.colorButtonsBarB4Handler.style.fontSize = '19px';
 			TVB.widget.colorButtonsBarHandler.appendChild(TVB.widget.colorButtonsBarB4Handler);
 		}
-		
+
 		if (butt1 === null) {
 			butt1 = '';
 		}
@@ -168,16 +168,16 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 		if (butt4 === null) {
 			butt4 = '';
 		}
-		
+
 		TVB.widget.colorButtonsBarB1Handler.innerHTML = butt1.toUpperCase();
 		TVB.widget.colorButtonsBarB2Handler.innerHTML = butt2.toUpperCase();
 		TVB.widget.colorButtonsBarB3Handler.innerHTML = butt3.toUpperCase();
 		TVB.widget.colorButtonsBarB4Handler.innerHTML = butt4.toUpperCase();
-		
+
 	} catch (e) {
 		TVB.warning("Widget: colorButtonsBar: " + e.message);
 		throw e;
-	}	
+	}
 };
 
 /**
@@ -237,14 +237,14 @@ TVB.widget.setLoading = function(loadingState) {
 TVB.widget.yesno = function(text, callback, default_value) {
 	try {
 		TVB.log("Widget: yesno('" + text + "', " + default_value + ")");
-		
+
 		var yesno = document.createElement('div');
 		yesno.style.backgroundColor = 'black';
 		yesno.style.border = '2px solid #999';
 		yesno.style.position = 'absolute';
 		yesno.style.zIndex= '31000';
 
-		// centering popup		
+		// centering popup
 		var desired_width = '300';
 		yesno.style.width = desired_width + 'px';
 		var viewportwidth = window.innerWidth;
@@ -265,10 +265,10 @@ TVB.widget.yesno = function(text, callback, default_value) {
 		yesno.appendChild(menu);
 
 		var myMenuData = [
-		{ title: 'YES', value: true }, 
+		{ title: 'YES', value: true },
 		{ title: 'NO', value: false }
 		];
-		
+
 		var menuConfig = {
 			menuName: 'TVByesnoMenu',
 			visibleElements: 2,
@@ -303,7 +303,7 @@ TVB.widget.yesno = function(text, callback, default_value) {
 			onUpdateCB: function(obj, line) {
 			}
 		};
-		
+
 		var myMenu = new TVB.menu(menuConfig);
 		menu.appendChild(myMenu.get());
 
@@ -317,13 +317,13 @@ TVB.widget.yesno = function(text, callback, default_value) {
 		var top = (viewportheight - desired_height) / 2;
 		yesno.style.top = top + 'px';
 		yesno.style.visibility = 'visible';
-		
+
 		TVB.log("Working height dopo: " + desired_height);
 		TVB.log("Width: " + viewportwidth + " - Height: " + viewportheight);
 	} catch (e) {
 		TVB.warning("Widget: yesno: " + e.message);
 		throw e;
-	}	
+	}
 };
 
 /**
@@ -385,22 +385,22 @@ TVB.widget.setLabel = function(message) {
  * @param {String} message Message to be shown
  */
 TVB.widget.messageBar = function(message) {
-	try {		
+	try {
 		TVB.log("Widget: messageBar(" + message + ")");
 		if (document.getElementById('TVB.widget.messageBarHandler') === null) {
 			var configWidth = 600;
 			var singleWidth = configWidth / 4;
-			
+
 			var baseUri = null;
 			if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
 				baseUri = 'http://storage.tvblob.com/lib/resources/';
 			} else {
 				baseUri = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/platform/icons/';
 			}
-			
+
 			TVB.log("Widget: configWidth = " + configWidth);
 			TVB.log("Widget: singleWidth = " + singleWidth);
-			
+
 			TVB.widget.messageBarHandler = document.createElement('div');
 			TVB.widget.messageBarHandler.style.position = 'fixed';
 			if (document.getElementById('TVB.widget.colorButtonsBarHandler') === null) {
@@ -431,7 +431,7 @@ TVB.widget.messageBar = function(message) {
 	} catch (e) {
 		TVB.warning("Widget: messageBar: " + e.message);
 		throw e;
-	}	
+	}
 };
 
 /**
@@ -475,8 +475,8 @@ TVB.widget.titleBarHandler = function() {
 		this.bar.style.left = "0px";
 		this.bar.style.height = "28px";
 		//this.bar.style.zIndex = "1000";
-		this.bar.style.width = parseInt(this.iwc, 10) + "px";		
-		
+		this.bar.style.width = parseInt(this.iwc, 10) + "px";
+
 		/**
 		 * DOM object handlers - logo
 		 * @method titleBar.logo
@@ -545,7 +545,7 @@ TVB.widget.titleBarHandler = function() {
 		this.handler.appendChild(this.logo);
 		this.handler.appendChild(this.icon);
 		this.handler.appendChild(this.title);
-		
+
 		/**
 		 * Renders the title bar on the TV screen
 		 * @method titleBar.render
@@ -574,9 +574,9 @@ TVB.widget.titleBarHandler = function() {
 			} catch (e) {
 				TVB.warning("Widget: titleBar: render: " + e.message);
 				throw e;
-			}			
+			}
 		};
-		
+
 		/**
 		 * Removes the title bar from the TV screen
 		 * @method titleBar.remove
@@ -592,7 +592,7 @@ TVB.widget.titleBarHandler = function() {
 				throw e;
 			}
 		};
-		
+
 		/**
 		 * Sets or changes the text for the title bar
 		 * @method titleBar.setTitle
@@ -607,7 +607,7 @@ TVB.widget.titleBarHandler = function() {
 				throw e;
 			}
 		};
-		
+
 		/**
 		 * @method titleBar.setIcon
 		 * @param {String} iconUrl The url of an icon file to be displayed in the very beginning of the titleBar. The icon will be resized to a height of 72px, and a variable width.
@@ -616,14 +616,14 @@ TVB.widget.titleBarHandler = function() {
 			try {
 				TVB.log("Widget: titleBar.setIcon(" + iconUrl + ")");
 				//this.icon.innerHTML = "<img src='" + iconUrl + "' id='imggg' alt='Icon' height=72 />";
-				
+
 				var ic = document.createElement('img');
 				ic.src = iconUrl;
 				ic.style.height = "72px";
 				ic.alt = 'Icon';
 				ic.id = "TVB.widget.titleBar.icon.firstChild";
 				this.icon.appendChild(ic);
-				
+
 				YAHOO.util.Event.onContentReady("TVB.widget.titleBar.icon.firstChild", function(){
 					try {
 						var iw = TVB.widget.titleBar.icon.firstChild.offsetWidth;
@@ -642,13 +642,13 @@ TVB.widget.titleBarHandler = function() {
 						TVB.warning(e.message);
 					}
 				});
-				
+
 			} catch (e) {
 				TVB.warning("Widget: titleBar: setIcon: " + e.message);
 				throw e;
 			}
 		};
-		
+
 		/**
 		 * Changes the logo on the left side of the title bar from "for BLOBbox" to "BLOBbox" only.
 		 * @method titleBar.setLogo
@@ -667,7 +667,7 @@ TVB.widget.titleBarHandler = function() {
 				throw e;
 			}
 		};
-		
+
 		/**
 		 * Removes the "for BLOBbox" logo or prevent the render() function to add it
 		 */
@@ -680,7 +680,7 @@ TVB.widget.titleBarHandler = function() {
 				throw e;
 			}
 		};
-		
+
 		/**
 		 * Sets the position of the title bar to fixed (strongly recommended). When scrolling a page, the title bar doesn't move
 		 * @method titleBar.setFixedPosition
@@ -712,7 +712,7 @@ TVB.widget.titleBarHandler = function() {
 		/**
 		 * Changes the background color of the title bar
 		 * @method titleBar.setBackgroundColor
-		 * @param {String} color RGB color 
+		 * @param {String} color RGB color
 		 */
 		this.setBackgroundColor = function(color) {
 			try {
