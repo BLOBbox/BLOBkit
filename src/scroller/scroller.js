@@ -59,7 +59,7 @@ TVB.scroller = function(config){
 		if(config.rowSelectedColor !== null && config.rowSelectedColor !== undefined )
 			this.rowSelectedColor = config.rowSelectedColor;
 		this.container.innerHTML = "<div class='TVB_scroller_loading' >Loading</div>";
-		
+
 	}catch(e){
 		TVB.log(e);
 	}
@@ -156,14 +156,14 @@ TVB.scroller.prototype = {
 		currentLine:0,
 		prevLine:null,
 		page:null,
-		
+
 		/**
 		 * This function must to be called on order to enter in the scroller menu
 		 * @method enter
 		 */
 		enter: function(){
 			try{
-				
+
 				TVB.remote.enableNav();
 				TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.OK);
 	            TVB.CustomEvent.subscribeEvent(TVB.remote.button.OK, this.selectLine, this, true);
@@ -177,9 +177,9 @@ TVB.scroller.prototype = {
 	            TVB.CustomEvent.subscribeEvent(TVB.remote.button.RIGHT, this.navRight, this, true);
 	            if(this.enableChannelUpDown){
 	            	TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.CHANNEL_DOWN);
-		            TVB.CustomEvent.subscribeEvent(TVB.remote.button.CHANNEL_DOWN, this.pageDown, this, true);
 		            TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.CHANNEL_UP);
-		            TVB.CustomEvent.subscribeEvent(TVB.remote.button.CHANNEL_UP, this.pageUp, this, true);
+		            TVB.CustomEvent.subscribeEvent(TVB.remote.button.CHANNEL_UP, this.pageDown, this, true);
+		            TVB.CustomEvent.subscribeEvent(TVB.remote.button.CHANNEL_DOWN, this.pageUp, this, true);
 	            }
 	            if(this.total > 0)
 	            	this.focusLine(this.currentLine);
@@ -187,37 +187,37 @@ TVB.scroller.prototype = {
 				TVB.log(e);
 			}
 		},
-		
+
 		/**
-		 * Propagate the control to the config navLeftCB 
+		 * Propagate the control to the config navLeftCB
 		 * @method navLeft
 		 */
 		navLeft: function(){
 			this.navLeftCB(this.currentLine);
 		},
-		
+
 		/**
-		 * Propagate the control to the config navRightCB 
+		 * Propagate the control to the config navRightCB
 		 * @method navRight
 		 */
 		navRight: function(){
 			this.navRightCB(this.currentLine);
 		},
-		
+
 		/**
-		 * Propagate the drawing of a line to config drawLineCB 
+		 * Propagate the drawing of a line to config drawLineCB
 		 * @method drawLine
-		 * @return {Object}	
+		 * @return {Object}
 		 */
 		drawLine: function(line){
 			try{
 				return this.drawLineCB(line);
-				
+
 			}catch(e){
 				TVB.log(e);
 			}
 		},
-		
+
 		/**
 		 * Draws both visible and not visible lines into container
 		 * @method draw
@@ -227,7 +227,7 @@ TVB.scroller.prototype = {
 			var totalHeight = this.visible * this.rowHeightPx + "px";
 			this.container.innerHTML = '<div style="float:left;height:' + totalHeight + ';" class="TVB_scroller_menu_container"><div id="' + this.name + '_container" style="float:left;"></div><div id="' + this.name + '_bar" class="TVB_scroller_bar" style="background-color:' + this.barColor + ';float:left;height:' + totalHeight + ';width:13px;"><div id="' + this.name + '_barrer" class="TVB_scroller_barrer" style="width:11px;position:relative;background-color:' + this.scrollerColor + ';margin-left:1px"></div></div></div>';
 			this.menuContainer = document.getElementById(this.name + '_container');
-			
+
 			if(this.total === 0){
 				this.menuContainer.innerText = "Nessun Risultato";
 				document.getElementById(this.name + "_bar").style.display = "none";
@@ -235,7 +235,7 @@ TVB.scroller.prototype = {
 			}
 			this.from = 0;
 			this.currentLine = 0;
-			
+
 			var tmp = this.visible;
 			if(this.total < this.visible)
 				tmp = this.total;
@@ -257,11 +257,11 @@ TVB.scroller.prototype = {
 	            row.innerHTML = this.drawLine(i);
 	            this.menuContainer.appendChild(row);
 			}
-			
+
 			this.drawBar();
 		},
-		
-	
+
+
 		/**
 		 * Delete menuContainer and all its content
 		 * @method dispose
@@ -273,7 +273,7 @@ TVB.scroller.prototype = {
 				TVB.log(e);
 			}
 		},
-		
+
 		/**
 		 * Set the focus to the line and center the pagination to its page
 		 * @method setCurrentLine
@@ -282,15 +282,15 @@ TVB.scroller.prototype = {
 		setCurrentLine: function(line){
 			var tmp = this.page;
 			this.page = Math.floor((line/this.visible) + 1);
-		
+
 			if(this.page != tmp)
 				this.drawPage(this.page);
-			
+
 			this.prevLine = this.currentLine;
 			this.currentLine = line;
 			this.focusLine(line);
 		},
-		
+
 		/**
 		 * Set the focus to a line
 		 * @method focusLine
@@ -298,7 +298,7 @@ TVB.scroller.prototype = {
 		 */
 		focusLine: function(line){
 			try{
-				
+
 				if(this.prevLine !== null && this.prevLine !== undefined )
 					this.blurLine(this.prevLine);
 				else
@@ -311,7 +311,7 @@ TVB.scroller.prototype = {
 				TVB.log(e);
 			}
 		},
-		
+
 		/**
 		 * Blur a line
 		 * @method blurLine
@@ -326,7 +326,7 @@ TVB.scroller.prototype = {
 				TVB.log(e);
 			}
 		},
-		
+
 		/**
 		 * Select the current line
 		 * @method seletcLine
@@ -339,7 +339,7 @@ TVB.scroller.prototype = {
 				TVB.log(e);
 			}
 		},
-		
+
 		/**
 		 * Manage the navigation down
 		 * @method navdown
@@ -352,10 +352,10 @@ TVB.scroller.prototype = {
 				this.down();
 			this.prevLine = this.currentLine;
 			this.currentLine++;
-			
+
 			this.focusLine(this.currentLine);
 		},
-		
+
 		/**
 		 * Manage the navigation up
 		 * @method navup
@@ -370,15 +370,15 @@ TVB.scroller.prototype = {
 			this.currentLine--;
 			this.focusLine(this.currentLine);
 		},
-		
-		
+
+
 		/**
 		 * Manage the up line display
 		 * @method up
 		 * @private
 		 */
 		up: function(){
-			
+
 			try{
 				if(this.from > 0){
 					this.prevLine = this.from;
@@ -393,7 +393,7 @@ TVB.scroller.prototype = {
 				TVB.log(e);
 			}
 		},
-		
+
 		/**
 		 * Manage the down line display
 		 * @method down
@@ -401,7 +401,7 @@ TVB.scroller.prototype = {
 		 */
 		down:function(){
 			try{
-				
+
 				if(this.to < this.total-1){
 					document.getElementById(this.name + "_row_" + this.from).style.display = "none";
 					this.prevLine = this.to;
@@ -415,7 +415,7 @@ TVB.scroller.prototype = {
 				TVB.log(e);
 			}
 		},
-		
+
 		/**
 		 * Display a page
 		 * @method drawPage
@@ -427,31 +427,31 @@ TVB.scroller.prototype = {
 			for(var i = this.from; i<this.to+1; i++){
 				document.getElementById(this.name + "_row_" + i).style.display = "none";
 			}
-			
+
 			this.to = (page * this.visible) - 1;
 			if(this.to > (this.total -1))
 				this.to = this.total - 1;
-			
+
 			this.from = this.to - this.visible + 1;
 			if(this.from < 0)
 				this.from = 0;
-			
+
 			for(var j = this.from; j<= this.to; j++){
 				document.getElementById(this.name + "_row_" + j).style.display = "";
 			}
-			
+
 			this.currentLine = this.from;
-			
+
 			if(this.from > 0)
 				this.prevLine = this.from -1;
 			else
 				this.prevLine = null;
-			
+
 			this.focusLine(this.currentLine);
 			document.getElementById(this.name + "_barrer").style.top = this.from * this.barHeightForEl +"%";
-			
+
 		},
-		
+
 		/**
 		 * Manage the pagination up
 		 * @method pageUp
@@ -460,13 +460,13 @@ TVB.scroller.prototype = {
 		pageUp: function(){
 			if(this.page * this.visible > this.total)
 				return;
-			
+
 			this.page++;
-			
+
 			this.drawPage(this.page);
-			
+
 		},
-		
+
 		/**
 		 * Manage the pagination down
 		 * @method pageDown
@@ -475,11 +475,11 @@ TVB.scroller.prototype = {
 		pageDown: function(){
 			if(this.page === 1)
 				return;
-			
+
 			this.page--;
 			this.drawPage(this.page);
 		},
-		
+
 		/**
 		 * Draw the scroller bar
 		 * @method drawBar
@@ -493,7 +493,7 @@ TVB.scroller.prototype = {
 				document.getElementById(this.name + "_barrer").style.height = barrer_height + "%";
 				document.getElementById(this.name + "_bar").style.display = "";
 				this.barHeightForEl = (100 - barrer_height)/(this.total-this.visible);
-				
+
 			}
 		}
 };
