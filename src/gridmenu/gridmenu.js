@@ -20,16 +20,20 @@ TVB.gridMenu = function(config) {
 	try {
 		TVB.log("Menu: __constructor");
 		// configuration verification
-		if (typeof(config.visibleElements) !== undefined && parseInt(config.visibleElements, 10) > 0) {
-			this.visibleElements = config.visibleElements;
+		
+		if (typeof(config.rows) !== undefined && parseInt(config.rows, 10) > 0) {
+			this.rows = config.rows;
+			
 		} else {
-			this.visibleElements = 4;
+			this.rows = 2;
 		}
 
 		if (typeof(config.cols) !== undefined && parseInt(config.cols, 10) > 0) {
 			this.cols = config.cols;
+			this.visibleElements = this.cols * this.rows;
 		} else {
 			this.cols = 5;
+			this.visibleElements = this.cols * this.rows;
 		}
 
 		if (typeof(config.numElements) !== undefined && parseInt(config.numElements, 10) > 0) {
@@ -158,12 +162,20 @@ TVB.gridMenu = function(config) {
 TVB.gridMenu.prototype = {
 	// configurations
 	/**
-	 * Number of cols of the menu. This value doesn't force the menu to have N cols but is used to navigate it
+	 * Number of cols of the menu. 
 	 * @config cols
 	 * @type Integer
 	 * @default 5
 	 */
 	cols : 5,
+	
+	/**
+	 * Number of rows of the menu.
+	 * @config rows
+	 * @type Integer
+	 * @default 2
+	 */
+	rows : 2,
 
 	/**
 	 * @config visibleElements
