@@ -810,7 +810,7 @@ TVB.gridMenu.prototype = {
 							var last = this.visibleElements * this.numPages + nextElement - this.cols;
 						else
 							var last = this.visibleElements * this.numPages + nextElement;
-						TVB.error(last);
+						
 						if(last > this.numElements -1)
 							this.setFocus(this.numElements - 1);
 						else
