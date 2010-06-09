@@ -920,6 +920,12 @@ TVB.gridMenu.prototype = {
 			var nextElement = this.currentElement + this.cols;
 			if (nextElement > end)
 			{
+				
+				if(nextElement <= ((this.currentPage + 1)*this.visibleElements)){
+					this.setFocus(end);
+					return;
+				}
+					
 				// go to next page
 				if (this.currentPage >= this.numPages - 1)
 				{
