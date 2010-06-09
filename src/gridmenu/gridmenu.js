@@ -38,11 +38,12 @@ TVB.gridMenu = function(config) {
 			throw {message: "Menu: numElements not defined"};
 		}
 
-		if (typeof(config.drawSingleLineCB) == 'function') {
-			this.drawSingleLineCB = config.drawSingleLineCB;
+		if (typeof(config.drawSingleCellCB) == 'function') {
+			this.drawSingleCellCB = config.drawSingleCellCB;
 		} else {
-			throw {message: "Menu: drawSingleLineCB not defined"};
+			throw {message: "Menu: drawSingleCellCB not defined"};
 		}
+		
 
 		if (typeof(config.disableChannelUp) == 'boolean') {
 			this.disableChannelUp = config.disableChannelUp;
@@ -258,10 +259,11 @@ TVB.gridMenu.prototype = {
 	 */
 	onUpdateCB: undefined,
 	/**
-	 * @config drawSingleLineCB
+	 * @config drawSingleCellCB
 	 * @type Function
 	 */
-	drawSingleLineCB: undefined,
+	drawSingleCellCB: undefined,
+	
 
 	// events
 	lineFocusEvent: undefined,
@@ -434,10 +436,20 @@ TVB.gridMenu.prototype = {
 		if (end > this.numElements) {
 			end = this.numElements;
 		}
-
+		
+		var col = 1;
 		for (var i = start; i < end; i++)
 		{
-			var returned = this.drawSingleLine(i, true);
+			var returned;
+			if(col > this.cols)
+				col = 1;
+			if(col === 1){
+				returned = this.drawSingleCell(i, true, true);
+			}
+			else{
+				returned = this.drawSingleCell(i, true, false);
+				
+			}
 			if (typeof(returned) == 'object') {
 				if (i == this.currentElement && this.onFocusCB !== undefined) {
 					this.onFocusCB(returned, this.currentElement);
@@ -448,6 +460,7 @@ TVB.gridMenu.prototype = {
 			}  else {
 				TVB.log("Menu: drawPage: returned is not an object!");
 			}
+			col++;
 		}
 
 		this.menuDiv.style.display = "";
@@ -455,30 +468,31 @@ TVB.gridMenu.prototype = {
 
 	/**
 	 * Draw a single line using the callback
-	 * @method drawSingleLine
+	 * @method drawSingleCell
 	 * @private
 	 * @param {Integer} lineNumber
 	 * @param {Boolean} visible
 	 * @return {Object}
 	 */
-	drawSingleLine: function(lineNumber, visible) {
+	drawSingleCell: function(lineNumber, visible, isFirstCol) {
 		try {
-			TVB.log("Menu: drawSingleLine(" + lineNumber + ", " + visible + ")");
+			TVB.log("Menu: drawSingleCell(" + lineNumber + ", " + visible + ")");
 			// chiamo una callback this.drawSigleLineCB
 			if (typeof(visible) !== undefined && visible === false) {
 				// prefetch
 			} else {
-				var newLine = this.drawSingleLineCB(lineNumber);
+				var newLine = this.drawSingleCellCB(lineNumber, isFirstCol);
 				newLine.setAttribute('lineNumber', lineNumber);
 				newLine.setAttribute('isVisible', visible);
 				newLine.id = 'TVBLOB_' + this.menuName + '_' + lineNumber;
 				return newLine;
 			}
 		} catch (e) {
-			TVB.warning("Menu: drawSingleLine: " + e.message);
+			TVB.warning("Menu: drawSingleCell: " + e.message);
 			throw e;
 		}
 	},
+	
 
 	/**
 	 * Update a line if it is visible or prefetched
@@ -789,15 +803,25 @@ TVB.gridMenu.prototype = {
 						TVB.log("Menu: first page, going to last page number " + lastPage);
 						TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});
 						this.currentPage = lastPage;
-						this.drawPage(true);
+						if(this.numPages > 1)
+							this.drawPage(true);
 						TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
-						this.setFocus(this.numElements - 1);
+						if((this.visibleElements * this.numPages) - this.numElements > this.cols)
+							var last = this.visibleElements * this.numPages + nextElement - this.cols;
+						else
+							var last = this.visibleElements * this.numPages + nextElement;
+						TVB.error(last);
+						if(last > this.numElements -1)
+							this.setFocus(this.numElements - 1);
+						else
+							this.setFocus(last);
 					}
 				} else {
 					TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});
 					this.currentPage--;
 					TVB.log("Menu: going to previous page number " + this.currentPage);
-					this.drawPage(true);
+					if(this.numPages > 1)
+						this.drawPage(true);
 					TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
 					this.setFocus(nextElement);
 				}
@@ -852,7 +876,8 @@ TVB.gridMenu.prototype = {
 						TVB.log("Menu: first page, going to last page number " + lastPage);
 						TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});
 						this.currentPage = lastPage;
-						this.drawPage(true);
+						if(this.numPages > 1)
+							this.drawPage(true);
 						TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
 						this.setFocus(this.numElements - 1);
 					}
@@ -860,7 +885,8 @@ TVB.gridMenu.prototype = {
 					TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});
 					this.currentPage--;
 					TVB.log("Menu: going to previous page number " + this.currentPage);
-					this.drawPage(true);
+					if(this.numPages > 0)
+						this.drawPage(true);
 					TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
 					this.setFocus(nextElement);
 				}
@@ -916,7 +942,8 @@ TVB.gridMenu.prototype = {
 							TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});
 							this.currentPage = 0;
 							//TVB.widget.setLoading(true);
-							this.drawPage(true);
+							if(this.numPages > 1)
+								this.drawPage(true);
 							TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
 							this.setFocus(0);
 							//TVB.widget.setLoading(false);
@@ -943,9 +970,12 @@ TVB.gridMenu.prototype = {
 					TVB.log("Menu: going to page " + this.currentPage);
 					//TVB.widget.setLoading(true);
 
-					this.drawPage(true);
+					if(this.numPages > 1)
+						this.drawPage(true);
 					//TVB.widget.setLoading(false);
 					TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
+					if(nextElement > this.numElements -1)
+						nextElement = this.numElements -1;
 					this.setFocus(nextElement);
 				}
 			}
@@ -1000,7 +1030,8 @@ TVB.gridMenu.prototype = {
 							TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});
 							this.currentPage = 0;
 							//TVB.widget.setLoading(true);
-							this.drawPage(true);
+							if(this.numPages > 1)
+								this.drawPage(true);
 							TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
 							this.setFocus(0);
 							//TVB.widget.setLoading(false);
@@ -1026,7 +1057,8 @@ TVB.gridMenu.prototype = {
 					this.currentPage++;
 					TVB.log("Menu: going to page " + this.currentPage);
 					//TVB.widget.setLoading(true);
-					this.drawPage(true);
+					if(this.numPages > 1)
+						this.drawPage(true);
 					//TVB.widget.setLoading(false);
 					TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
 					this.setFocus(nextElement);

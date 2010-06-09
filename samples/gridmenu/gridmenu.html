@@ -23,7 +23,7 @@
 			TVB.widget.titleBar.render();
 		</script>
 		
-		<div id='container' style='padding:30px; width: 600px; height: 250px'></div>
+		<div id='container' style='padding:30px; width: 700px; height: 250px'></div>
 		<div style="text-align:center;position:absolute;top:400px;left:320px;" id="page" >Page 1</div>
 		<script type="text/javascript">
 			var myMenu; 
@@ -34,7 +34,7 @@
 					menuName: 'mainMenu',				// mandatory
 					visibleElements: 8,					// optional (default 4)
 					cols: 4,							// optional (default 5)
-					numElements: 100,					// mandatory
+					numElements: 23,					// mandatory
 					updateMode: 'manipulate',			// optional: redraw | manipulate (default 'redraw')
 					disableChannelDown: false,			// optional (default false)
 					disableChannelUp: false,	 		// optional (default false)
@@ -42,15 +42,17 @@
 					disableLeftRight: false,				// optional (default false)
 					disableOk: false, 					// optional (default false)
 					menuType: 'paged', 					// optional: paged (default 'paged')
-					drawSingleLineCB: function(line) { 	// mandatory
+					drawSingleCellCB: function(line, isFirstCol) { 	// mandatory
 						var elem = document.createElement('div');
-						
+						if(isFirstCol)
+							elem.style.clear = "both";
 						
 						
 						elem.className = 'cell';
 						elem.innerHTML = "Item #" + line;
 						return elem;
 					},
+					
 					onSelectCB: function(line) { 		// optional
 						TVB.log("USER HAS SELECTED LINE " + line);
 					},
