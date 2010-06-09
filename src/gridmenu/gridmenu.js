@@ -176,6 +176,9 @@ TVB.gridMenu.prototype = {
 	 * @default 2
 	 */
 	rows : 2,
+	
+	actualRow: 0,
+	drawnRows:0,
 
 	/**
 	 * @config visibleElements
@@ -450,11 +453,15 @@ TVB.gridMenu.prototype = {
 		}
 		
 		var col = 1;
+		this.drawnRows = 1;
+		this.actualRow = 0;
 		for (var i = start; i < end; i++)
 		{
 			var returned;
-			if(col > this.cols)
+			if(col > this.cols){
 				col = 1;
+				this.drawnRows++;
+			}
 			if(col === 1){
 				returned = this.drawSingleCell(i, true, true);
 			}
@@ -611,6 +618,7 @@ TVB.gridMenu.prototype = {
 			var idToBlur = 'TVBLOB_' + this.menuName + '_' + this.currentElement;
 			var lineBlurred = this.currentElement;
 			this.currentElement = lineNumber;
+			
 			var idToFocus = 'TVBLOB_' + this.menuName + '_' + lineNumber;
 
 			// raises the callbacks
@@ -932,8 +940,10 @@ TVB.gridMenu.prototype = {
 			var nextElement = this.currentElement + this.cols;
 			if (nextElement > end)
 			{
-				
-				if(nextElement <= ((this.currentPage + 1)*this.visibleElements)){
+				this.actualRow = Math.ceil((this.currentElement - start + 1)/this.cols);
+				var virtual = ((this.currentPage + 1)*this.visibleElements - 1);
+				//TVB.error(nextElement + " " + virtual +" " + (virtual - end) + " " + this.cols);
+				if(nextElement <= virtual && this.actualRow <= (this.drawnRows-1) ){
 					this.setFocus(end);
 					return;
 				}
