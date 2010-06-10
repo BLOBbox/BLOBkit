@@ -63,8 +63,8 @@
 						obj.style.backgroundColor = 'white';
 						obj.style.color = 'black';
 
-						document.getElementById("row").innerHTML = "Row: " + this.getCurrentRow() + "  " + this.getCurrentGridPosition().row;
-						document.getElementById("col").innerHTML = "Col: " + this.getCurrentCol()+ "  " + this.getCurrentGridPosition().col;
+						document.getElementById("row").innerHTML = "Row: " + this.getCurrentRow();// this.getCurrentGridPosition().row;
+						document.getElementById("col").innerHTML = "Col: " + this.getCurrentCol();// this.getCurrentGridPosition().col;
 					},
 					onBlurCB: function(obj, line) { 			// optional
 						obj.style.backgroundColor = 'red';
