@@ -557,15 +557,86 @@ TVB.gridMenu.prototype = {
 
 	/**
 	 * Returns current element
-	 * @method getCurrentLine
+	 * @method getCurrentElement
 	 * @return {Integer}
 	 */
-	getCurrentLine: function() {
+	getCurrentElement: function() {
 		try {
-			TVB.log("Menu: getCurrentLine()");
+			TVB.log("Menu: getCurrentElement()");
 			return this.currentElement;
 		} catch (e) {
-			TVB.warning("Menu: getCurrentLine: " + e.message);
+			TVB.warning("Menu: getCurrentElement: " + e.message);
+			throw e;
+		}
+	},
+	
+	/**
+	 * Returns current col
+	 * @method getCurrentCol
+	 * @return {Integer}
+	 */
+	getCurrentCol: function() {
+		try {
+			TVB.log("Menu: getCurrentCol()");
+			return (this.currentElement % this.cols);
+		} catch (e) {
+			TVB.warning("Menu: getCurrentCol: " + e.message);
+			throw e;
+		}
+	},
+	
+	
+	/**
+	 * Returns current row
+	 * @method getCurrentRow
+	 * @return {Integer}
+	 */
+	getCurrentRow: function() {
+		try {
+			TVB.log("Menu: getCurrentRow()");
+			return Math.floor(this.currentElement/this.cols);
+		} catch (e) {
+			TVB.warning("Menu: getCurrentRow: " + e.message);
+			throw e;
+		}
+	},
+	
+	/**
+	 * Returns current position as an Object
+	 * @method getActualGridPosition
+	 * @return {Object}
+	 */
+	getCurrentGridPosition: function(){
+		var pos = new Object();
+		pos.row = this.getCurrentRow();
+		pos.col = this.getCurrentCol();
+		return pos;
+	},
+	
+
+	/**
+	 * Set current position
+	 * @method setCurrentGridPosition
+	
+	 */
+	setCurrentGridPosition: function(row, col) {
+		try {
+			var newElement = (row * this.cols) + col;
+			var newPage = Math.floor(newElement/this.visibleElements);
+			if (newPage === this.currentPage) {
+				this.setFocus(newElement);
+			} else {
+				TVB.CustomEvent.fireEvent(this.pageBlurEvent, {pageNumber: this.currentPage});
+				this.currentPage = newPage;
+				//TVB.widget.setLoading(true);
+				if(this.numPages > 1)
+					this.drawPage(true);
+				TVB.CustomEvent.fireEvent(this.pageFocusEvent, {pageNumber: this.currentPage});
+				this.setFocus(newElement);
+				//TVB.widget.setLoading(false);
+			}
+		} catch (e) {
+			TVB.warning("Menu: getCurrentCol: " + e.message);
 			throw e;
 		}
 	},
