@@ -5,18 +5,21 @@
  */
 
 /* CONFIGURATION AREA - EDIT IF YOU NEED TO */
-var startingTweets = 20;
-var maxTweets = 50;
+var startingTweets = 10;
+var maxTweets = 20;
+var updateInterval = 60000;
 var applicationTitle = "My Application Name"; // string; used by title bar and favorite handler
-var hashtag = "#ballaro"; // hash tag or search query for Twitter
+var hashtag = "#worldcup"; // hash tag or search query for Twitter
 var dttChannelName = "RaiTre"; // exact match with channel name declared by broadcaster in DVB stream
 var themeColor = "#0b1000"; // update this also in css file
 var startingFullScreen = false;
+var fullScreenRowNumber = 2;
 /* END OF CONFIGURATION AREA - DO NOT EDIT ANYTHING THAT FOLLOWS */
 
 
 var isFullScreen = startingFullScreen;
 var onOffTimeout;
+var reducedView;
 /**
  * Initialize Application
  */
@@ -56,6 +59,13 @@ var init = function() {
 		}
 		//TVB.log("isTitleEditable = " + isTitleEditable);
 
+		if(document.body.offsetWidth < "700") {
+			reducedView = true;
+			reduce();
+		} else {
+			reducedView = false;
+		}
+		
 		if (isTitleEditable) {
 			document.title = applicationTitle;
 		}
@@ -93,6 +103,14 @@ var init = function() {
 		var fullScreenMessageContainer = document.createElement('div');
 		fullScreenMessageContainer.id = 'fs_msg_container';
 		fullScreenMessageContainer.style.display = "none";
+		if(reducedView){
+			fullScreenMessageContainer.style.bottom = "170px";
+			fullScreenMessageContainer.style.width = "575px";
+		}else{
+			fullScreenMessageContainer.style.bottom = "470px";
+			fullScreenMessageContainer.style.width = "595px";
+		}
+		
 		document.body.appendChild(fullScreenMessageContainer);
 		
 		var openMessageDiv = document.createElement('div');
@@ -134,7 +152,7 @@ var init = function() {
 			width: 283,
 			height: 286,
 			switchKey: null,
-			uri: channelTripletDecoded,
+			uri: movie,//channelTripletDecoded,
 			autoplay: true,
 			fullscreen: startingFullScreen,
 			noLittleHole: false
@@ -143,6 +161,8 @@ var init = function() {
 		setTimeout(function() {
 			//TVB.log("Starting playback");
 			TVB.player.init(playerConfig);
+			TVB.CustomEvent.unsubscribeEvent(TVB.player.events.end_of_streaming);
+			TVB.CustomEvent.subscribeEvent(TVB.player.events.end_of_streaming, eos);	
 			document.body.style.overflow = 'auto';
 		}, 500);
 		
@@ -159,11 +179,22 @@ var init = function() {
 		
 		setInterval(function() {
 			updateTwitter();
-		}, 30000);
+		}, updateInterval);
 
 
 	} catch (e) {
 		TVB.exception(e, 'init()');
+	}
+};
+
+function reduce(){
+	try{
+		halfScreenMenu.rowWidthPx = "300";
+		halfScreenMenu.rowHeightPx = "120";
+		halfScreenMenu.visible = "3";
+		tweetMenu.rowWidthPx = "560";
+	}catch(e){
+		TVB.log(e);
 	}
 };
 
@@ -174,7 +205,7 @@ var redHandler = function() {
 		
 		if(isFullScreen){
 			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
-			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, openTweetBar);
+			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.open);
 			document.getElementById("openMessageDiv").innerHTML = "Open tweets: YELLOW";
 			document.getElementById("fs_msg_container").style.display = "none";
 			document.getElementById("openMessageDiv").style.display = "";
@@ -192,9 +223,22 @@ var redHandler = function() {
 	}
 };
 
+function eos(){
+	if(isFullScreen){
+		isFullScreen = !isFullScreen;
+		TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
+		TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.open);
+		document.getElementById("openMessageDiv").innerHTML = "Open tweets: YELLOW";
+		document.getElementById("fs_msg_container").style.display = "none";
+		document.getElementById("openMessageDiv").style.display = "";
+		scroller.enter();
+		
+	}
+}
+
 var blueHandler = function() {
 	try {
-		simulateTweet();
+		updateTwitter();
 	} catch (e) {
 		TVB.exception(e, 'blueHandler()');
 	}
@@ -251,7 +295,7 @@ var updateTwitter = function() {
 		//TVB.log("TwitTiVi: start updating twitter");
 		
 		var url = "http://search.twitter.com/search.json?q=" + encodeURIComponent(hashtag);
-		TVB.log(url);
+		
 		if (last_tweet !== null) {
 			url += "&since_id=" + last_tweet;
 		} else {
@@ -263,15 +307,18 @@ var updateTwitter = function() {
 		var req = new HTTPRelay();
 		var received = TVB.json.parse(req.get(url));
 		newTweets = received.results;
-		TVB.log(newTweets);
+		//TVB.log(newTweets);
 		delete received;
 		
 		TVB.log("New tweets: " + newTweets.length);
 		var con = document.getElementById('container');		
 		if (newTweets.length > 0) {
+			for(var t in newTweets){
+				newTweets[t].read = false;
+			}
 			tweets = newTweets.concat(tweets);
 			last_tweet = newTweets[0].id;
-
+			
 			/*
 			for (var tweet = newTweets.length - 1; tweet >= 0; tweet--) {
 				var st = document.createElement('div');
@@ -310,9 +357,6 @@ var updateTwitter = function() {
 	
 				halfScroller.draw();
 				
-				
-				//document.getElementById("fs_msg_container").style.display = "";
-				//document.getElementById("openMessageDiv").style.display = "";
 			}catch(e){
 				TVB.log(e);
 			}
@@ -328,9 +372,6 @@ var updateTwitter = function() {
 				scroller.draw();
 				
 				
-				
-				//document.getElementById("fs_msg_container").style.display = "";
-				//document.getElementById("openMessageDiv").style.display = "";
 			}catch(e){
 				TVB.log(e);
 			}
@@ -343,10 +384,10 @@ var updateTwitter = function() {
 			}
 			
 			if(isFullScreen){
-				TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, closeTweetBar);
+				TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.close);
 				//document.getElementById("fs_msg_container").style.display = "";
 				//document.getElementById("openMessageDiv").style.display = "";
-				newTweet();
+				newTweet(newTweets.length);
 				scroller.enter();
 				
 			}
@@ -394,99 +435,64 @@ var updateTwitter = function() {
 	}
 };
 
-function closeTweetBar(){
-	TVB.log("close");
-	TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
-	TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, openTweetBar);
-	document.getElementById("fs_msg_container").style.display = "none";
-	document.getElementById("openMessageDiv").innerHTML = "Open tweets: YELLOW";
-	document.getElementById("openMessageDiv").style.display = "";
-	clearTimeout(onOffTimeout);
-	onOffTimeout = setTimeout(function(){
-		document.getElementById("openMessageDiv").style.display = "none";
-	},4000);
-}
 
-function openTweetBar(){
+function newTweet(num){
 	clearTimeout(onOffTimeout);
-	TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
-	TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, closeTweetBar);
-	document.getElementById("fs_msg_container").style.display = "";
-	document.getElementById("openMessageDiv").innerHTML = "Close tweets: YELLOW";
-	document.getElementById("openMessageDiv").style.display = "";
-	scroller.setCurrentLine(0);
-	
-}
-
-function simulateTweet(){
-	/*if(true){
-		try{
-			if (true) {
-				var html = "<img src='' width='48px' height='48px'/>";
-				html += "<span class='from'>Diabolik: </span><span class='text'>un bel video</span>";
-				var msgContainer = document.getElementById("fs_msg_container");
-				var msg = document.createElement('div');
-				msg.innerHTML = html;
-				msg.className = "footer_message";
-				
-				msgContainer.appendChild(msg);
-			}
-		}catch(e){
-			TVB.log(e);
-		}
-		
-	}*/
-	/*
-	clearTimeout(onOffTimeout);
-	TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
-	TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, openTweetBar);
-	document.getElementById("openMessageDiv").innerHTML = "New tweets! YELLOW";
-	document.getElementById("openMessageDiv").style.display = "";
-	onOffTimeout = setTimeout(function(){
-		document.getElementById("openMessageDiv").style.display = "none";
-	},4000);*/
-	var t = new Array();
-	t[0] = new Object();
-	t[0].profile_image_url = "#";
-	t[0].text = "nuovo messaggio";
-	t[0].from_user = "Diabolik";
-	t[0].created_at = null;
-	
-	tweets = t.concat(tweets);
-	
-	try{
-		TVB.log("create menu");
-		halfScroller = new TVB.scroller(halfScreenMenu);
-		if(tweets.length < maxTweets)
-			halfScroller.total = tweets.length;
-		else
-			halfScroller.total = maxTweets;
-
-		halfScroller.draw();
-		
-		
-		//document.getElementById("fs_msg_container").style.display = "";
-		//document.getElementById("openMessageDiv").style.display = "";
-	}catch(e){
-		TVB.log(e);
+	document.getElementById("openMessageDiv").style.backgroundColor = "#324f1c";
+	if(fsTweets.isOpen){
+		document.getElementById("openMessageDiv").innerHTML = num + " new tweets!";
+		onOffTimeout = setTimeout(function(){
+			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
+			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.close);
+			document.getElementById("openMessageDiv").style.backgroundColor = "#0b1000";
+			document.getElementById("openMessageDiv").innerHTML = "Close tweets: YELLOW";
+		},6000);
+	}else{
+		TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
+		TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.open);
+		document.getElementById("openMessageDiv").innerHTML = num + " new tweets! YELLOW";
+		onOffTimeout = setTimeout(function(){
+			document.getElementById("openMessageDiv").style.backgroundColor = "#0b1000";
+			document.getElementById("openMessageDiv").style.display = "none";
+		},6000);
 	}
-};
-
-function newTweet(){
-	clearTimeout(onOffTimeout);
-	TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
-	TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, openTweetBar);
-	document.getElementById("openMessageDiv").innerHTML = "New tweets! YELLOW";
 	document.getElementById("openMessageDiv").style.display = "";
-	onOffTimeout = setTimeout(function(){
-		document.getElementById("openMessageDiv").style.display = "none";
-	},4000);
 	
+	
+}
+
+var fsTweets = {
+		isOpen: false,
+		
+		open : function(){
+			clearTimeout(onOffTimeout);
+			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
+			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.close);
+			document.getElementById("fs_msg_container").style.display = "";
+			document.getElementById("openMessageDiv").innerHTML = "Close tweets: YELLOW";
+			document.getElementById("openMessageDiv").style.display = "";
+			scroller.setCurrentLine(0);
+			fsTweets.isOpen = true;
+		},
+		
+		close: function(){
+			TVB.log("close");
+			fsTweets.isOpen = false;
+			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
+			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.open);
+			document.getElementById("fs_msg_container").style.display = "none";
+			document.getElementById("openMessageDiv").innerHTML = "Open tweets: YELLOW";
+			document.getElementById("openMessageDiv").style.display = "";
+			clearTimeout(onOffTimeout);
+			onOffTimeout = setTimeout(function(){
+				document.getElementById("openMessageDiv").style.display = "none";
+			},4000);
+		}
 }
 
 var prettyDate = function(t) {
 	try {
-		TVB.log(t);
+		
 		var date = new Date(t),
 			diff = (((new Date()).getTime() - date.getTime()) / 1000),
 			day_diff = Math.floor(diff / 86400);
@@ -549,20 +555,15 @@ try {
 	TVB.exception(e, 'resources.js');
 }
 
-try {
-	init();
-} catch (e) {
-	TVB.error(e);
-}
 
 var tweetMenu = {
 		cid : "fs_msg_container",
-		name : "test",
-		visible: 1,
+		name : "fullScreen",
+		visible: fullScreenRowNumber,
 		total:16,
 		rowSelectedColor:"#324f1c",
-		rowWidthPx:"610",
-		rowHeightPx:"68",
+		rowWidthPx:"580",
+		rowHeightPx:"72",
 		scrollerColor: "#0b1000",
 		barColor: "#5c7300",
 
@@ -570,9 +571,9 @@ var tweetMenu = {
 			try{
 				var html = "";
 				if(tweets[line] != null && tweets[line] != undefined){
-					html = "<div class='footer_message'>";
+					html = "<div id='over_tweet_" + line + "' class='tweet' style='border:1px solid #5c7300'>";
 					if (tweets[line].from_user != 'SKAgnozzo') {
-						html += "<img src='" + tweets[line].profile_image_url + "' width='48px' height='48px'/>";
+						html += "<img align=left src='" + tweets[line].profile_image_url + "' width='48px' height='48px'/>";
 					} else {
 						//TVB.log(newTweets[tweet]);
 					}
@@ -600,6 +601,19 @@ var tweetMenu = {
 
 		selectLineCB: function(line){
 			TVB.log("Selected line: " + line);
+		},
+		
+		focusLineCB: function(line){
+			try{
+				
+				if(!tweets[line].read){
+					tweets[line].read = true;
+					document.getElementById("over_tweet_" + line).style.border = "1px solid #0b1000";
+					document.getElementById("tweet_" + line).style.border = "1px solid #0b1000";
+				}
+			}catch(e){
+				TVB.error(e);
+			}
 		}
 }
 
@@ -610,7 +624,7 @@ var halfScreenMenu = {
 		total:16,
 		rowSelectedColor:"#324f1c",
 		rowWidthPx:"580",
-		rowHeightPx:"68",
+		rowHeightPx:"79",
 		scrollerColor: "#0b1000",
 		barColor: "#5c7300",
 
@@ -618,9 +632,13 @@ var halfScreenMenu = {
 			try{
 				var html = "";
 				if(tweets[line] != null && tweets[line] != undefined){
-					html = "<div class='tweet'>";
+					if(reducedView)
+						html = "<div id='tweet_" + line + "' class='tweet' style='border:1px solid #5c7300;height:120px'>";
+					else
+						html = "<div id='tweet_" + line + "' class='tweet' style='border:1px solid #5c7300;height:72px'>";
+					
 					if (tweets[line].from_user != 'SKAgnozzo') {
-						html += "<img src='" + tweets[line].profile_image_url + "' width='48px' height='48px'/>";
+						html += "<img align=left src='" + tweets[line].profile_image_url + "' width='48px' height='48px'/>";
 					} else {
 						//TVB.log(newTweets[tweet]);
 					}
@@ -648,6 +666,26 @@ var halfScreenMenu = {
 
 		selectLineCB: function(line){
 			TVB.log("Selected line: " + line);
+		},
+		
+		focusLineCB: function(line){
+			try{
+				
+				if(!tweets[line].read){
+					tweets[line].read = true;
+					document.getElementById("tweet_" + line).style.border = "1px solid #0b1000";
+					document.getElementById("over_tweet_" + line).style.border = "1px solid #0b1000";
+				}
+			}catch(e){
+				TVB.error(e);
+			}
 		}
 }
+
+try {
+	init();
+} catch (e) {
+	TVB.error(e);
+}
+
 

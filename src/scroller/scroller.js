@@ -11,10 +11,12 @@
  * styles:
  * scroller bar: "TVB_scroller_bar"
  * scroller widget: "TVB_scroller_barrer";
+ * bar container: "TVB_scroller_bar_container"; //contains bar and arrows
  * loading: "TVB_scroller_loading";
  * row: "TVB_scroller_row";
  * row_selected: "TVB_scroller_row_selected";
  * menuContainer: "TVB_scroller_menu_container"
+ * 
  */
 
 /**
@@ -225,7 +227,9 @@ TVB.scroller.prototype = {
 		draw: function(){
 			this.page = 1;
 			var totalHeight = this.visible * this.rowHeightPx + "px";
-			this.container.innerHTML = '<div style="float:left;height:' + totalHeight + ';" class="TVB_scroller_menu_container"><div id="' + this.name + '_container" style="float:left;"></div><div id="' + this.name + '_bar" class="TVB_scroller_bar" style="background-color:' + this.barColor + ';float:left;height:' + totalHeight + ';width:13px;"><div id="' + this.name + '_barrer" class="TVB_scroller_barrer" style="width:11px;position:relative;background-color:' + this.scrollerColor + ';margin-left:1px"></div></div></div>';
+			var barHeight = this.visible * this.rowHeightPx - 40 + "px";
+			this.container.innerHTML = '<div style="float:left;height:' + totalHeight + ';" class="TVB_scroller_menu_container"><div id="' + this.name + '_container" style="float:left;"></div><div class="TVB_scroller_bar_container" id="' + this.name + '_bar_container" style="float:left"><div style="width:11px;border:1px solid ' + this.barColor + ';text-align:center;font-size:12px;font-weight:bold;line-height:14px;background-color:' + this.barColor + ';color:' + this.scrollerColor +';clear:both">/\\</div><div id="' + this.name + '_bar" class="TVB_scroller_bar" style="background-color:' + this.barColor + ';clear:both;height:' + barHeight + ';width:13px;"><div id="' + this.name + '_barrer" class="TVB_scroller_barrer" style="width:11px;position:relative;background-color:' + this.scrollerColor + ';margin-left:1px"></div></div><div style="font-size:12px;;line-height:14px;font-weight:bold;background-color:' + this.barColor + ';color:' + this.scrollerColor +';width:11px;border:1px solid ' + this.barColor + ';text-align:center;clear:both">\\/</div></div></div>';
+			
 			this.menuContainer = document.getElementById(this.name + '_container');
 
 			if(this.total === 0){
@@ -298,7 +302,7 @@ TVB.scroller.prototype = {
 		 */
 		focusLine: function(line){
 			try{
-
+				
 				if(this.prevLine !== null && this.prevLine !== undefined )
 					this.blurLine(this.prevLine);
 				else
@@ -307,8 +311,9 @@ TVB.scroller.prototype = {
 					this.focusLineCB(this.currentLine);
 				document.getElementById(this.name + "_row_" + line).style.backgroundColor = this.rowSelectedColor;
 				document.getElementById(this.name + "_row_" + line).className ="TVB_scroller_row_selected" ;
+				
 			}catch(e){
-				TVB.log(e);
+				TVB.error(e);
 			}
 		},
 
@@ -319,11 +324,14 @@ TVB.scroller.prototype = {
 		 */
 		blurLine: function(line){
 			try{
+				
 				document.getElementById(this.name + "_row_" + line).style.backgroundColor = "";
 				document.getElementById(this.name + "_row_" + line).className ="TVB_scroller_row" ;
-				this.blurLineCB;
+				if(this.blurLineCB != undefined)
+					this.blurLineCB(line);
+				
 			}catch(e){
-				TVB.log(e);
+				TVB.error(e);
 			}
 		},
 
@@ -412,7 +420,7 @@ TVB.scroller.prototype = {
 					document.getElementById(this.name + "_barrer").style.top = this.from * this.barHeightForEl +"%";
 				}
 			}catch(e){
-				TVB.log(e);
+				TVB.error(e);
 			}
 		},
 
