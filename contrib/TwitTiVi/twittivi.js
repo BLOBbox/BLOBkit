@@ -116,7 +116,7 @@ var init = function() {
 		var openMessageDiv = document.createElement('div');
 		openMessageDiv.id = 'openMessageDiv';
 		openMessageDiv.style.display = "none";
-		openMessageDiv.innerHTML = "Close tweets: YELLOW";
+		openMessageDiv.innerHTML = locales.closeTweets + ": " + locales.yellow;
 		document.body.appendChild(openMessageDiv);
 
 		var channels = TVB.tuner.getDvbChannelsList();
@@ -152,7 +152,7 @@ var init = function() {
 			width: 283,
 			height: 286,
 			switchKey: null,
-			uri: movie,//channelTripletDecoded,
+			uri: channelTripletDecoded,
 			autoplay: true,
 			fullscreen: startingFullScreen,
 			noLittleHole: false
@@ -206,7 +206,7 @@ var redHandler = function() {
 		if(isFullScreen){
 			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
 			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.open);
-			document.getElementById("openMessageDiv").innerHTML = "Open tweets: YELLOW";
+			document.getElementById("openMessageDiv").innerHTML = locales.openTweets + ": " + locales.yellow;
 			document.getElementById("fs_msg_container").style.display = "none";
 			document.getElementById("openMessageDiv").style.display = "";
 			scroller.enter();
@@ -228,7 +228,7 @@ function eos(){
 		isFullScreen = !isFullScreen;
 		TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
 		TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.open);
-		document.getElementById("openMessageDiv").innerHTML = "Open tweets: YELLOW";
+		document.getElementById("openMessageDiv").innerHTML = locales.openTweets + ": " + locales.yellow;
 		document.getElementById("fs_msg_container").style.display = "none";
 		document.getElementById("openMessageDiv").style.display = "";
 		scroller.enter();
@@ -440,17 +440,17 @@ function newTweet(num){
 	clearTimeout(onOffTimeout);
 	document.getElementById("openMessageDiv").style.backgroundColor = "#324f1c";
 	if(fsTweets.isOpen){
-		document.getElementById("openMessageDiv").innerHTML = num + " new tweets!";
+		document.getElementById("openMessageDiv").innerHTML = num + " " + locales.newTweets + " !";
 		onOffTimeout = setTimeout(function(){
 			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
 			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.close);
 			document.getElementById("openMessageDiv").style.backgroundColor = "#0b1000";
-			document.getElementById("openMessageDiv").innerHTML = "Close tweets: YELLOW";
+			document.getElementById("openMessageDiv").innerHTML = locales.closeTweets + ": " + locales.yellow;
 		},6000);
 	}else{
 		TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
 		TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.open);
-		document.getElementById("openMessageDiv").innerHTML = num + " new tweets! YELLOW";
+		document.getElementById("openMessageDiv").innerHTML = num + " " + locales.newTweets + " !"  + locales.yellow;
 		onOffTimeout = setTimeout(function(){
 			document.getElementById("openMessageDiv").style.backgroundColor = "#0b1000";
 			document.getElementById("openMessageDiv").style.display = "none";
@@ -469,7 +469,7 @@ var fsTweets = {
 			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
 			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.close);
 			document.getElementById("fs_msg_container").style.display = "";
-			document.getElementById("openMessageDiv").innerHTML = "Close tweets: YELLOW";
+			document.getElementById("openMessageDiv").innerHTML = locales.closeTweets + ": " + locales.yellow;
 			document.getElementById("openMessageDiv").style.display = "";
 			scroller.setCurrentLine(0);
 			fsTweets.isOpen = true;
@@ -481,7 +481,7 @@ var fsTweets = {
 			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
 			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.open);
 			document.getElementById("fs_msg_container").style.display = "none";
-			document.getElementById("openMessageDiv").innerHTML = "Open tweets: YELLOW";
+			document.getElementById("openMessageDiv").innerHTML = locales.openTweets + ": " + locales.yellow;
 			document.getElementById("openMessageDiv").style.display = "";
 			clearTimeout(onOffTimeout);
 			onOffTimeout = setTimeout(function(){
@@ -535,6 +535,10 @@ try {
 	locales.getFromTwitter = 'Fetching messages from Twitter...';
 	locales.noTweets = 'No tweets are available now.';
 	locales.useRed = "Push RED button<br />for full screen";
+	locales.newTweets = "new Tweets!";
+	locales.yellow = "YELLOW";
+	locales.openTweets = "Open Tweets";
+	locales.closeTweets = "Close Tweets";
 
 	switch (languageCode) {
 		case 'it':
@@ -550,6 +554,10 @@ try {
 			locales.getFromTwitter = 'Sto caricando i messaggi da Twitter...';
 			locales.noTweets = "Al momento non sono disponibili Tweet sull'argomento.";
 			locales.useRed = "Premi ROSSO per<br />schermo intero";
+			locales.newTweets = "nuovi Tweets!";
+			locales.yellow = "GIALLO";
+			locales.openTweets = "Apri i Tweets";
+			locales.closeTweets = "Chiusi i Tweets";
 	}
 } catch (e) {
 	TVB.exception(e, 'resources.js');
@@ -571,7 +579,7 @@ var tweetMenu = {
 			try{
 				var html = "";
 				if(tweets[line] != null && tweets[line] != undefined){
-					html = "<div id='over_tweet_" + line + "' class='tweet' style='border:1px solid #5c7300'>";
+					html = "<div id='over_tweet_" + line + "' class='tweet' style='border:1px solid #ccc'>";
 					if (tweets[line].from_user != 'SKAgnozzo') {
 						html += "<img align=left src='" + tweets[line].profile_image_url + "' width='48px' height='48px'/>";
 					} else {
@@ -608,8 +616,8 @@ var tweetMenu = {
 				
 				if(!tweets[line].read){
 					tweets[line].read = true;
-					document.getElementById("over_tweet_" + line).style.border = "1px solid #0b1000";
-					document.getElementById("tweet_" + line).style.border = "1px solid #0b1000";
+					document.getElementById("over_tweet_" + line).style.border = "1px solid #5c7300";
+					document.getElementById("tweet_" + line).style.border = "1px solid #5c7300";
 				}
 			}catch(e){
 				TVB.error(e);
@@ -633,9 +641,9 @@ var halfScreenMenu = {
 				var html = "";
 				if(tweets[line] != null && tweets[line] != undefined){
 					if(reducedView)
-						html = "<div id='tweet_" + line + "' class='tweet' style='border:1px solid #5c7300;height:120px'>";
+						html = "<div id='tweet_" + line + "' class='tweet' style='border:1px solid #ccc;height:120px'>";
 					else
-						html = "<div id='tweet_" + line + "' class='tweet' style='border:1px solid #5c7300;height:72px'>";
+						html = "<div id='tweet_" + line + "' class='tweet' style='border:1px solid #ccc;height:72px'>";
 					
 					if (tweets[line].from_user != 'SKAgnozzo') {
 						html += "<img align=left src='" + tweets[line].profile_image_url + "' width='48px' height='48px'/>";
@@ -673,8 +681,8 @@ var halfScreenMenu = {
 				
 				if(!tweets[line].read){
 					tweets[line].read = true;
-					document.getElementById("tweet_" + line).style.border = "1px solid #0b1000";
-					document.getElementById("over_tweet_" + line).style.border = "1px solid #0b1000";
+					document.getElementById("tweet_" + line).style.border = "1px solid #5c7300";
+					document.getElementById("over_tweet_" + line).style.border = "1px solid #5c7300";
 				}
 			}catch(e){
 				TVB.error(e);
