@@ -535,7 +535,7 @@ try {
 	locales.getFromTwitter = 'Fetching messages from Twitter...';
 	locales.noTweets = 'No tweets are available now.';
 	locales.useRed = "Push RED button<br />for full screen";
-	locales.newTweets = "new Tweets!";
+	locales.newTweets = "new Tweets";
 	locales.yellow = "YELLOW";
 	locales.openTweets = "Open Tweets";
 	locales.closeTweets = "Close Tweets";
@@ -554,7 +554,7 @@ try {
 			locales.getFromTwitter = 'Sto caricando i messaggi da Twitter...';
 			locales.noTweets = "Al momento non sono disponibili Tweet sull'argomento.";
 			locales.useRed = "Premi ROSSO per<br />schermo intero";
-			locales.newTweets = "nuovi Tweets!";
+			locales.newTweets = "nuovi Tweets";
 			locales.yellow = "GIALLO";
 			locales.openTweets = "Apri i Tweets";
 			locales.closeTweets = "Chiusi i Tweets";
