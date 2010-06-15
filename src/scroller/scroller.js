@@ -495,11 +495,11 @@ TVB.scroller.prototype = {
 		 */
 		drawBar: function(){
 			if(this.visible >= this.total){
-				document.getElementById(this.name + "_bar").style.display = "none";
+				document.getElementById(this.name + "_bar_container").style.display = "none";
 			}else{
 				var barrer_height = (this.visible/this.total)*100;
 				document.getElementById(this.name + "_barrer").style.height = barrer_height + "%";
-				document.getElementById(this.name + "_bar").style.display = "";
+				document.getElementById(this.name + "_bar_container").style.display = "";
 				this.barHeightForEl = (100 - barrer_height)/(this.total-this.visible);
 
 			}
