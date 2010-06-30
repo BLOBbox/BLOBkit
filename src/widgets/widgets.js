@@ -749,3 +749,99 @@ TVB.widget.titleBarHandler = function() {
  * @method titleBar
  */
 TVB.widget.titleBar = new TVB.widget.titleBarHandler();
+
+/**
+ * Add a countdown to a given date into a given div starting from NOW
+ * @method colorButtonsBar
+ * @param	{Date}		to	Date for the countdown
+ * @param	{String}	div	Div for the countdown
+ */
+TVB.widget.countdown = function(to,div)
+{
+	now = new Date();
+
+	days = (to - now) / 1000 / 60 / 60 / 24;
+	daysRound = Math.floor(days);
+
+	hours = (to - now) / 1000 / 60 / 60 - (24 * daysRound); 
+	hoursRound = Math.floor(hours);
+
+	minutes = (to - now) / 1000 /60 - (24 * 60 * daysRound) - (60 * hoursRound);
+	minutesRound = Math.floor(minutes);
+
+	seconds = (to - now) / 1000 - (24 * 60 * 60 * daysRound) - (60 * 60 * hoursRound) - (60 * minutesRound);
+	secondsRound = Math.round(seconds);
+
+	var text = '';
+
+	if (daysRound !== 0)
+	{
+		dy = (daysRound == 1) ? TVB.widget.countdown.locales.day : TVB.widget.countdown.locales.days;
+		text += "<span class='day'><span class='number'>" + daysRound + "</span><span class='label'>" + dy + "</span></span>";
+	}
+
+	if (hoursRound !== 0)
+	{
+		hr = (hoursRound == 1) ? TVB.widget.countdown.locales.hour : TVB.widget.countdown.locales.hours;
+		text += "<span class='hour'><span class='number'>" + hoursRound + "</span><span class='label'>" + hr + "</span></span>";
+	}
+
+	if (minutesRound !== 0)
+	{
+		min = (minutesRound == 1) ? TVB.widget.countdown.locales.minute : TVB.widget.countdown.locales.minutes;
+		text += "<span class='minute'><span class='number'>" + minutesRound + "</span><span class='label'>" + min + "</span></span>";
+	}
+
+	sec = (secondsRound == 1) ? TVB.widget.countdown.locales.second : TVB.widget.countdown.locales.seconds;
+	text += "<span class='second'><span class='number'>" + secondsRound + "</span><span class='label'>" + sec + "</span></span>";
+
+	if (document.getElementById(div) !== null && document.getElementById(div) !== undefined)
+	{
+		document.getElementById(div).innerHTML = text;
+
+	}
+
+	setTimeout(function()
+		{
+			TVB.widget.countdown(to,div)
+		},1000);
+
+}
+
+try 
+{
+	var languageCode = TVB.system.getLanguageCode();
+	if (languageCode === false) 
+	{
+		languageCode = 'en';
+	}
+
+	TVB.widget.countdown.locales = {};
+	TVB.widget.countdown.locales.hours = "hours";
+	TVB.widget.countdown.locales.hour = "hour";
+	TVB.widget.countdown.locales.minutes = "minutes";
+	TVB.widget.countdown.locales.minute = "minute";
+	TVB.widget.countdown.locales.days = "days";
+	TVB.widget.countdown.locales.day = "day";
+	TVB.widget.countdown.locales.seconds = "seconds";
+	TVB.widget.countdown.locales.second = "second";
+
+	switch (languageCode) 
+	{
+		case 'it':
+			TVB.widget.countdown.locales.hours = "ore";
+			TVB.widget.countdown.locales.hour = "ora";
+			TVB.widget.countdown.locales.minutes = "minuti";
+			TVB.widget.countdown.locales.minute = "minuto";
+			TVB.widget.countdown.locales.days = "giorni";
+			TVB.widget.countdown.locales.day = "giorno";
+			TVB.widget.countdown.locales.seconds = "secondi";
+			TVB.widget.countdown.locales.second = "secondo";
+	}
+} 
+catch (e) 
+{
+	TVB.exception(e, 'widget.js');
+}
+
+
