@@ -60,6 +60,10 @@ TVB.scroller = function(config){
 			this.scrollerColor = config.scrollerColor;
 		if(config.rowSelectedColor !== null && config.rowSelectedColor !== undefined )
 			this.rowSelectedColor = config.rowSelectedColor;
+		if(config.rowUnselectedColor !== null && config.rowUnselectedColor !== undefined )
+			this.rowUnselectedColor = config.rowUnselectedColor;
+		if(config.rowBorderPx !== null && config.rowBorderPx !== undefined )
+			this.rowBorderPx = config.rowBorderPx;
 		this.container.innerHTML = "<div class='TVB_scroller_loading' >Loading</div>";
 
 	}catch(e){
@@ -151,6 +155,8 @@ TVB.scroller.prototype = {
 		 * default:#dddddd,
 		 */
 		rowSelectedColor:"#dddddd",
+		rowUnselectedColor: "#ffffff",
+		rowBorderPx: "2",
 		menuContainer:null,
 		from:null,
 		to:null,
@@ -189,6 +195,10 @@ TVB.scroller.prototype = {
 				TVB.log(e);
 			}
 		},
+		
+		exit: function(){
+			this.blurLine(this.currentLine);
+		},
 
 		/**
 		 * Propagate the control to the config navLeftCB
@@ -225,44 +235,54 @@ TVB.scroller.prototype = {
 		 * @method draw
 		 */
 		draw: function(){
-			this.page = 1;
-			var totalHeight = this.visible * this.rowHeightPx + "px";
-			var barHeight = this.visible * this.rowHeightPx - 40 + "px";
-			this.container.innerHTML = '<div style="float:left;height:' + totalHeight + ';" class="TVB_scroller_menu_container"><div id="' + this.name + '_container" style="float:left;"></div><div class="TVB_scroller_bar_container" id="' + this.name + '_bar_container" style="float:left"><div style="width:11px;border:1px solid ' + this.barColor + ';text-align:center;font-size:12px;font-weight:bold;line-height:14px;background-color:' + this.barColor + ';color:' + this.scrollerColor +';clear:both">/\\</div><div id="' + this.name + '_bar" class="TVB_scroller_bar" style="background-color:' + this.barColor + ';clear:both;height:' + barHeight + ';width:13px;"><div id="' + this.name + '_barrer" class="TVB_scroller_barrer" style="width:11px;position:relative;background-color:' + this.scrollerColor + ';margin-left:1px"></div></div><div style="font-size:12px;;line-height:14px;font-weight:bold;background-color:' + this.barColor + ';color:' + this.scrollerColor +';width:11px;border:1px solid ' + this.barColor + ';text-align:center;clear:both">\\/</div></div></div>';
-			
-			this.menuContainer = document.getElementById(this.name + '_container');
-
-			if(this.total === 0){
-				this.menuContainer.innerText = "Nessun Risultato";
-				document.getElementById(this.name + "_bar").style.display = "none";
-				return;
+			try{
+				this.page = 1;
+				var totalHeight = this.visible * this.rowHeightPx + "px";
+				var barHeight = (this.visible * (this.rowHeightPx + (2* this.rowBorderPx)) - 32);
+				barHeight +=  "px";
+				this.container.innerHTML = '<div style="float:left;height:' + totalHeight + ';" class="TVB_scroller_menu_container"><div id="' + this.name + '_container" style="float:left;"></div><div class="TVB_scroller_bar_container" id="' + this.name + '_bar_container" style="float:left"><div style="width:11px;border:1px solid ' + this.barColor + ';text-align:center;font-size:12px;font-weight:bold;line-height:14px;background-color:' + this.barColor + ';color:' + this.scrollerColor +';clear:both">/\\</div><div id="' + this.name + '_bar" class="TVB_scroller_bar" style="background-color:' + this.barColor + ';clear:both;height:' + barHeight + ';width:13px;"><div id="' + this.name + '_barrer" class="TVB_scroller_barrer" style="width:11px;position:relative;background-color:' + this.scrollerColor + ';margin-left:1px"></div></div><div style="font-size:12px;;line-height:14px;font-weight:bold;background-color:' + this.barColor + ';color:' + this.scrollerColor +';width:11px;border:1px solid ' + this.barColor + ';text-align:center;clear:both">\\/</div></div></div>';
+				this.menuContainer = document.getElementById(this.name + '_container');
+	
+				if(this.total === 0){
+					this.menuContainer.innerText = "Nessun Risultato";
+					document.getElementById(this.name + "_bar").style.display = "none";
+					return;
+				}
+				this.from = 0;
+				this.currentLine = 0;
+	
+				var tmp = this.visible;
+				if(this.total < this.visible)
+					tmp = this.total;
+				this.to = tmp-1;
+				for(var i=0; i < tmp; i++){
+					var row = document.createElement('div');
+		            row.id = this.name + '_row_' + i;
+		            row.className = "TVB_scroller_row";
+		            row.style.width = this.rowWidthPx + "px";
+		            row.style.height = this.rowHeightPx + "px";
+		            row.style.border = this.rowBorderPx + "px solid " + this.rowSelectedColor;
+		            row.style.backgroundColor = this.rowUnselectedColor;
+		            row.innerHTML = this.drawLine(i);
+		            this.menuContainer.appendChild(row);
+				}
+				for(var i=this.visible; i < this.total; i++){
+					var row = document.createElement('div');
+		            row.id = this.name + '_row_' + i;
+		            row.style.width = this.rowWidthPx + "px";
+		            row.style.height = this.rowHeightPx + "px";
+		            row.style.backgroundColor = this.rowUnselectedColor;
+		            row.style.border = this.rowBorderPx + "px solid " + this.rowSelectedColor;
+		            row.className = "TVB_scroller_row";
+		            row.style.display = "none";
+		            row.innerHTML = this.drawLine(i);
+		            this.menuContainer.appendChild(row);
+				}
+	
+				this.drawBar();
+			}catch(e){
+				TVB.error(e);
 			}
-			this.from = 0;
-			this.currentLine = 0;
-
-			var tmp = this.visible;
-			if(this.total < this.visible)
-				tmp = this.total;
-			this.to = tmp-1;
-			for(var i=0; i < tmp; i++){
-				var row = document.createElement('div');
-	            row.id = this.name + '_row_' + i;
-	            row.className = "TVB_scroller_row";
-	            row.style.width = this.rowWidthPx + "px";
-	            row.innerHTML = this.drawLine(i);
-	            this.menuContainer.appendChild(row);
-			}
-			for(var i=this.visible; i < this.total; i++){
-				var row = document.createElement('div');
-	            row.id = this.name + '_row_' + i;
-	            row.style.width = this.rowWidthPx + "px";
-	            row.className = "TVB_scroller_row";
-	            row.style.display = "none";
-	            row.innerHTML = this.drawLine(i);
-	            this.menuContainer.appendChild(row);
-			}
-
-			this.drawBar();
 		},
 
 
@@ -325,7 +345,7 @@ TVB.scroller.prototype = {
 		blurLine: function(line){
 			try{
 				
-				document.getElementById(this.name + "_row_" + line).style.backgroundColor = "";
+				document.getElementById(this.name + "_row_" + line).style.backgroundColor = this.rowUnselectedColor;
 				document.getElementById(this.name + "_row_" + line).className ="TVB_scroller_row" ;
 				if(this.blurLineCB != undefined)
 					this.blurLineCB(line);
@@ -494,14 +514,18 @@ TVB.scroller.prototype = {
 		 * @private
 		 */
 		drawBar: function(){
-			if(this.visible >= this.total){
-				document.getElementById(this.name + "_bar_container").style.display = "none";
-			}else{
-				var barrer_height = (this.visible/this.total)*100;
-				document.getElementById(this.name + "_barrer").style.height = barrer_height + "%";
-				document.getElementById(this.name + "_bar_container").style.display = "";
-				this.barHeightForEl = (100 - barrer_height)/(this.total-this.visible);
-
+			try{
+				if(this.visible >= this.total){
+					document.getElementById(this.name + "_bar_container").style.display = "none";
+				}else{
+					var barrer_height = (this.visible/this.total)*100;
+					document.getElementById(this.name + "_barrer").style.height = barrer_height + "%";
+					document.getElementById(this.name + "_bar_container").style.display = "";
+					this.barHeightForEl = (100 - barrer_height)/(this.total-this.visible);
+	
+				}
+			}catch(e){
+				TVB.error(e);
 			}
 		}
 };
