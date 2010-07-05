@@ -10,17 +10,70 @@ var maxTweets = 20;
 var updateInterval = 60000;
 var applicationTitle = "My Application Name"; // string; used by title bar and favorite handler
 var hashtag = "#worldcup"; // hash tag or search query for Twitter
-var dttChannelName = "RaiTre"; // exact match with channel name declared by broadcaster in DVB stream
+var dttChannelName = null; // exact match with channel name declared by broadcaster in DVB stream. Null if not needed
+var streamName = "http://media.meteo.it/wmv/Italia_tg.wmv"; // URI of the stream to be played. Null if not needed
+var icon = null;
 var primaryColor = "#0b1000"; // update this also in css file
 var secondaryColor = "#5c7300";
 var startingFullScreen = false;
 var fullScreenRowNumber = 2;
+
+
+try {
+	var languageCode = TVB.system.getLanguageCode();
+	if (languageCode === false) {
+		languageCode = 'en';
+	}
+
+	var locales = {};
+	locales.hoursAgo = " hours ago";
+	locales.minutesAgo = " minutes ago";
+	locales.justNow = "just now";
+	locales.yesterday = "Yesterday";
+	locales.oneMinuteAgo = "1 minute ago";
+	locales.oneHourAgo = "1 hour ago";
+	locales.daysAgo = " days ago";
+	locales.weeksAgo = " weeks ago";
+	locales.subscribe = "SUBSCRIBE";
+	locales.getFromTwitter = 'Fetching messages from Twitter...';
+	locales.noTweets = 'No tweets are available now.';
+	locales.useRed = "Push RED button<br />for full screen";
+	locales.newTweets = "new Tweets";
+	locales.yellow = "YELLOW";
+	locales.openTweets = "Open Tweets";
+	locales.closeTweets = "Close Tweets";
+
+	switch (languageCode) {
+		case 'it':
+			locales.hoursAgo = " ore fa";
+			locales.minutesAgo = " minuti fa";
+			locales.justNow = "proprio ora";
+			locales.yesterday = "Ieri";
+			locales.oneMinuteAgo = "1 minuto fa";
+			locales.oneHourAgo = "1 ora fa";
+			locales.daysAgo = " giorni fa";
+			locales.weeksAgo = " settimane fa";
+			locales.subscribe = "ABBONATI";
+			locales.getFromTwitter = 'Sto caricando i messaggi da Twitter...';
+			locales.noTweets = "Al momento non sono disponibili Tweet sull'argomento.";
+			locales.useRed = "Premi ROSSO per<br />schermo intero";
+			locales.newTweets = "nuovi Tweets";
+			locales.yellow = "GIALLO";
+			locales.openTweets = "Apri i Tweets";
+			locales.closeTweets = "Chiudi i Tweets";
+	}
+} catch (e) {
+	TVB.exception(e, 'resources.js');
+}
 /* END OF CONFIGURATION AREA - DO NOT EDIT ANYTHING THAT FOLLOWS */
 
 
 var isFullScreen = startingFullScreen;
 var onOffTimeout;
 var reducedView;
+var URI;
+var channelTripletDecoded = null;
+
 /**
  * Initialize Application
  */
@@ -55,11 +108,9 @@ var init = function() {
 				}
 			}
 		} catch (e) {
-			//TVB.log(e.message);
 			isTitleEditable = true;
 		}
-		//TVB.log("isTitleEditable = " + isTitleEditable);
-
+		
 		if(document.body.offsetWidth < "700") {
 			reducedView = true;
 			reduce();
@@ -76,21 +127,15 @@ var init = function() {
 		
 		// Draw title
 		TVB.widget.titleBar.setTitle(applicationTitle);
-		//TVB.widget.titleBar.setIcon("images/icon_digitalia.png");
+		if(icon !== null)
+			TVB.widget.titleBar.setIcon(icon);
 		TVB.widget.titleBar.setBackgroundColor(primaryColor);
 		TVB.widget.titleBar.render();
 		
-		// Draw color buttons bar
-		//TVB.widget.colorButtonsBar(locales.subscribe, '', '', '');
-		//TVB.widget.colorButtonsBar('', '', '', '');
-		
-		TVB.widget.setSelectedCursorColor('ff7178c3');
-		TVB.widget.setHighlightCursorColor('fff6c048');
 
 		TVB.remoteInit();
 		TVB.CustomEvent.subscribeEvent(TVB.remote.button.RED, redHandler);
-		TVB.CustomEvent.subscribeEvent(TVB.remote.button.BLUE, blueHandler);
-		//TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, yellowHandler);
+		
 		TVB.remote.disableLetters();
 		TVB.remote.disableNav();
 
@@ -121,11 +166,16 @@ var init = function() {
 		openMessageDiv.innerHTML = locales.closeTweets + ": " + locales.yellow;
 		document.body.appendChild(openMessageDiv);
 
-		var channels = TVB.tuner.getDvbChannelsList();
-		
-		for (var i = 0; i < channels.length; i++) {
-			if (channels[i].name == dttChannelName) {
-				var channelTripletDecoded = channels[i].uri;
+		if (dttChannelName !== null)
+		{
+			var channels = TVB.tuner.getDvbChannelsList();
+			
+			for (var i = 0; i < channels.length; i++) {
+				if (channels[i].name == dttChannelName) 
+				{
+					channelTripletDecoded = channels[i].uri;
+					break;
+				}
 			}
 		}
 		
@@ -146,7 +196,14 @@ var init = function() {
 		td.style.backgroundColor = primaryColor;
 		container.appendChild(td);
 		
-		var movie = "http://media.meteo.it/wmv/Italia_tg.wmv";
+		if (channelTripletDecoded !== null)
+		{
+			URI = channelTripletDecoded;
+		}
+		else if (streamName !== null)
+		{
+			URI = streamName;
+		}
 			
 		var playerConfig = {
 			top: 120,// 120
@@ -154,7 +211,7 @@ var init = function() {
 			width: 283,
 			height: 286,
 			switchKey: null,
-			uri: movie,//channelTripletDecoded,
+			uri: URI,//channelTripletDecoded,
 			autoplay: true,
 			fullscreen: startingFullScreen,
 			noLittleHole: false
@@ -173,8 +230,8 @@ var init = function() {
 	    			document.getElementById("fs_msg_container").style.display = "none";
 	    			document.getElementById("openMessageDiv").style.display = "none";
 	    			halfScroller.enter();
-	    			TVB.player.stop();
 	    		}
+	        	TVB.player.stop();
 	        });
 			document.body.style.overflow = 'auto';
 		}, 500);
@@ -258,50 +315,6 @@ function eos(){
 	}
 }
 
-var blueHandler = function() {
-	try {
-		updateTwitter();
-	} catch (e) {
-		TVB.exception(e, 'blueHandler()');
-	}
-};
-
-var yellowHandler = function() {
-	try {
-		var movie = "http://cdn-0.tvblob.com/hdtv/ratatouille_720p.mov?bitrate=1000"
-		var playerConfig = {
-				top: 120,// 120
-				left: 40, // 40
-				width: 283,
-				height: 286,
-				switchKey: null,
-				uri: movie,//channelTripletDecoded,
-				autoplay: true,
-				fullscreen: true
-			};
-			
-			TVB.player.init(playerConfig);
-			/*setTimeout(function() {
-				//TVB.log("Starting playback");
-				TVB.player.init(playerConfig);
-				document.body.style.overflow = 'auto';
-			}, 500);
-			*/
-	} catch (e) {
-		TVB.exception(e, 'blueHandler()');
-	}
-};
-
-var eosPlayback = function() {
-	try {
-		//TVB.log("TwitTiVi: trying again to connect to stream in 5 seconds...");
-		setTimeout(function() {
-			TVB.player.play();
-		}, 5000);
-	} catch (e) {
-		TVB.exception(e, 'eosPlayback()');
-	}
-};
 
 var tweets = [];
 var last_tweet = null;
@@ -332,7 +345,7 @@ var updateTwitter = function() {
 		//TVB.log(newTweets);
 		delete received;
 		
-		TVB.log("New tweets: " + newTweets.length);
+		//TVB.log("New tweets: " + newTweets.length);
 		var con = document.getElementById('container');		
 		if (newTweets.length > 0) {
 			for(var t in newTweets){
@@ -346,9 +359,7 @@ var updateTwitter = function() {
 			
 			last_tweet = newTweets[0].id;
 			
-			
 			try{
-				
 				halfScroller = new TVB.scroller(halfScreenMenu);
 				if(tweets.length < maxTweets)
 					halfScroller.total = tweets.length;
@@ -362,7 +373,6 @@ var updateTwitter = function() {
 			}
 			
 			try{
-				
 				scroller = new TVB.scroller(tweetMenu);
 				if(tweets.length < maxTweets)
 					scroller.total = tweets.length;
@@ -370,7 +380,6 @@ var updateTwitter = function() {
 					scroller.total = maxTweets;
 	
 				scroller.draw();
-				
 				
 			}catch(e){
 				TVB.log(e);
@@ -380,13 +389,10 @@ var updateTwitter = function() {
 				document.getElementById("fs_msg_container").style.display = "none";
 				document.getElementById("openMessageDiv").style.display = "none";
 				halfScroller.enter();
-				
 			}
 			
 			if(isFullScreen){
 				TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.close);
-				//document.getElementById("fs_msg_container").style.display = "";
-				//document.getElementById("openMessageDiv").style.display = "";
 				newTweet(newTweets.length);
 				scroller.enter();
 				
@@ -516,52 +522,6 @@ var prettyDate = function(t) {
 	}
 };
 
-try {
-	var languageCode = TVB.system.getLanguageCode();
-	if (languageCode === false) {
-		languageCode = 'en';
-	}
-
-	var locales = {};
-	locales.hoursAgo = " hours ago";
-	locales.minutesAgo = " minutes ago";
-	locales.justNow = "just now";
-	locales.yesterday = "Yesterday";
-	locales.oneMinuteAgo = "1 minute ago";
-	locales.oneHourAgo = "1 hour ago";
-	locales.daysAgo = " days ago";
-	locales.weeksAgo = " weeks ago";
-	locales.subscribe = "SUBSCRIBE";
-	locales.getFromTwitter = 'Fetching messages from Twitter...';
-	locales.noTweets = 'No tweets are available now.';
-	locales.useRed = "Push RED button<br />for full screen";
-	locales.newTweets = "new Tweets";
-	locales.yellow = "YELLOW";
-	locales.openTweets = "Open Tweets";
-	locales.closeTweets = "Close Tweets";
-
-	switch (languageCode) {
-		case 'it':
-			locales.hoursAgo = " ore fa";
-			locales.minutesAgo = " minuti fa";
-			locales.justNow = "proprio ora";
-			locales.yesterday = "Ieri";
-			locales.oneMinuteAgo = "1 minuto fa";
-			locales.oneHourAgo = "1 ora fa";
-			locales.daysAgo = " giorni fa";
-			locales.weeksAgo = " settimane fa";
-			locales.subscribe = "ABBONATI";
-			locales.getFromTwitter = 'Sto caricando i messaggi da Twitter...';
-			locales.noTweets = "Al momento non sono disponibili Tweet sull'argomento.";
-			locales.useRed = "Premi ROSSO per<br />schermo intero";
-			locales.newTweets = "nuovi Tweets";
-			locales.yellow = "GIALLO";
-			locales.openTweets = "Apri i Tweets";
-			locales.closeTweets = "Chiusi i Tweets";
-	}
-} catch (e) {
-	TVB.exception(e, 'resources.js');
-}
 
 
 var tweetMenu = {
@@ -592,10 +552,11 @@ var tweetMenu = {
 				}
 				return html;
 			}catch(e){
-				TVB.log(e);
-				var html = "<div class='footer_message'><img src='aaaa' width='48px' height='48px'/>";
-				html += "<span class='from'>Diabolik: </span><span class='text'>shjsasha  hjfsj hfdh fhg hfhasg  jfhgh dhjfdhhddhdhdh  fdjbgj  hjfbhdfqwygy h fdedf </span></div>";
-				
+				TVB.error(e);
+				var html = "<div id='over_tweet_" + line + "' class='tweet' style=''>";
+				html += "<img align=left src='' width='48px' height='48px'/>";
+				html += "<span class='from'>Anonymous: </span><span class='text'> --- </span></div>";
+			
 				
 				return html;
 			}
@@ -660,10 +621,11 @@ var halfScreenMenu = {
 				}
 				return html;
 			}catch(e){
-				TVB.log(e);
-				var html = "<div class='footer_message'><img src='aaaa' width='48px' height='48px'/>";
-				html += "<span class='from'>Diabolik: </span><span class='text'>shjsasha  hjfsj hfdh fhg hfhasg  jfhgh dhjfdhhddhdhdh  fdjbgj  hjfbhdfqwygy h fdedf </span></div>";
-				
+				TVB.error(e);
+				var html = "<div id='over_tweet_" + line + "' class='tweet' style=''>";
+				html += "<img align=left src='' width='48px' height='48px'/>";
+				html += "<span class='from'>Anonymous: </span><span class='text'> --- </span></div>";
+			
 				
 				return html;
 			}
