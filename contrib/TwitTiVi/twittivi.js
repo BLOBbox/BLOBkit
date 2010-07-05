@@ -11,7 +11,8 @@ var updateInterval = 60000;
 var applicationTitle = "My Application Name"; // string; used by title bar and favorite handler
 var hashtag = "#worldcup"; // hash tag or search query for Twitter
 var dttChannelName = "RaiTre"; // exact match with channel name declared by broadcaster in DVB stream
-var themeColor = "#0b1000"; // update this also in css file
+var primaryColor = "#0b1000"; // update this also in css file
+var secondaryColor = "#5c7300";
 var startingFullScreen = false;
 var fullScreenRowNumber = 2;
 /* END OF CONFIGURATION AREA - DO NOT EDIT ANYTHING THAT FOLLOWS */
@@ -76,7 +77,7 @@ var init = function() {
 		// Draw title
 		TVB.widget.titleBar.setTitle(applicationTitle);
 		//TVB.widget.titleBar.setIcon("images/icon_digitalia.png");
-		TVB.widget.titleBar.setBackgroundColor(themeColor);
+		TVB.widget.titleBar.setBackgroundColor(primaryColor);
 		TVB.widget.titleBar.render();
 		
 		// Draw color buttons bar
@@ -104,10 +105,10 @@ var init = function() {
 		fullScreenMessageContainer.id = 'fs_msg_container';
 		fullScreenMessageContainer.style.display = "none";
 		if(reducedView){
-			fullScreenMessageContainer.style.bottom = "170px";
+			fullScreenMessageContainer.style.bottom = "165px";
 			fullScreenMessageContainer.style.width = "575px";
 		}else{
-			fullScreenMessageContainer.style.bottom = "470px";
+			fullScreenMessageContainer.style.bottom = "465px";
 			fullScreenMessageContainer.style.width = "595px";
 		}
 		
@@ -115,6 +116,7 @@ var init = function() {
 		
 		var openMessageDiv = document.createElement('div');
 		openMessageDiv.id = 'openMessageDiv';
+		openMessageDiv.style.backgroundColor = primaryColor;
 		openMessageDiv.style.display = "none";
 		openMessageDiv.innerHTML = locales.closeTweets + ": " + locales.yellow;
 		document.body.appendChild(openMessageDiv);
@@ -134,17 +136,17 @@ var init = function() {
 		gd.style.width = '283px';
 		gd.style.height = '286px';
 		gd.style.position = 'fixed';
-		gd.style.backgroundColor = themeColor;
+		gd.style.backgroundColor = primaryColor;
 		document.body.appendChild(gd);
 		
 		var td = document.createElement('div');
 		td.id = 'td';
 		td.className = 'tweet';
 		td.innerHTML = locales.getFromTwitter;
-		td.style.backgroundColor = themeColor;
+		td.style.backgroundColor = primaryColor;
 		container.appendChild(td);
 		
-		var movie = "http://cdn-0.tvblob.com/hdtv/ratatouille_720p.mov?bitrate=1000";
+		var movie = "http://media.meteo.it/wmv/Italia_tg.wmv";
 			
 		var playerConfig = {
 			top: 120,// 120
@@ -152,7 +154,7 @@ var init = function() {
 			width: 283,
 			height: 286,
 			switchKey: null,
-			uri: channelTripletDecoded,
+			uri: movie,//channelTripletDecoded,
 			autoplay: true,
 			fullscreen: startingFullScreen,
 			noLittleHole: false
@@ -163,12 +165,24 @@ var init = function() {
 			TVB.player.init(playerConfig);
 			TVB.CustomEvent.unsubscribeEvent(TVB.player.events.end_of_streaming);
 			TVB.CustomEvent.subscribeEvent(TVB.player.events.end_of_streaming, eos);	
+			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.STOP);
+	        TVB.CustomEvent.subscribeEvent(TVB.remote.button.STOP, function(){
+	        	if(isFullScreen){
+	        		isFullScreen = false;
+	        		TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
+	    			document.getElementById("fs_msg_container").style.display = "none";
+	    			document.getElementById("openMessageDiv").style.display = "none";
+	    			halfScroller.enter();
+	    			TVB.player.stop();
+	    		}
+	        });
 			document.body.style.overflow = 'auto';
 		}, 500);
 		
 		
 		var nextShow = document.createElement('div');
 		nextShow.id = 'next_show';
+		nextShow.style.color = secondaryColor;
 		nextShow.innerHTML = locales.useRed; 
 		document.body.appendChild(nextShow);
 
@@ -189,10 +203,10 @@ var init = function() {
 
 function reduce(){
 	try{
-		halfScreenMenu.rowWidthPx = "300";
-		halfScreenMenu.rowHeightPx = "120";
-		halfScreenMenu.visible = "3";
-		tweetMenu.rowWidthPx = "560";
+		halfScreenMenu.rowWidthPx = 300;
+		//halfScreenMenu.rowHeightPx = 120;
+		halfScreenMenu.visible = 5;
+		tweetMenu.rowWidthPx = 554;
 	}catch(e){
 		TVB.log(e);
 	}
@@ -209,6 +223,10 @@ var redHandler = function() {
 			document.getElementById("openMessageDiv").innerHTML = locales.openTweets + ": " + locales.yellow;
 			document.getElementById("fs_msg_container").style.display = "none";
 			document.getElementById("openMessageDiv").style.display = "";
+			clearTimeout(onOffTimeout);
+			onOffTimeout = setTimeout(function(){
+				document.getElementById("openMessageDiv").style.display = "none";
+			},4000);
 			scroller.enter();
 			
 		}else{
@@ -231,6 +249,10 @@ function eos(){
 		document.getElementById("openMessageDiv").innerHTML = locales.openTweets + ": " + locales.yellow;
 		document.getElementById("fs_msg_container").style.display = "none";
 		document.getElementById("openMessageDiv").style.display = "";
+		clearTimeout(onOffTimeout);
+		onOffTimeout = setTimeout(function(){
+			document.getElementById("openMessageDiv").style.display = "none";
+		},4000);
 		scroller.enter();
 		
 	}
@@ -316,39 +338,17 @@ var updateTwitter = function() {
 			for(var t in newTweets){
 				newTweets[t].read = false;
 			}
+			
 			tweets = newTweets.concat(tweets);
+			if(tweets.length > maxTweets){
+				tweets = tweets.slice(0,maxTweets);
+			}
+			
 			last_tweet = newTweets[0].id;
 			
-			/*
-			for (var tweet = newTweets.length - 1; tweet >= 0; tweet--) {
-				var st = document.createElement('div');
-				html = "<table><tr>";
-				html += "<td class='col1'>";
-				// Commented to not show avatars (some are big) see bug 3302
-				if (newTweets[tweet].from_user != 'SKAgnozzo') {
-					html += "<img src='" + newTweets[tweet].profile_image_url + "' width='48px' height='48px' alt='" + newTweets[tweet].from_user + "' />";
-				} else {
-					//TVB.log(newTweets[tweet]);
-				}
-				//tvblob.logInfo(newTweets[tweet].profile_image_url);
-				
-				html += "</td><td class='col2'>";
-				html += "<span class='from'>" + newTweets[tweet].from_user + ": </span><span class='text'>" + newTweets[tweet].text + "</span>";
-				html += " <span class='pubdate'></span>";
-				html += "</td>";
-				html += "</tr></table>";
-				st.setAttribute('tweet_date', newTweets[tweet].created_at);
-				st.className = 'tweet';
-				st.innerHTML = html;
-				if (con.firstChild === null) {
-					con.appendChild(st);
-				} else {
-					con.insertBefore(st, con.firstChild);
-				}
-			}*/
 			
 			try{
-				TVB.log("create menu");
+				
 				halfScroller = new TVB.scroller(halfScreenMenu);
 				if(tweets.length < maxTweets)
 					halfScroller.total = tweets.length;
@@ -362,7 +362,7 @@ var updateTwitter = function() {
 			}
 			
 			try{
-				TVB.log("create menu");
+				
 				scroller = new TVB.scroller(tweetMenu);
 				if(tweets.length < maxTweets)
 					scroller.total = tweets.length;
@@ -407,7 +407,7 @@ var updateTwitter = function() {
 			td.id = 'td';
 			td.className = 'tweet';
 			td.innerHTML = locales.noTweets;
-			td.style.backgroundColor = themeColor;
+			td.style.backgroundColor = primaryColor;
 			container.appendChild(td);			
 		} else {
 			if (document.getElementById('td') !== null) {
@@ -438,13 +438,13 @@ var updateTwitter = function() {
 
 function newTweet(num){
 	clearTimeout(onOffTimeout);
-	document.getElementById("openMessageDiv").style.backgroundColor = "#324f1c";
+	document.getElementById("openMessageDiv").style.backgroundColor = secondaryColor;
 	if(fsTweets.isOpen){
 		document.getElementById("openMessageDiv").innerHTML = num + " " + locales.newTweets + " !";
 		onOffTimeout = setTimeout(function(){
 			TVB.CustomEvent.unsubscribeEvent(TVB.remote.button.YELLOW);
 			TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.close);
-			document.getElementById("openMessageDiv").style.backgroundColor = "#0b1000";
+			document.getElementById("openMessageDiv").style.backgroundColor = primaryColor;
 			document.getElementById("openMessageDiv").innerHTML = locales.closeTweets + ": " + locales.yellow;
 		},6000);
 	}else{
@@ -452,7 +452,7 @@ function newTweet(num){
 		TVB.CustomEvent.subscribeEvent(TVB.remote.button.YELLOW, fsTweets.open);
 		document.getElementById("openMessageDiv").innerHTML = num + " " + locales.newTweets + " !"  + locales.yellow;
 		onOffTimeout = setTimeout(function(){
-			document.getElementById("openMessageDiv").style.backgroundColor = "#0b1000";
+			document.getElementById("openMessageDiv").style.backgroundColor = primaryColor;
 			document.getElementById("openMessageDiv").style.display = "none";
 		},6000);
 	}
@@ -569,17 +569,19 @@ var tweetMenu = {
 		name : "fullScreen",
 		visible: fullScreenRowNumber,
 		total:16,
-		rowSelectedColor:"#324f1c",
-		rowWidthPx:"580",
-		rowHeightPx:"72",
-		scrollerColor: "#0b1000",
-		barColor: "#5c7300",
+		scrollerColor: primaryColor,
+		barColor: secondaryColor,
+		rowSelectedColor:secondaryColor,
+		rowUnselectedColor:primaryColor,
+		rowWidthPx:576,
+		rowHeightPx:75,
+		rowBorderPx: 2,
 
 		drawLineCB: function(line){
 			try{
 				var html = "";
 				if(tweets[line] != null && tweets[line] != undefined){
-					html = "<div id='over_tweet_" + line + "' class='tweet' style='border:1px solid #ccc'>";
+					html = "<div id='over_tweet_" + line + "' class='tweet' style=''>";
 					if (tweets[line].from_user != 'SKAgnozzo') {
 						html += "<img align=left src='" + tweets[line].profile_image_url + "' width='48px' height='48px'/>";
 					} else {
@@ -616,8 +618,9 @@ var tweetMenu = {
 				
 				if(!tweets[line].read){
 					tweets[line].read = true;
-					document.getElementById("over_tweet_" + line).style.border = "1px solid #5c7300";
-					document.getElementById("tweet_" + line).style.border = "1px solid #5c7300";
+					document.getElementById("fullScreen_row_" + line).style.border = "2px solid " + primaryColor;
+					document.getElementById("halfScreen_row_" + line).style.border = "2px solid " + primaryColor;
+					
 				}
 			}catch(e){
 				TVB.error(e);
@@ -630,20 +633,22 @@ var halfScreenMenu = {
 		name : "halfScreen",
 		visible: 5,
 		total:16,
-		rowSelectedColor:"#324f1c",
-		rowWidthPx:"580",
-		rowHeightPx:"79",
-		scrollerColor: "#0b1000",
-		barColor: "#5c7300",
+		scrollerColor: primaryColor,
+		barColor: secondaryColor,
+		rowSelectedColor:secondaryColor,
+		rowUnselectedColor:primaryColor,
+		rowWidthPx:580,
+		rowHeightPx:75,
+		rowBorderPx: 2,
 
 		drawLineCB: function(line){
 			try{
 				var html = "";
 				if(tweets[line] != null && tweets[line] != undefined){
 					if(reducedView)
-						html = "<div id='tweet_" + line + "' class='tweet' style='border:1px solid #ccc;height:120px'>";
+						html = "<div id='tweet_" + line + "' class='tweet' style=''>";
 					else
-						html = "<div id='tweet_" + line + "' class='tweet' style='border:1px solid #ccc;height:72px'>";
+						html = "<div id='tweet_" + line + "' class='tweet' style=''>";
 					
 					if (tweets[line].from_user != 'SKAgnozzo') {
 						html += "<img align=left src='" + tweets[line].profile_image_url + "' width='48px' height='48px'/>";
@@ -681,8 +686,8 @@ var halfScreenMenu = {
 				
 				if(!tweets[line].read){
 					tweets[line].read = true;
-					document.getElementById("tweet_" + line).style.border = "1px solid #5c7300";
-					document.getElementById("over_tweet_" + line).style.border = "1px solid #5c7300";
+					document.getElementById("fullScreen_row_" + line).style.border = "2px solid " + primaryColor;
+					document.getElementById("halfScreen_row_" + line).style.border = "2px solid " + primaryColor;
 				}
 			}catch(e){
 				TVB.error(e);

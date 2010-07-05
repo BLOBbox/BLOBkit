@@ -54,26 +54,25 @@ body {
 }
 
 #fullScreen_bar_container{
-		margin-top:10px;
+		/*margin-top:10px;*/
 	}
-#halfScreen_bar_container{
-		margin-top:6px;
-	}
+
 .TVB_scroller_barrer{
 		border-top:1px solid #5c7300;
 		border-bottom:1px solid #5c7300;
 	}
 
 .tweet {
-	border: 0px solid red;
+	
 	font-size: 18px;
 	padding: 0;
-	margin: 5px 0px 0px 0px;
+	
 	text-align: left;
 	/*height: 72px;*/
 	overflow:hidden;
+	height:75px;
 	display: block;
-	width:578px;
+	
 	/*background-color: #1c2902; NEW */
 	/*background-color: #111a00; */
 	/*background-color: #0b1000;*/

@@ -486,7 +486,7 @@ TVB.scroller.prototype = {
 		 * @private
 		 */
 		pageUp: function(){
-			if(this.page * this.visible > this.total)
+			if(this.page * this.visible >= this.total)
 				return;
 
 			this.page++;
