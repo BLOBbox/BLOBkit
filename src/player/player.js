@@ -13,6 +13,7 @@
  * 		<dt>disableRemote:</dt><dd>Boolean, if true prevent the player from listening to the remote control buttons and does not initialize the remote control with the event model (default: false)</dd>
  * 		<dt>width:</dt><dd>Integer, the width in pixels of the video player when not in full screen (default: half the width of the screen)</dd>
  * 		<dt>height:</dt><dd>Integer, the height in pixels of the video player when not in full screen (default: half the height of the screen)</dd>
+ * 		<dt>enableOSD:</dt><dd>Boolean, if true shows on the screen display (OSD) icons like buffering, loading, errors, paused etc (default false) <strong>NEW</strong></dd>
  * </dl>
  *
  * <h2>List of events</h2>
@@ -61,6 +62,7 @@ TVB.player = {};
  * @private
  */
 TVB.player.config = {
+	enableOSD: false,
 	isInit: false,
 	isPlaying: false,
 	isFullScreen: false,
@@ -112,6 +114,11 @@ TVB.player.init = function(config){
 			TVB.player.config.isFullScreen = false;
 			TVB.player.config.wasFullScreen = false;
 			TVB.player.config.isBuffering = false;
+
+			TVB.player.config.enableOSD = false;
+			if (typeof config.enableOSD != 'undefined' && config.enableOSD === true) {
+				TVB.player.config.enableOSD = true;
+			}
 
 			TVB.player.config.geometryAllowed = false;
 			try {
@@ -1004,6 +1011,9 @@ TVB.player.isFullScreenModeEnabled = function() {
 
 TVB.player.showPausedMessage = function() {
 	try {
+		if (TVB.player.config.enableOSD === false) {
+			return;
+		}
 		if(!document.getElementById('TVB.player.pausedmessage')) {
 			TVB.log("Player: showBufferingMessage()");
 			var div = document.createElement('div');
@@ -1037,6 +1047,9 @@ TVB.player.showPausedMessage = function() {
 
 TVB.player.removePausedMessage = function() {
 	try {
+		if (TVB.player.config.enableOSD === false) {
+			return;
+		}
 		TVB.log("Player: removePausedMessage()");
 		if(document.getElementById('TVB.player.pausedmessage')) {
 			TVB.system.deleteElementById('TVB.player.pausedmessage');
@@ -1049,6 +1062,9 @@ TVB.player.removePausedMessage = function() {
 
 TVB.player.showBufferingMessage = function() {
 	try {
+		if (TVB.player.config.enableOSD === false) {
+			return;
+		}
 		if(!document.getElementById('bufferingmessage')) {
 			TVB.log("Player: showBufferingMessage()");
 			var div = document.createElement('div');
@@ -1083,6 +1099,9 @@ TVB.player.showBufferingMessage = function() {
 
 TVB.player.showStartingPlaybackMessage = function() {
 	try {
+		if (TVB.player.config.enableOSD === false) {
+			return;
+		}
 		TVB.log("Player: showStartingPlaybackMessage()");
 		if(!document.getElementById('bufferingmessage')) {
 			TVB.log("Player: showBufferingMessage()");
@@ -1117,6 +1136,9 @@ TVB.player.showStartingPlaybackMessage = function() {
 
 TVB.player.showUnableToPlayMessage = function() {
 	try {
+		if (TVB.player.config.enableOSD === false) {
+			return;
+		}
 		TVB.log("Player: showUnableToPlayMessage()");
 		if(!document.getElementById('tvbplayererrormessage')) {
 			var div = document.createElement('div');
@@ -1154,6 +1176,9 @@ TVB.player.showUnableToPlayMessage = function() {
 
 TVB.player.removeBufferingMessage = function() {
 	try {
+		if (TVB.player.config.enableOSD === false) {
+			return;
+		}
 		TVB.log("Player: removeBufferingMessage()");
 		setTimeout(function() {
 			if(document.getElementById('bufferingmessage')) {
@@ -1169,6 +1194,9 @@ TVB.player.removeBufferingMessage = function() {
 
 TVB.player.removeErrorMessage = function() {
 	try {
+		if (TVB.player.config.enableOSD === false) {
+			return;
+		}
 		TVB.log("Player: removeErrorMessage()");
 		setTimeout(function() {
 			if (document.getElementById('tvbplayererrormessage')) {
