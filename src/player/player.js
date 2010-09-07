@@ -633,10 +633,15 @@ TVB.player.enterFullScreen = function() {
 		}
 
 		if (TVB.player.config.currentUri !== null) {
-			TVB.log("Player: enterFullScreen: before setPosition");
-			TVB.player.p.setPosition(0, 0);
-			TVB.log("Player: enterFullScreen: before setScale");
-			TVB.player.p.setScale("D1");
+			if (TVB.player.config.geometryAllowed === true) {
+				TVB.log("Player: setGeometry(0, 0, " + window.innerWidth + ", " + window.innerHeight + ");");
+				TVB.player.p.setGeometry(0, 0, window.innerWidth, window.innerHeight);
+			} else {
+				TVB.log("Player: enterFullScreen: before setPosition");
+				TVB.player.p.setPosition(0, 0);
+				TVB.log("Player: enterFullScreen: before setScale");
+				TVB.player.p.setScale("D1");
+			}
 			TVB.log("Player: enterFullScreen: before setFullScreenModeEnabled");
 			TVB.player.p.setFullScreenModeEnabled(true);
 			TVB.log("Player: enterFullScreen: after all of this");
@@ -827,8 +832,12 @@ TVB.player.destroy = function() {
 			return false;
 		}
 		TVB.player.stop();
-		TVB.player.p.setScale("D1");
-		TVB.player.p.setPosition(0,0);
+		if (TVB.player.config.geometryAllowed === true) {
+			TVB.player.p.setGeometry(0, 0, window.innerWidth, window.innerHeight);
+		} else {
+			TVB.player.p.setScale("D1");
+			TVB.player.p.setPosition(0, 0);
+		}
 		TVB.log("Player: destroy: disposing");
 		TVB.player.p.dispose();
 		try {
