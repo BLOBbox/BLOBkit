@@ -634,8 +634,9 @@ TVB.player.enterFullScreen = function() {
 
 		if (TVB.player.config.currentUri !== null) {
 			if (TVB.player.config.geometryAllowed === true) {
-				TVB.log("Player: setGeometry(0, 0, " + window.innerWidth + ", " + window.innerHeight + ");");
-				TVB.player.p.setGeometry(0, 0, window.innerWidth, window.innerHeight);
+				//TVB.log("Player: setGeometry(0, 0, " + window.innerWidth + ", " + window.innerHeight + ");");
+				//TVB.player.p.setGeometry(0, 0, window.innerWidth, window.innerHeight);
+				TVB.player.p.setScale("D1");
 			} else {
 				TVB.log("Player: enterFullScreen: before setPosition");
 				TVB.player.p.setPosition(0, 0);
@@ -833,10 +834,10 @@ TVB.player.destroy = function() {
 		}
 		TVB.player.stop();
 		if (TVB.player.config.geometryAllowed === true) {
-			TVB.player.p.setGeometry(0, 0, window.innerWidth, window.innerHeight);
-		} else {
 			TVB.player.p.setScale("D1");
+		} else {
 			TVB.player.p.setPosition(0, 0);
+			TVB.player.p.setScale("D1");
 		}
 		TVB.log("Player: destroy: disposing");
 		TVB.player.p.dispose();
