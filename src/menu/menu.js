@@ -600,6 +600,18 @@ TVB.menu.prototype = {
 			var nextElement = null;
 
 			TVB.log("Menu: start = " + start + " - end = " + end);
+
+			if (this.switchPagination === true) {
+				switch (args[0].keyName) {
+				case 'CHANNEL_DOWN':
+					args[0].keyName = 'CHANNEL_UP';
+					break;
+				case 'CHANNEL_UP':
+					args[0].keyName = 'CHANNEL_DOWN';
+					break;
+				}
+			}
+
 			switch (args[0].keyName) {
 				case 'OK':
 					if (this.disableOk === true) {
