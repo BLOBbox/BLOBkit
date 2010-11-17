@@ -64,6 +64,12 @@ TVB.scroller = function(config){
 			this.rowUnselectedColor = config.rowUnselectedColor;
 		if(config.rowBorderPx !== null && config.rowBorderPx !== undefined )
 			this.rowBorderPx = config.rowBorderPx;
+		if(config.lastUpElementCB !== undefined && config.lastUpElementCB !== null)
+			this.lastUpElementCB = config.lastUpElementCB;
+		if(config.lastDownElementCB !== undefined && config.lastDownElementCB !== null)
+			this.lastDownElementCB = config.lastDownElementCB;
+		if(config.circular !== undefined && config.circular !== null)
+			this.circular = config.circular;
 		this.container.innerHTML = "<div class='TVB_scroller_loading' >Loading</div>";
 
 	}catch(e){
@@ -164,6 +170,9 @@ TVB.scroller.prototype = {
 		currentLine:0,
 		prevLine:null,
 		page:null,
+		circular:false,
+		lastUpElementCB: undefined,
+		lastDownElementCB: undefined,
 
 		/**
 		 * This function must to be called on order to enter in the scroller menu
@@ -329,6 +338,7 @@ TVB.scroller.prototype = {
 					this.prevLine = 0;
 				if(this.focusLineCB !== null && this.focusLineCB !== undefined )
 					this.focusLineCB(this.currentLine);
+				TVB.log("focus line " + line);
 				document.getElementById(this.name + "_row_" + line).style.backgroundColor = this.rowSelectedColor;
 				document.getElementById(this.name + "_row_" + line).className ="TVB_scroller_row_selected" ;
 				
@@ -374,8 +384,42 @@ TVB.scroller.prototype = {
 		 * @private
 		 */
 		navdown: function(){
-			if(this.currentLine === this.total -1)
-				return;
+			if(this.currentLine === this.total -1){
+				if(this.circular){
+					try{
+						TVB.log("nav down circular");
+						this.currentLine = 0;
+						TVB.log("line" + this.currentLine);
+						this.prevLine = this.total-1;
+						this.page = 1;
+						TVB.log("page" + this.page);
+						for(var i = this.from; i<this.to+1; i++){
+							document.getElementById(this.name + "_row_" + i).style.display = "none";
+						}
+	
+						this.to = (this.page * this.visible) - 1;
+						if(this.to > (this.total -1))
+							this.to = this.total - 1;
+	
+						this.from = this.to - this.visible + 1;
+						if(this.from < 0)
+							this.from = 0;
+	
+						TVB.log("from" + this.from + "to" + this.to);
+						for(var j = this.from; j<= this.to; j++){
+							document.getElementById(this.name + "_row_" + j).style.display = "";
+						}
+	
+	
+						this.focusLine(this.currentLine);
+						document.getElementById(this.name + "_barrer").style.top = this.from * this.barHeightForEl +"%";
+						return;
+					}catch(e){
+						TVB.log(e);
+					}
+				}else
+					return;
+			}
 			if(this.currentLine === this.to)
 				this.down();
 			this.prevLine = this.currentLine;
@@ -390,8 +434,43 @@ TVB.scroller.prototype = {
 		 * @private
 		 */
 		navup: function(){
-			if(this.currentLine === 0)
-				return;
+			TVB.log("nav up");
+			if(this.currentLine === 0){
+				if(this.circular){
+					try{
+						TVB.log("nav up circular");
+					this.currentLine = this.total-1;
+					TVB.log("line" + this.currentLine);
+					this.prevLine = 0;
+					this.page = Math.floor(this.currentLine / this.visible) + 1;
+					TVB.log("page" + this.page);
+					for(var i = this.from; i<this.to+1; i++){
+						document.getElementById(this.name + "_row_" + i).style.display = "none";
+					}
+
+					this.to = (this.page * this.visible) - 1;
+					if(this.to > (this.total -1))
+						this.to = this.total - 1;
+
+					this.from = this.to - this.visible + 1;
+					if(this.from < 0)
+						this.from = 0;
+
+					TVB.log("from" + this.from + "to" + this.to);
+					for(var j = this.from; j<= this.to; j++){
+						document.getElementById(this.name + "_row_" + j).style.display = "";
+					}
+
+
+					this.focusLine(this.currentLine);
+					document.getElementById(this.name + "_barrer").style.top = this.from * this.barHeightForEl +"%";
+					return;
+					}catch(e){
+						TVB.log(e);
+					}
+				}else
+					return;
+			}
 			if(this.currentLine === this.from)
 				this.up();
 			this.prevLine = this.currentLine;
