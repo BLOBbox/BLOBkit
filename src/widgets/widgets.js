@@ -504,7 +504,7 @@ TVB.widget.titleBarHandler = function() {
 		this.title.style.top = "44px";
 		this.title.style.left = "40px";
 		this.title.style.width = parseInt(window.innerWidth - 169, 10) + "px";// (40 + 20 + 109)
-		this.title.style.fontSize = "23pt";
+		this.title.style.fontSize = "23px";
 		this.title.style.fontFamily = "TVBLOB, TireriasScreen, Tiresias, sans-serif";
 		this.title.style.color = '#cccccc';
 		this.title.style.overflow = 'hidden';
@@ -763,7 +763,7 @@ TVB.widget.countdown = function(to,div)
 	days = (to - now) / 1000 / 60 / 60 / 24;
 	daysRound = Math.floor(days);
 
-	hours = (to - now) / 1000 / 60 / 60 - (24 * daysRound); 
+	hours = (to - now) / 1000 / 60 / 60 - (24 * daysRound);
 	hoursRound = Math.floor(hours);
 
 	minutes = (to - now) / 1000 /60 - (24 * 60 * daysRound) - (60 * hoursRound);
@@ -808,10 +808,10 @@ TVB.widget.countdown = function(to,div)
 
 }
 
-try 
+try
 {
 	var languageCode = TVB.system.getLanguageCode();
-	if (languageCode === false) 
+	if (languageCode === false)
 	{
 		languageCode = 'en';
 	}
@@ -826,7 +826,7 @@ try
 	TVB.widget.countdown.locales.seconds = "seconds";
 	TVB.widget.countdown.locales.second = "second";
 
-	switch (languageCode) 
+	switch (languageCode)
 	{
 		case 'it':
 			TVB.widget.countdown.locales.hours = "ore";
@@ -838,8 +838,8 @@ try
 			TVB.widget.countdown.locales.seconds = "secondi";
 			TVB.widget.countdown.locales.second = "secondo";
 	}
-} 
-catch (e) 
+}
+catch (e)
 {
 	TVB.exception(e, 'widget.js');
 }
