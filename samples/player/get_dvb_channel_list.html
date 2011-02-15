@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=974; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0"/>
 		<title>BLOBkit Samples</title>
 		<script type="text/javascript" src='../tvb-debug.js'></script>
 	</head>
@@ -20,14 +21,14 @@
 				<td><strong>Number</strong></td>
 			</tr>
 		</table>
-		
+
 		<script type="text/javascript">
 			// count the number of DVB channels available
 			var num = TVB.tuner.countDvbChannels();
-			
+
 			if (num > 0) {
 				var channels = TVB.tuner.getDvbChannelsList();
-				
+
 				for (var i = 0; i < num; i++) {
 					var row = document.createElement('tr');
 
@@ -52,7 +53,7 @@
 					row.appendChild(col_number);
 
 					document.getElementById('channel_list').appendChild(row);
-					
+
 				}
 
 				// Put the name of current channel in the title bar

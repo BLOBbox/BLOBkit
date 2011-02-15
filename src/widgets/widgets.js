@@ -70,11 +70,14 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 			var singleWidth = parseInt(configWidth / 4, 10);
 
 			var baseUri = null;
+			baseUri = 'http://storage.tvblob.com/lib/resources/';
+			/*
 			if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
 				baseUri = 'http://storage.tvblob.com/lib/resources/';
 			} else {
 				baseUri = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/platform/icons/';
 			}
+			*/
 
 			TVB.log("Widget: configWidth = " + configWidth);
 			TVB.log("Widget: singleWidth = " + singleWidth);
@@ -84,11 +87,11 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 			TVB.widget.colorButtonsBarHandler.style.overflow = 'hidden';
 			TVB.widget.colorButtonsBarHandler.style.top = parseInt(window.innerHeight - 21, 10) + "px";
 			TVB.widget.colorButtonsBarHandler.style.left = '0px';
-			TVB.widget.colorButtonsBarHandler.style.width = window.innerWidth;
+			TVB.widget.colorButtonsBarHandler.style.width = window.innerWidth + "px";
 			TVB.widget.colorButtonsBarHandler.style.height = '21px';
 			TVB.widget.colorButtonsBarHandler.style.fontSize = '19px';
 			TVB.widget.colorButtonsBarHandler.style.fontFamily = 'Tiresias';
-			TVB.widget.colorButtonsBarHandler.style.backgroundColor = '#000001';
+			TVB.widget.colorButtonsBarHandler.style.backgroundColor = '#000000';
 			TVB.widget.colorButtonsBarHandler.style.color = '#cccccc';
 			TVB.widget.colorButtonsBarHandler.style.margin = 0;
 			TVB.widget.colorButtonsBarHandler.style.padding = 0;
@@ -392,11 +395,14 @@ TVB.widget.messageBar = function(message) {
 			var singleWidth = configWidth / 4;
 
 			var baseUri = null;
+			baseUri = 'http://storage.tvblob.com/lib/resources/';
+			/*
 			if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
 				baseUri = 'http://storage.tvblob.com/lib/resources/';
 			} else {
 				baseUri = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/platform/icons/';
 			}
+			*/
 
 			TVB.log("Widget: configWidth = " + configWidth);
 			TVB.log("Widget: singleWidth = " + singleWidth);

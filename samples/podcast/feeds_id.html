@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=974; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0"/>
 		<title>BLOBkit Samples</title>
 		<link rel='stylesheet' type='text/css' href='../tvb.css' />
 		<script type="text/javascript" src='../tvb-min.js'></script>
@@ -18,16 +19,16 @@
 				<td><strong>ID (can be numeric or literal)</strong></td>
 			</tr>
 		</table>
-		
+
 		<script type="text/javascript">
 			try {
-				// Request ID's list of user's subscribed feeds 
+				// Request ID's list of user's subscribed feeds
 				var id_list = TVB.podcast.getAllFeedsID();
-				
+
 				// Draw on screen a table containing all feeds ID
-				
+
 				if (id_list.length > 0) {
-				
+
 					for (var i in id_list) {
 						var row = document.createElement('tr');
 						var col = document.createElement('td');
@@ -35,7 +36,7 @@
 						row.appendChild(col);
 						document.getElementById('feed_list').appendChild(row);
 					}
-					
+
 				} else {
 					var row2 = document.createElement('tr');
 					var col2 = document.createElement('td');

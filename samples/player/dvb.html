@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=974; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0"/>
 		<title>BLOBkit Samples</title>
 		<script type="text/javascript" src='../tvb-min.js'></script>
 	</head>
@@ -16,7 +17,7 @@
 			// count the number of DVB channels available
 			var num = TVB.tuner.countDvbChannels();
 			TVB.widget.colorButtonsBar('', '', '', num + " channels");
-			
+
 			if (num > 0) {
 				var channels = TVB.tuner.getDvbChannelsList();
 

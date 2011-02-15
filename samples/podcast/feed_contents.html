@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=974; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0"/>
 		<title>BLOBkit Samples</title>
 		<link rel='stylesheet' type='text/css' href='../tvb.css' />
 		<script type="text/javascript" src='../tvb-min.js'></script>
@@ -12,27 +13,27 @@
 			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
 			TVB.widget.titleBar.render();
 		</script>
-		
+
 		<div id='content'>
 			<p>Please select a feed to display its contents:</p>
 			<ul id='feed_list'></ul>
 		</div>
 
 		<script type="text/javascript">
-			
+
 			/*
 			 * showInfo(id) displays the information associated to current feed ID
 			 */
 			var showInfo = function(id) {
 				try {
 					var con = document.getElementById('content');
-					
+
 					// Verify the existence of the feedID
 					if (TVB.podcast.feedExists(id) === false) {
 						// ID not found
 						con.innerHTML = "<p>Error: feed not found.</p>";
 					} else {
-						
+
 						// Fetch data for given feedID
 						var data = TVB.podcast.getFeedContentByID(id);
 						var html = "<table border=1>";
@@ -52,25 +53,25 @@
 						}
 						html += "</table>";
 						con.innerHTML = html;
-					}		
+					}
 				} catch (e) {
 					TVB.error(e.message);
 				}
 			};
-			
+
 			try {
-				// Request ID's list of user's subscribed feeds 
+				// Request ID's list of user's subscribed feeds
 				var id_list = TVB.podcast.getVisibleFeedsID();
-				
+
 				// Draw on screen a table containing all feeds ID
-				
+
 				if (id_list.length > 0) {
 					for (var i in id_list) {
 						var el = document.createElement('li');
 						el.innerHTML = "<a href='#' onclick=\"showInfo('" + id_list[i] + "'); return false;\">" + id_list[i] + "</a>";
 						document.getElementById('feed_list').appendChild(el);
 					}
-					
+
 				} else {
 					var elem = document.createElement('li');
 					elem.innerHTML = "Please subscribe at least to one feed with Podcast";

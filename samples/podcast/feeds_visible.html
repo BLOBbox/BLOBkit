@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=974; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0"/>
 		<title>BLOBkit Samples</title>
 		<link rel='stylesheet' type='text/css' href='../tvb.css' />
 		<script type="text/javascript" src='../tvb-min.js'></script>
@@ -20,19 +21,19 @@
 				<td><strong>Title</strong></td>
 			</tr>
 		</table>
-		
+
 		<script type="text/javascript">
 			try {
 				// Request the list of user's subscribed feeds - only the visible ones
 				var feed_list = TVB.podcast.getVisibleFeeds();
-				
+
 				// Draw on screen a table containing all feeds ID, visibility status and title
-				
+
 				var count = 0;
 				for (var j in feed_list) {
 					count++;
 				}
-				
+
 				// Draw on screen a table containing all feeds ID, visibility status and title
 				if (count > 0) {
 					for (var i in feed_list) {
@@ -59,7 +60,7 @@
 
 						document.getElementById('feed_list').appendChild(row);
 					}
-					
+
 				} else {
 					var row0 = document.createElement('tr');
 					var col0 = document.createElement('td');

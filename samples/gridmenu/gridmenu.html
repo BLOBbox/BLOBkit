@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=974; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0"/>
 		<title>BLOBkit Samples</title>
 		<link rel='stylesheet' type='text/css' href='../tvb.css' />
 		<script type="text/javascript" src='../tvb-min.js'></script>
@@ -22,17 +23,17 @@
 			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
 			TVB.widget.titleBar.render();
 		</script>
-		
+
 		<div id='container' style='padding:30px; width: 700px; height: 250px'></div>
 		<div id="row"></div>
 		<div id="col"></div>
 		<div>Press red button to set focus to (2,2)</div>
 		<div style="text-align:center;position:absolute;top:400px;left:320px;" id="page" >Page 1</div>
 		<script type="text/javascript">
-			var myMenu; 
+			var myMenu;
 			try {
-			
-				
+
+
 				var menuConfig = {
 					menuName: 'mainMenu',				// mandatory
 					rows: 2,					// optional (default 4)
@@ -49,13 +50,13 @@
 						var elem = document.createElement('div');
 						if(isFirstCol)
 							elem.style.clear = "both";
-						
-						
+
+
 						elem.className = 'cell';
 						elem.innerHTML = "Item #" + line;
 						return elem;
 					},
-					
+
 					onSelectCB: function(line) { 		// optional
 						TVB.log("USER HAS SELECTED LINE " + line);
 					},
@@ -74,12 +75,12 @@
 						obj.innerHTML = "Item #" + line + " UPDATED!!!";
 					}
 				};
-				
+
 				myMenu = new TVB.gridMenu(menuConfig);
 				TVB.CustomEvent.subscribeEvent(myMenu.pageFocusEvent, pagerUpdate);
 				document.getElementById('container').appendChild(myMenu.get());
 				TVB.CustomEvent.subscribeEvent(TVB.remote.button.RED, updateFocus);
-				
+
 			} catch (e) {
 				TVB.log(e);
 			}

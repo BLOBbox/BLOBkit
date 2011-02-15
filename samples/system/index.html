@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=974; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0"/>
 		<title>BLOBkit Samples</title>
 		<link rel='stylesheet' type='text/css' href='../tvb.css' />
 		<script type="text/javascript" src='../tvb-min.js'></script>
@@ -12,18 +13,18 @@
 			TVB.widget.titleBar.setIcon("http://www.blobforge.com/static/lib/resources/ibk.png");
 			TVB.widget.titleBar.render();
 		</script>
-		
+
 		<table summary='data'>
 			<tr>
 				<td class='func'>TVB.system.getBLOBkitVersion()</td>
 				<td class='data' id='getBLOBkitVersion'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getLanguageCode()</td>
 				<td class='data' id='getLanguageCode'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getVideoSystem()</td>
 				<td class='data' id='getVideoSystem'>&nbsp;</td>
@@ -33,54 +34,54 @@
 				<td class='func'>TVB.system.getPlatformName()</td>
 				<td class='data' id='getPlatformName'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getPlatformVersion()</td>
 				<td class='data' id='getPlatformVersion'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getPlatformFingerprint()</td>
 				<td class='data' id='getPlatformFingerprint'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getFirmwareVersion()</td>
 				<td class='data' id='getFirmwareVersion'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getProductName()</td>
 				<td class='data' id='getProductName'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getProductVersion()</td>
 				<td class='data' id='getProductVersion'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getSMOJVersion()</td>
 				<td class='data' id='getSMOJVersion'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getSMOSVersion()</td>
 				<td class='data' id='getSMOSVersion'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getTvblobNumber()</td>
 				<td class='data' id='getTvblobNumber'>&nbsp;</td>
 			</tr>
-			
+
 			<tr>
 				<td class='func'>TVB.system.getUserID()</td>
 				<td class='data' id='getUserID'>&nbsp;</td>
 			</tr>
-			
+
 		</table>
-			
+
 		<script type="text/javascript">
 			document.getElementById('getFirmwareVersion').innerHTML = TVB.system.getFirmwareVersion();
 			document.getElementById('getLanguageCode').innerHTML = TVB.system.getLanguageCode();
@@ -95,7 +96,7 @@
 			document.getElementById('getBLOBkitVersion').innerHTML = TVB.system.getBLOBkitVersion();
 			document.getElementById('getUserID').innerHTML = TVB.system.getUserID();
 
-			tvbn = TVB.system.getTvblobNumber(); 
+			tvbn = TVB.system.getTvblobNumber();
 			if (tvbn !== null) {
 				document.getElementById('getTvblobNumber').innerHTML = tvbn;
 			} else {

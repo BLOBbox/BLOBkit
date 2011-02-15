@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=974; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0"/>
 		<title>BLOBkit Samples</title>
 		<link rel='stylesheet' type='text/css' href='../tvb.css' />
 		<script type="text/javascript" src='../tvb-min.js'></script>
@@ -27,16 +28,16 @@
 
 				// If you catch ALL, do not catch buttons or areas
 				//TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.ALL, callback);
-				
+
 				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.VCR, callback);
 				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.NAV, callback);
 
 				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.LETTER, callback);
 				TVB.CustomEvent.subscribeEvent(TVB.remote.buttons.COLOR, callback);
-				
-				// OK is already catched with NAV, be care!!! This is a double subscription! 
+
+				// OK is already catched with NAV, be care!!! This is a double subscription!
 				TVB.CustomEvent.subscribeEvent(TVB.remote.button.OK, callback);
-				
+
 				//TVB.remote.disableGreenRefresh();
 				TVB.CustomEvent.subscribeEvent(TVB.remote.button.RED, TVB.system.refresh);
 				//TVB.remote.destroy();
