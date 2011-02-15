@@ -13,6 +13,7 @@
 
 body {
 	padding: 50px;
+	background: black;
 }
 
 ul {
@@ -47,7 +48,7 @@ table {
 		padding-right: 5px;
 		vertical-align: top;
 	}
-	
+
 	table .data {
 		font-size: 18px;
 		text-align: left;
@@ -62,4 +63,3 @@ table {
 	float: left;
 	color: white;
 }
-	
