@@ -1038,12 +1038,7 @@ TVB.player.showPausedMessage = function() {
 			div.style.zIndex = '10004';
 			document.body.appendChild(div);
 		}
-		var ico = null;
-		if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
-			ico = 'http://storage.tvblob.com/lib/resources/playback_paused.png';
-		} else {
-			ico = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/player/icons/dashboard/playback_paused.png';
-		}
+		var ico = 'http://www.blobforge.com/static/lib/resources/playback_paused.png';
 		try {
 			document.getElementById('TVB.player.pausedmessage').style.background = "#000001 url('" + ico + "') top left no-repeat";
 		} catch (e) {
@@ -1089,12 +1084,7 @@ TVB.player.showBufferingMessage = function() {
 			div.style.zIndex = '10001';
 			document.body.appendChild(div);
 		}
-		var ico = null;
-		if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
-			ico = 'http://storage.tvblob.com/lib/resources/playback_buffering.png';
-		} else {
-			ico = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/player/icons/dashboard/playback_buffering.png';
-		}
+		var ico = 'http://www.blobforge.com/static/lib/resources/playback_buffering.png';
 		try {
 			document.getElementById('bufferingmessage').style.background = "#000001 url('" + ico + "') top left no-repeat";
 		} catch (e) {
@@ -1127,12 +1117,7 @@ TVB.player.showStartingPlaybackMessage = function() {
 			div.style.zIndex = '10002';
 			document.body.appendChild(div);
 		}
-		var ico = null;
-		if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
-			ico = 'http://storage.tvblob.com/lib/resources/playback_working.png';
-		} else {
-			ico = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/player/icons/dashboard/playback_working.png';
-		}
+		var ico = 'http://www.blobforge.com/static/lib/resources/playback_working.png';
 		try {
 			document.getElementById('bufferingmessage').style.background = "#000001 url('" + ico + "') top left no-repeat";
 		} catch (e) {

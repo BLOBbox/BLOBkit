@@ -70,10 +70,10 @@ TVB.widget.colorButtonsBar = function(butt1, butt2, butt3, butt4) {
 			var singleWidth = parseInt(configWidth / 4, 10);
 
 			var baseUri = null;
-			baseUri = 'http://storage.tvblob.com/lib/resources/';
+			baseUri = 'http://www.blobforge.com/static/lib/resources/';
 			/*
 			if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
-				baseUri = 'http://storage.tvblob.com/lib/resources/';
+				baseUri = 'http://www.blobforge.com/static/lib/resources/';
 			} else {
 				baseUri = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/platform/icons/';
 			}
@@ -395,10 +395,10 @@ TVB.widget.messageBar = function(message) {
 			var singleWidth = configWidth / 4;
 
 			var baseUri = null;
-			baseUri = 'http://storage.tvblob.com/lib/resources/';
+			baseUri = 'http://www.blobforge.com/static/lib/resources/';
 			/*
 			if (TVB.system.getFirmwareVersion() == "NON_TVBLOB") {
-				baseUri = 'http://storage.tvblob.com/lib/resources/';
+				baseUri = 'http://www.blobforge.com/static/lib/resources/';
 			} else {
 				baseUri = 'file://gui/resources/themes/' + TVB.system.getVideoSystem() + '/consumer_v1/platform/icons/';
 			}
